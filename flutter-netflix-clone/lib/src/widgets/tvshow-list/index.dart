@@ -5,12 +5,16 @@ class ShowsList extends StatelessWidget {
   final String title;
   final List<Result> items;
   final Function onTap;
+  final Function goToGenre;
 
   ShowsList({
     this.title,
     this.items,
     this.onTap,
+    this.goToGenre,
   });
+
+  
 
   List<Widget> renderItems() {
     return items.map((item) {
@@ -34,10 +38,16 @@ class ShowsList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Text(
-            title,
+          Padding(
+            padding: EdgeInsets.fromLTRB(1, 0, 0, 5),
+            child: GestureDetector(
+              onTap: ()=> goToGenre(title),
+              child: Text(
+            title.toUpperCase(),
             textAlign: TextAlign.start,
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white, decoration: TextDecoration.underline),
+          ),
+            ),
           ),
           SingleChildScrollView(
             controller: controller,

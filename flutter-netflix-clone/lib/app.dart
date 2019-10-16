@@ -46,6 +46,8 @@ part 'src/pages/detail/index.dart';
 part 'src/pages/detail/state.dart';
 part 'src/pages/search/state.dart';
 part 'src/pages/search/index.dart';
+part 'src/pages/genre/index.dart';
+part 'src/pages/genre/state.dart';
 
 // Widgets
 part 'src/widgets/tvshow-list/index.dart';
@@ -58,9 +60,9 @@ class Netflix extends StatelessWidget {
   Netflix({Key key}) : super(key: key) {
     final router = Router();
     Routes.configureRoutes(router);
-    Application.router = router;
+    Application.router = router;    
+    bloc.fetchSuggestedMovie();
   }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

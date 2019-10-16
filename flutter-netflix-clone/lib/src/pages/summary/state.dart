@@ -1,7 +1,6 @@
 part of netflix;
 
 class SummaryState extends State<Summary> {
-  
   void goTo(String type) {
     Application.router.navigateTo(
       context,
@@ -22,7 +21,20 @@ class SummaryState extends State<Summary> {
     );
   }
 
-  void showTrailer() {
+    void goToGenre(String item) {
+      if(item.split(" ").length > 0){
+        item = item.replaceAll(" ", "_");
+      }
+    Application.router.navigateTo(
+      context,
+      '${Routes.genre}',
+      transition: TransitionType.inFromRight,
+      transitionDuration: const Duration(milliseconds: 200),
+      object: {'item': item},
+    );
+  }
+
+  void showMovie(String link) {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
@@ -30,7 +42,7 @@ class SummaryState extends State<Summary> {
       Application.router.navigateTo(
         context,
         Routes.video,
-        object: {'title': 'Unforgettable'},
+        object: {'title': '${tvShow["name"]}', 'link': '$link'},
         transition: TransitionType.inFromBottom,
         transitionDuration: const Duration(milliseconds: 200),
       );
@@ -38,11 +50,11 @@ class SummaryState extends State<Summary> {
   }
 
   List<Widget> renderMainGenres() {
-    List<Widget> genres = List.from(tvShow['details']['genres'].map((g) {
+    List<Widget> genres = List.from(tvShow['genres'].map((g) {
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: 8.0),
         child: Text(
-          g,
+          g["name"],
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w400,
@@ -74,12 +86,16 @@ class SummaryState extends State<Summary> {
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
-    final Result show = Result.fromJson(tvShow);
+    Result show;
     bloc.fetchAllMovies();
+
+
     return StreamBuilder(
       stream: bloc.allMovies,
       builder: (context, AsyncSnapshot<List<ItemModel>> snapshot) {
         if (snapshot.hasData) {
+          show = Result.fromJson(tvShow);
+          print(show.movieLink);
           return CustomScrollView(
             slivers: <Widget>[
               SliverAppBar(
@@ -88,17 +104,6 @@ class SummaryState extends State<Summary> {
                 backgroundColor: Colors.black,
                 leading: Image.asset('assets/images/netflix_icon.png'),
                 titleSpacing: 20.0,
-                title: Title(
-                  color: Colors.black,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      renderTitle('Series', 'Series'),
-                      renderTitle('Películas', 'Películas'),
-                      renderTitle('Mi-lista', 'Mi lista'),
-                    ],
-                  ),
-                ),
                 flexibleSpace: FlexibleSpaceBar(
                   collapseMode: CollapseMode.pin,
                   background: Container(
@@ -163,16 +168,15 @@ class SummaryState extends State<Summary> {
                                         textColor: Colors.white,
                                         child: Column(
                                           children: <Widget>[
-                                            Icon(Icons.add),
                                             Text(
-                                              'Mi lista',
+                                              '',
                                               style: TextStyle(
                                                   fontSize: 10.0,
                                                   fontWeight: FontWeight.w300),
                                             ),
                                           ],
                                         ),
-                                        onPressed: () => print('mi lista'),
+                                        onPressed: () => print('Bosluq Doldurur'),
                                       ),
                                       RaisedButton(
                                         textColor: Colors.black,
@@ -181,7 +185,7 @@ class SummaryState extends State<Summary> {
                                           children: <Widget>[
                                             Icon(Icons.play_arrow),
                                             Text(
-                                              'Reproducir',
+                                              'Izle',
                                               style: TextStyle(
                                                 fontSize: 16.0,
                                                 fontWeight: FontWeight.w500,
@@ -189,7 +193,7 @@ class SummaryState extends State<Summary> {
                                             ),
                                           ],
                                         ),
-                                        onPressed: showTrailer,
+                                        onPressed: ()=> showMovie(show.movieLink)
                                       ),
                                       FlatButton(
                                         textColor: Colors.white,
@@ -197,9 +201,9 @@ class SummaryState extends State<Summary> {
                                           children: <Widget>[
                                             Icon(Icons.info_outline),
                                             Text(
-                                              'Información',
+                                              'Bilgi',
                                               style: TextStyle(
-                                                  fontSize: 10.0,
+                                                  fontSize: 12.0,
                                                   fontWeight: FontWeight.w300),
                                             ),
                                           ],
@@ -221,10 +225,11 @@ class SummaryState extends State<Summary> {
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) => ShowsList(
-                        items: snapshot.data[index].results,
-                        onTap: goToDetail,
-                        title: snapshot.data[index].title,
-                      ),
+                    items: snapshot.data[index].results,
+                    onTap: goToDetail,
+                    title: snapshot.data[index].title,
+                    goToGenre: goToGenre,
+                  ),
                   childCount: snapshot.data.length,
                 ),
               )

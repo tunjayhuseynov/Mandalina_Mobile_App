@@ -4,11 +4,12 @@ class VideoState extends State<Video> {
   VideoPlayerController vcontroller;
   bool controlVisible;
   Timer timer;
-
+  String link;
   @override
   void initState() {
+    link = widget.link;
     controlVisible = true;
-    vcontroller = VideoPlayerController.network("https://vk.com/video551969576_456239017//vk.com/video_ext.php?oid=551969576&id=456239017&hash=d139e969307b0562&hd=1");
+    vcontroller = VideoPlayerController.network(link);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
       statusBarColor: Colors.transparent,
     ));

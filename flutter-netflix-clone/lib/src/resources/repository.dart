@@ -5,4 +5,5 @@ class Repository {
 
   Future<List<ItemModel>> fetchAllMovies() => moviesApiProvider.fetchMovieList();
   Future<Result> fetchMovie(int id) => moviesApiProvider.fetchOne(id);
+  Future<Result> fetchSuggestedMovie() => moviesApiProvider.fetchSuggested();
 }

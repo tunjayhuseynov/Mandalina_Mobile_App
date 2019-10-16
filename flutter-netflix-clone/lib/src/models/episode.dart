@@ -3,6 +3,7 @@ part of netflix;
 class Episode {
   int _number;
   int _season;
+  String _url;
   String _image;
   String _summary;
   String _name;
@@ -12,7 +13,8 @@ class Episode {
     RegExp exp = new RegExp(r"<[^>]*>");
     _number = parsedJson['number'];
     _season = parsedJson['season'];
-    _image = (parsedJson['image'] ?? {})['medium'];
+    _url = parsedJson['url'];
+    _image = (parsedJson['image'] ?? {});
     _summary = parsedJson['summary'] != null
         ? parsedJson['summary'].replaceAll(exp, '')
         : '';
@@ -26,6 +28,7 @@ class Episode {
   int get number => _number;
   int get season => _season;
   String get image => _image;
+  String get url => _url;
   String get summary => _summary;
   String get name => _name;
   int get duration => _duration;

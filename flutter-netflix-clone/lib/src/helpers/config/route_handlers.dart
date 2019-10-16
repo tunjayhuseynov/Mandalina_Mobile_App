@@ -21,9 +21,17 @@ var detailRouteHandler = Handler(
 var trailerRouteHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params,
       [dynamic object]) {
-    return Video(title: object['title']);
+    return Video(title: object['title'], link: object['link']);
   },
 );
+
+var genreRouteHandler = Handler(
+  handlerFunc: (BuildContext context, Map<String, List<String>> params,
+      [dynamic object]) {
+    return Genre(item: object['item']);
+  },
+);
+
 var filterRouteHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params,
       [dynamic object]) {

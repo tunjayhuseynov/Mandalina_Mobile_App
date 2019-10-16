@@ -2,8 +2,8 @@ part of netflix;
 
 class FilterState extends State<Filter> {
   String filterSelected;
-  List<String> options = ['Series', 'Películas', 'Mi-lista'];
-  dynamic tvShow = {
+ // List<String> options = ['Series', 'Películas', 'Mi-lista'];
+  /*dynamic tvShow = {
     "details": {
       "genres": ["Drama", "Crime"],
       "year": "2011-09-20",
@@ -15,7 +15,7 @@ class FilterState extends State<Filter> {
     "name": "Unforgettable",
     "image":
         "http://static.tvmaze.com/uploads/images/original_untouched/0/663.jpg"
-  };
+  };*/
   @override
   void initState() {
     filterSelected = widget.type;

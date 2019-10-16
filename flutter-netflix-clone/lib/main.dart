@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:netflix_clone/app.dart';
+import 'package:mandalina/app.dart';
 
 void main() => runApp(Netflix());
 

@@ -1,28 +1,27 @@
-var MongoClient = require('mongodb').MongoClient;
 var express = require('express')
 var app = express()
-var url = "mongodb://localhost:27017/";
+var dbRequest = require("./query")
 
-var json;
 
-function ApiHome(req, res){
+function Movies(req,res){ 
+  var db = new dbRequest.DbRequest();
+  var result;
+  db.getMoviesByGenre(req.params.genre, parseInt(req.params.start), parseInt(req.params.end)).then(()=>{
+    result = dbRequest.result_json
+    console.log( dbRequest.result_json)
+  });
 
-MongoClient.connect(url, { useNewUrlParser: true , useUnifiedTopology: true}, function(err, db) {
-    if (err) throw err;
-    var admin= db.db("admin")
-    var query = { id: "89" };
-    admin.collection("Netflix_Item").find(query).toArray(function(err, result){
-        if(err) throw err;
-        json = '[ {"title": "Drama", "items": '+JSON.stringify(result)+'}, {"title": "Action", "items": '+JSON.stringify(result)+'}]'
-    });
-    db.close(); 
-  }); 
+  
+  return res.send( result );
+}
+function Movie(req,res){ 
 
-    return res.send(JSON.parse(json))
+  return res.send(dbRequest.getMoviesByGenre(req.params.id));
 }
 
-  app.get('/api/home', ApiHome)
-
+  app.get('/api/movies/:genre/:start/:end', Movies) 
+  app.get('/api/movie/:id', Movie) 
+ 
 
 
 
