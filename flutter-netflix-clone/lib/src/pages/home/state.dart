@@ -29,7 +29,7 @@ class HomeState extends State<Home> with SingleTickerProviderStateMixin {
         physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
           Summary(),
-          Summary(),
+          Search()
         ],
       ),
     );

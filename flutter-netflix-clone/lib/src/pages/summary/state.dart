@@ -95,7 +95,6 @@ class SummaryState extends State<Summary> {
       builder: (context, AsyncSnapshot<List<ItemModel>> snapshot) {
         if (snapshot.hasData) {
           show = Result.fromJson(tvShow);
-          print(show.movieLink);
           return CustomScrollView(
             slivers: <Widget>[
               SliverAppBar(

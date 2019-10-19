@@ -12,6 +12,12 @@ var summaryRouteHandler = Handler(
     return Summary();
   },
 );
+var searchRouteHandler = Handler(
+  handlerFunc: (BuildContext context, Map<String, List<String>> params,
+      [dynamic object]) {
+    return Search();
+  },
+);
 var detailRouteHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params,
       [dynamic object]) {

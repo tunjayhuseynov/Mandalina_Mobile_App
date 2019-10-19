@@ -1,7 +1,7 @@
 part of netflix;
 
 class Result {
-  int id;
+  int _id;
   String _name;
   int _movieAmountByGenre;
   String _image;
@@ -16,6 +16,7 @@ class Result {
   String _movieLink;
 
   Result.fromJson(Map<String, dynamic> parsedJson) {
+    _id = parsedJson['id'];
     _name = parsedJson['name'];
     _rate = parsedJson['rate'];
     _movieLink = parsedJson['movieLink'] ?? parsedJson['episodes'][0]['url'];
@@ -54,4 +55,5 @@ class Result {
   String get description => _description;
   List<Episode> get episodes => _episodes;
   List<int> get seasons => _seasons;
+  int get id => _id;
 }

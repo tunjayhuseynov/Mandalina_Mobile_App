@@ -4,22 +4,24 @@ class GenreState extends State<Genre> {
   StreamController _streamController;
   ScrollController _scrollController;
   final String host = 'http://188.227.209.89:90';
-  int listLength = 0;
   int movieAmount = 0;
+  List<Result> movieList = new List();
   @override
   void initState() {
     _streamController = new StreamController();
     _scrollController = new ScrollController();
     fetchMovie(0, 15).then((res) async {
       _streamController.add(res);
+      movieList.addAll(res);
       movieAmount = res[0].movieAmountByGenre;
       return res;
     });
 
     _scrollController.addListener((){
       if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
-       fetchMovie(0, listLength+15).then((res) async {
+       fetchMovie(movieList.length , movieList.length + 15).then((res) async {
       _streamController.add(res);
+      movieList.addAll(res);
       return null;
     });
       }
@@ -58,34 +60,25 @@ class GenreState extends State<Genre> {
                 children: <Widget>[
                   Expanded(
                     child: Scrollbar(
-                      child: GridView.builder(
+                      child: movieList.length != 0?GridView.builder(
                         controller: _scrollController,
                 gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3, mainAxisSpacing: 5),
-                itemCount: snapshot.data.length+1,
+                itemCount: movieList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  listLength = snapshot.data.length;
-                  if(index == snapshot.data.length){
-                    if(movieAmount == index){
-                      return Center(child: Text("Liste Bitti", style: TextStyle(color: Colors.white),),);
-                    }
-                    else{
-                      return Center(child: CircularProgressIndicator(),);
-                    }
-                  }else{
+
                     return InkWell(
-                    onTap: () => goToDetail(snapshot.data[index], 99),
+                    onTap: () => goToDetail(movieList[index], 99),
                     child: Container(
                       margin: EdgeInsets.fromLTRB(3, 4, 3, 4),
                       width: 120.0,
                       height: 140.0,
-                      child: Image.network(snapshot.data[index].image,
+                      child: Image.network(movieList[index].image,
                           fit: BoxFit.cover),
                     ),
                   );
-                  }
-                },
-              ),
+                }
+              ): Center(child: new Text("Maalesef bu türde henüz film/dizi yok", style: TextStyle(color: Colors.white),)),
                     ),
                   ),
                 ],

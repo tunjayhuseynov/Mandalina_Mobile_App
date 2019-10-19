@@ -7,6 +7,7 @@ class Routes {
   static String filter = '/filter';
   static String video = '/trailer';
   static String genre = '/genre';
+  static String search = '/search';
 
   static void configureRoutes(Router router) {
     router.notFoundHandler = Handler(handlerFunc:
@@ -21,5 +22,6 @@ class Routes {
     router.define(filter, handler: filterRouteHandler);
     router.define(video, handler: trailerRouteHandler);
     router.define(genre, handler: genreRouteHandler);
+    router.define(search, handler: genreRouteHandler);
   }
 }

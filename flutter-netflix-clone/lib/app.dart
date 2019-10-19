@@ -24,6 +24,7 @@ part 'src/helpers/config/route_handlers.dart';
 part 'src/models/episode.dart';
 part 'src/models/result.dart';
 part 'src/models/item_model.dart';
+part 'src/models/genre_result.dart';
 
 // Blocs
 part 'src/blocs/movies_bloc.dart';

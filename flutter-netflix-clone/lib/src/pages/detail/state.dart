@@ -2,6 +2,7 @@ part of netflix;
 
 class TvShowState extends State<TvShow> {
   var currentSeason = 1;
+  bool isLiked = false;
   @override
   void initState() {
     super.initState();
@@ -19,6 +20,13 @@ class TvShowState extends State<TvShow> {
         transition: TransitionType.inFromBottom,
         transitionDuration: const Duration(milliseconds: 200),
       );
+    });
+  }
+
+  void like(int id){
+    bloc.sendLike(id);
+    setState(() {
+     isLiked = true; 
     });
   }
 
@@ -220,9 +228,29 @@ class TvShowState extends State<TvShow> {
                               padding: EdgeInsets.only(top: 8.0),
                               child: Row(
                                 children: <Widget>[
-                                  FlatButton(
+                                  isLiked==false?FlatButton(
                                     textColor: Colors.white70,
-                                    onPressed: () => print('calificar'),
+                                    onPressed: () => like(widget.item.id),
+                                    child: Container(
+                                      height: 50.0,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: <Widget>[
+                                          Icon(
+                                            Icons.thumb_up,
+                                            size: 24.0,
+                                          ),
+                                          Text(
+                                            'Beğen',
+                                            style: TextStyle(fontSize: 10.0),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ):FlatButton(
+                                    textColor: Colors.blueAccent,
+                                    onPressed: () => print("Done"),
                                     child: Container(
                                       height: 50.0,
                                       child: Column(
