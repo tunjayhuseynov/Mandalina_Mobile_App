@@ -64,6 +64,32 @@ class DataManupilation {
        return $data;
     }
 
+    public static function AllMovies()
+    {
+        $db = DB::table('moviegenres')
+        ->join('genres', 'genres.id', '=', 'moviegenres.genreID')
+        ->join('movies', 'movies.id', '=', 'moviegenres.movieID')
+        ->select('movies.*')
+        ->orderBy("addedDate", "desc")
+        ->get();
+
+
+        $data = json_decode($db, true);
+        foreach ($data as $key => $entry) {
+               $data[$key]["episodes"] = DB::table('episodes')->where("movieID", $data[$key]["id"])->get();
+               
+               $genres = DB::table('moviegenres')->where("movieID", $data[$key]['id'])
+               ->join('genres', 'genres.id', '=', 'moviegenres.genreID')
+               ->get();
+               $data[$key]["genres"] = $genres;
+               $data[$key]["casts"] = DB::table('moviecasts')->where("movieID", $data[$key]["id"])->get();
+               
+               $data[$key]["kind"] = DB::table('movietypes')->where("id", $data[$key]["movieType"])->pluck("name")->first();
+               
+       }
+       return $data;
+    }
+
     public static function LastUploaded(int $start, int $end)
     {
         $db = DB::table('movies')
