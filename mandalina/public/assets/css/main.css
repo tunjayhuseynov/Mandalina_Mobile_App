@@ -10994,3 +10994,11 @@
     background-image: linear-gradient(to bottom, #ff861f  0%, #ff861f  100%)!important;
     color: white!important;
   }
+
+  .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+    background: linear-gradient(to bottom, #ff861f 0%, #ff861f 100%);
+  }
+
+  .form-control{
+    color: black!important;
+  }

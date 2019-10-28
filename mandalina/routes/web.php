@@ -1,9 +1,17 @@
 <?php
 
 
-Route::group(['middleware' => ['checkAdmin']], function () {
+Route::get('/EnterAP', 'Log@index');
+
+Route::group(['prefix' => 'AdminPanelPinnme','middleware' => ['checkAdmin']], function () {
     Route::get('/', 'Dashboard@index');
     Route::get('/movielist', 'Dashboard@list');
+    Route::get('/addition', 'Dashboard@AdditionPage');
+    Route::post('/movieadding', 'Dashboard@MovieAdding');
+    Route::post('/update', 'Dashboard@updating');
+    Route::get('/edit/{id}', 'Dashboard@Edit');
+    Route::get('/view/{id}', 'Dashboard@View');
+    Route::get('/delete/{id}', 'Dashboard@Delete');
 });
 
 Route::group(['prefix' => 'api', 'middleware' => ['validApi']], function () {

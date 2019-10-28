@@ -88,7 +88,7 @@ class Movies extends Controller
 
     public function search(Request $request)
     {
-        $db = DB::table('movies')->where("name", "LIKE", '%'.$request->route("movie").'%')->take(15)->get();
+        $db = DB::table('movies')->where([ ["name", "LIKE", '%'.$request->route("movie").'%'], ["movies.isDeleted", 0] ])->take(15)->get();
 
         $data = json_decode($db, true);
 

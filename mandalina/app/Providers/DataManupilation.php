@@ -34,7 +34,10 @@ class DataManupilation {
         ->join('movies', 'movies.id', '=', 'moviegenres.movieID')
         ->select('movies.*')
         ->orderBy("addedDate", "desc")
-        ->where("genres.name", $genre)
+        ->where([
+            ["genres.name", $genre],
+            ["movies.isDeleted", 0]
+        ])
         ->skip($start)
         ->take($end)
         ->get();
@@ -43,7 +46,10 @@ class DataManupilation {
         ->join('genres', 'genres.id', '=', 'moviegenres.genreID')
         ->join('movies', 'movies.id', '=', 'moviegenres.movieID')
         ->select('movies.*')
-        ->where("genres.name", $genre)
+        ->where([
+            ["genres.name", $genre],
+            ["movies.isDeleted", 0]
+        ])
         ->count();
 
 
@@ -70,8 +76,9 @@ class DataManupilation {
         ->join('genres', 'genres.id', '=', 'moviegenres.genreID')
         ->join('movies', 'movies.id', '=', 'moviegenres.movieID')
         ->select('movies.*')
-        ->orderBy("addedDate", "desc")
-        ->get();
+        ->where("movies.isDeleted", 0)
+        ->get()
+        ->unique('id');
 
 
         $data = json_decode($db, true);
@@ -94,6 +101,7 @@ class DataManupilation {
     {
         $db = DB::table('movies')
         ->orderBy("addedDate", "desc")
+        ->where("movies.isDeleted", 0)
         ->skip($start)
         ->take($end)
         ->get();

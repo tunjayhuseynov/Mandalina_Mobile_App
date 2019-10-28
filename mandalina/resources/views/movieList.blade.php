@@ -1,6 +1,12 @@
 @extends('layout.home')
 @section('content')
 
+@if(session()->has('message'))
+<div class="alert alert-success">
+    {{ session()->get('message') }}
+</div>
+@endif
+
 <table id="movieList" class="table table-striped table-bordered responsive" style="width:100%">
     <thead>
         <tr>
@@ -19,7 +25,10 @@
             <td>{{$item['movieType']==1?"Movie":"Series"}}</td>
             <td>{{$item['movieType']==2?count($item['episodes'])." Episodes":""}}</td>
             <td>{{$item['addedDate']}}</td>
-            <td>Edit</td>
+        <td><a target="_blank" href="{{url('/AdminPanelPinnme/edit/'.$item['id'])}}">Edit</a> ||
+            <a onclick="return confirm('Do you really want to delete it?');" href="{{url('/AdminPanelPinnme/delete/'.$item['id'])}}">Delete</a> ||
+            <a target="_blank" href="{{url('/AdminPanelPinnme/view/'.$item['id'])}}">View</a>
+        </td>
         </tr>
 
 @endforeach
