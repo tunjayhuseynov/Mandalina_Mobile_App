@@ -44,7 +44,7 @@
         <div class="bg-white py-2 collapse-inner rounded">
           <a class="collapse-item" href="{{url('AdminPanelPinnme/movielist')}}">List</a>
           <a class="collapse-item" href="{{url('AdminPanelPinnme/addition')}}">Addition</a>
-          <a class="collapse-item" href="{{url('AdminPanelPinnme/episodeAddition')}}">Episodes Addition</a>
+          <a class="collapse-item" href="{{url('AdminPanelPinnme/episodes')}}">Episodes Addition</a>
         </div>
       </div>
     </li>

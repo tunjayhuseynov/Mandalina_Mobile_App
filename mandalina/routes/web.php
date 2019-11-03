@@ -12,6 +12,8 @@ Route::group(['prefix' => 'AdminPanelPinnme','middleware' => ['checkAdmin']], fu
     Route::get('/edit/{id}', 'Dashboard@Edit');
     Route::get('/view/{id}', 'Dashboard@View');
     Route::get('/delete/{id}', 'Dashboard@Delete');
+    Route::get('/episodes', 'Dashboard@episodes');
+    Route::get('/fetchepisodes/{id}', 'Dashboard@FetchEpisodes');
 });
 
 Route::group(['prefix' => 'api', 'middleware' => ['validApi']], function () {

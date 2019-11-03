@@ -4,8 +4,11 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\DB;
 
+
 class DataManupilation {
 
+    const Movie = 1;
+    const Series = 2;
 
     public static function MovieIdAlgorithm($id)
     {   
@@ -16,7 +19,10 @@ class DataManupilation {
         
         $data = json_decode($db, true);
 
-        $data[0]["episodes"] = DB::table('episodes')->where("movieID", $data[0]["id"])->get();
+        $data[0]["episodes"] = DB::table('episodes')->where("movieID", $data[0]["id"])
+        ->orderBy("season", "ASC")
+        ->orderBy("number", "ASC")
+        ->get();
                 
         $genres = DB::table('moviegenres')->where("movieID", $data[0]['id'])
         ->join('genres', 'genres.id', '=', 'moviegenres.genreID')
@@ -55,7 +61,10 @@ class DataManupilation {
 
         $data = json_decode($db, true);
         foreach ($data as $key => $entry) {
-               $data[$key]["episodes"] = DB::table('episodes')->where("movieID", $data[$key]["id"])->get();
+               $data[$key]["episodes"] = DB::table('episodes')->where("movieID", $data[$key]["id"])
+               ->orderBy("season", "ASC")
+               ->orderBy("number", "ASC")
+               ->get();
                
                $genres = DB::table('moviegenres')->where("movieID", $data[$key]['id'])
                ->join('genres', 'genres.id', '=', 'moviegenres.genreID')
@@ -83,7 +92,10 @@ class DataManupilation {
 
         $data = json_decode($db, true);
         foreach ($data as $key => $entry) {
-               $data[$key]["episodes"] = DB::table('episodes')->where("movieID", $data[$key]["id"])->get();
+               $data[$key]["episodes"] = DB::table('episodes')->where("movieID", $data[$key]["id"])
+               ->orderBy("season", "ASC")
+               ->orderBy("number", "ASC")
+               ->get();
                
                $genres = DB::table('moviegenres')->where("movieID", $data[$key]['id'])
                ->join('genres', 'genres.id', '=', 'moviegenres.genreID')
@@ -112,7 +124,10 @@ class DataManupilation {
 
         $data = json_decode($db, true);
         foreach ($data as $key => $entry) {
-               $data[$key]["episodes"] = DB::table('episodes')->where("movieID", $data[$key]["id"])->get();
+               $data[$key]["episodes"] = DB::table('episodes')->where("movieID", $data[$key]["id"])
+               ->orderBy("season", "ASC")
+               ->orderBy("number", "ASC")
+               ->get();
                
                $genres = DB::table('moviegenres')->where("movieID", $data[$key]['id'])
                ->join('genres', 'genres.id', '=', 'moviegenres.genreID')
@@ -125,6 +140,13 @@ class DataManupilation {
                
        }
        return $data;
+    }
+
+    public static function MovieByType(int $type)
+    {
+        $data = DB::table('movies')->where('movieType', $type)->get();
+
+        return $data;
     }
 
 }

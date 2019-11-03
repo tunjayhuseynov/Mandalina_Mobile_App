@@ -30,6 +30,62 @@ class Dashboard extends Controller
         return view('add')->with('data',$data);
     }
 
+    
+    public function Delete(Request $request)
+    {
+        $id = $request->route("id");
+
+        DB::table('movies')->where('id', $id)
+        ->update(['isDeleted'=> TRUE]);
+
+        return redirect()->back()->with("message", "Successfully Deleted!");   
+    }
+
+    public function View(Request $request)
+    {
+        $id = $request->route("id");
+
+        $movie = DataManupilation::MovieIdAlgorithm($id);
+        $genres = DB::table('genres')->get();
+        $types = DB::table('movietypes')->get();
+        $data = array($genres, $types, $movie, $request->root());
+
+        return view('view')->with('data', $data);
+    }
+
+    public function episodes(Request $request)
+    {
+        $movies = DataManupilation::MovieByType(DataManupilation::Series);
+        $data = array($movies,  $request->root());
+        return view('episodes')->with("data", $data);
+    }
+
+
+    public function Edit(Request $request)
+    {
+        $id = $request->route("id");
+
+        $movie = DataManupilation::MovieIdAlgorithm($id);
+        $genres = DB::table('genres')->get();
+        $types = DB::table('movietypes')->get();
+        $data = array($genres, $types, $movie, $request->root());
+
+        return view('edit')->with('data', $data);
+    }
+
+    public function FetchEpisodes(Request $request)
+    {
+        $id = $request->route('id');
+
+        $data = DB::table('episodes')->where("movieID", $id)
+        ->orderBy("season", "ASC")
+        ->orderBy("number", "ASC")
+        ->get();
+
+        return response()->json($data, 200);
+    }
+
+
     public function MovieAdding(Request $request)
     {
         $name = $request->input("name");
@@ -77,18 +133,6 @@ class Dashboard extends Controller
         return redirect()->back()->with("message", "Saved!");
     }
 
-    public function Edit(Request $request)
-    {
-        $id = $request->route("id");
-
-        $movie = DataManupilation::MovieIdAlgorithm($id);
-
-        $genres = DB::table('genres')->get();
-        $types = DB::table('movietypes')->get();
-        $data = array($genres, $types, $movie, $request->root());
-
-        return view('edit')->with('data', $data);
-    }
 
     public function updating(Request $request)
     {
@@ -152,28 +196,5 @@ class Dashboard extends Controller
 
         return redirect()->back()->with("message", "Update Saved!");
         
-    }
-
-    public function Delete(Request $request)
-    {
-        $id = $request->route("id");
-
-        DB::table('movies')->where('id', $id)
-        ->update(['isDeleted'=> TRUE]);
-
-        return redirect()->back()->with("message", "Successfully Deleted!");   
-    }
-
-    public function View(Request $request)
-    {
-        $id = $request->route("id");
-
-        $movie = DataManupilation::MovieIdAlgorithm($id);
-
-        $genres = DB::table('genres')->get();
-        $types = DB::table('movietypes')->get();
-        $data = array($genres, $types, $movie, $request->root());
-
-        return view('view')->with('data', $data);
     }
 }

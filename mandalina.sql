@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 19 Eki 2019, 14:40:40
+-- Üretim Zamanı: 03 Kas 2019, 18:10:46
 -- Sunucu sürümü: 10.4.6-MariaDB
 -- PHP Sürümü: 7.3.9
 
@@ -25,6 +25,19 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Tablo için tablo yapısı `admins`
+--
+
+CREATE TABLE `admins` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `image` text DEFAULT NULL,
+  `isAdminActive` bit(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Tablo için tablo yapısı `episodes`
 --
 
@@ -37,17 +50,19 @@ CREATE TABLE `episodes` (
   `image` varchar(5000) CHARACTER SET utf8 DEFAULT NULL,
   `summary` text DEFAULT NULL,
   `airtime` varchar(45) DEFAULT NULL,
-  `movieID` int(11) DEFAULT NULL
+  `movieID` int(11) DEFAULT NULL,
+  `addedDate` datetime DEFAULT NULL,
+  `isDeleted` bit(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Tablo döküm verisi `episodes`
 --
 
-INSERT INTO `episodes` (`id`, `url`, `name`, `season`, `number`, `image`, `summary`, `airtime`, `movieID`) VALUES
-(1, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', 'Pilot', 1, 1, 'http://static.tvmaze.com/uploads/images/medium_landscape/39/99519.jpg', 'When a murder reunites former detective Carrie Wells with her old colleague and flame, she must utilize her rare ability to revisit her every memory to catch the killer.', '22:00', 1),
-(2, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', 'Pilot', 1, 1, 'http://static.tvmaze.com/uploads/images/medium_landscape/39/99519.jpg', 'When a murder reunites former detective Carrie Wells with her old colleague and flame, she must utilize her rare ability to revisit her every memory to catch the killer.', '22:00', 1),
-(3, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', 'Pilot', 1, 1, 'http://static.tvmaze.com/uploads/images/medium_landscape/39/99519.jpg', 'When a murder reunites former detective Carrie Wells with her old colleague and flame, she must utilize her rare ability to revisit her every memory to catch the killer.', '22:00', 1);
+INSERT INTO `episodes` (`id`, `url`, `name`, `season`, `number`, `image`, `summary`, `airtime`, `movieID`, `addedDate`, `isDeleted`) VALUES
+(1, '/movies/buny.mp4', 'Pilot', 1, 1, 'http://static.tvmaze.com/uploads/images/medium_landscape/39/99519.jpg', 'When a murder reunites former detective Carrie Wells with her old colleague and flame, she must utilize her rare ability to revisit her every memory to catch the killer.', '22:00', 1, NULL, NULL),
+(2, '/movies/buny.mp4', 'Pilot 2', 1, 2, 'http://static.tvmaze.com/uploads/images/medium_landscape/39/99519.jpg', 'When a murder reunites former detective Carrie Wells with her old colleague and flame, she must utilize her rare ability to revisit her every memory to catch the killer.', '22:00', 1, NULL, NULL),
+(3, '/movies/buny.mp4', 'Pilot 3', 1, 3, 'http://static.tvmaze.com/uploads/images/medium_landscape/39/99519.jpg', 'When a murder reunites former detective Carrie Wells with her old colleague and flame, she must utilize her rare ability to revisit her every memory to catch the killer.', '22:00', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -90,6 +105,13 @@ CREATE TABLE `likes` (
   `like` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Tablo döküm verisi `likes`
+--
+
+INSERT INTO `likes` (`id`, `movieID`, `like`) VALUES
+(7, 4, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -109,7 +131,9 @@ CREATE TABLE `moviecasts` (
 INSERT INTO `moviecasts` (`id`, `name`, `movieID`) VALUES
 (1, 'Poppy Montgomery', 1),
 (2, 'Poppy Montgomery', 2),
-(3, 'Poppy Montgomery', 1);
+(3, 'Poppy Montgomery', 1),
+(11, '5', 5),
+(18, 'Tunjay', 3);
 
 -- --------------------------------------------------------
 
@@ -131,9 +155,6 @@ INSERT INTO `moviegenres` (`id`, `movieID`, `genreID`) VALUES
 (1, 1, 1),
 (2, 2, 2),
 (3, 1, 2),
-(4, 3, 2),
-(5, 4, 2),
-(6, 5, 2),
 (7, 6, 2),
 (8, 7, 2),
 (9, 8, 2),
@@ -149,7 +170,11 @@ INSERT INTO `moviegenres` (`id`, `movieID`, `genreID`) VALUES
 (19, 18, 2),
 (20, 19, 2),
 (21, 20, 2),
-(22, 21, 2);
+(30, 20, 1),
+(31, 4, 2),
+(32, 5, 2),
+(41, 3, 2),
+(42, 3, 3);
 
 -- --------------------------------------------------------
 
@@ -167,35 +192,35 @@ CREATE TABLE `movies` (
   `addedDate` datetime DEFAULT NULL,
   `rate` varchar(100) CHARACTER SET utf8 DEFAULT NULL,
   `length` int(11) DEFAULT NULL,
-  `movieLink` text DEFAULT NULL
+  `movieLink` text DEFAULT NULL,
+  `isDeleted` bit(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Tablo döküm verisi `movies`
 --
 
-INSERT INTO `movies` (`id`, `name`, `image`, `year`, `description`, `movieType`, `addedDate`, `rate`, `length`, `movieLink`) VALUES
-(1, 'Deadpool', 'https://wallpaperaccess.com/full/26068.jpg', '2012-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 2, '2014-05-05 05:00:00', '10+', 150, NULL),
-(2, 'Unforgetten', 'https://images-na.ssl-images-amazon.com/images/I/51rLEGWeR4L._SY445_.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 04:00:00', '16+', 120, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'),
-(3, 'Deadpool 3', 'https://i.pinimg.com/originals/c3/51/35/c351353a8582356bb6a4a3824cc62bdd.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 06:00:00', '18+', 200, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'),
-(4, 'Deadpool 4', 'https://wallpaperaccess.com/full/26068.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2015-05-05 05:00:00', '0+', 251, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'),
-(5, 'Deadpool 5', 'https://wallpaperaccess.com/full/26068.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2017-05-05 05:00:00', '0+', 147, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'),
-(6, 'Deadpool 6', 'https://i.ytimg.com/vi/WRlGteWa1cY/maxresdefault.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '0+', 645, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'),
-(7, 'Deadpool 7', 'https://i.pinimg.com/originals/c3/51/35/c351353a8582356bb6a4a3824cc62bdd.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '0+', 255, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'),
-(8, 'Deadpool 2', 'https://thumbor.forbes.com/thumbor/960x0/https%3A%2F%2Fblogs-images.forbes.com%2Fscottmendelson%2Ffiles%2F2016%2F02%2Fdeadpool-SYB_2040_v076.1040_rgb-1200x675.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '15+', 471, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'),
-(9, 'Deadpool 8', 'https://i.pinimg.com/originals/c3/51/35/c351353a8582356bb6a4a3824cc62bdd.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '15+', 64, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'),
-(10, 'Deadpool 9', 'https://nerdist.com/wp-content/uploads/2019/01/venom-2018-movie-4k-8h-1.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '15+', 66, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'),
-(11, 'Deadpool 10', 'https://wallpaperaccess.com/full/26068.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '15+', 127, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'),
-(12, 'Deadpool 11', 'https://i.pinimg.com/originals/c3/51/35/c351353a8582356bb6a4a3824cc62bdd.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '20+', 285, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'),
-(13, 'Deadpool 12', 'https://thumbor.forbes.com/thumbor/960x0/https%3A%2F%2Fblogs-images.forbes.com%2Fscottmendelson%2Ffiles%2F2016%2F02%2Fdeadpool-SYB_2040_v076.1040_rgb-1200x675.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '20+', 155, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'),
-(14, 'Deadpool 13', 'https://m.media-amazon.com/images/M/MV5BYzE5MjY1ZDgtMTkyNC00MTMyLThhMjAtZGI5OTE1NzFlZGJjXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '20+', 155, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'),
-(15, 'Resad', 'https://nerdist.com/wp-content/uploads/2019/01/venom-2018-movie-4k-8h-1.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '20+', 155, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'),
-(16, 'Deadpool 14', 'https://thumbor.forbes.com/thumbor/960x0/https%3A%2F%2Fblogs-images.forbes.com%2Fscottmendelson%2Ffiles%2F2016%2F02%2Fdeadpool-SYB_2040_v076.1040_rgb-1200x675.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '20+', 155, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'),
-(17, 'Deadpool 15', 'https://m.media-amazon.com/images/M/MV5BYzE5MjY1ZDgtMTkyNC00MTMyLThhMjAtZGI5OTE1NzFlZGJjXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '20+', 155, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'),
-(18, 'Deadpool 16', 'https://nerdist.com/wp-content/uploads/2019/01/venom-2018-movie-4k-8h-1.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '20+', 155, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'),
-(19, 'Deadpool 17', 'https://m.media-amazon.com/images/M/MV5BYzE5MjY1ZDgtMTkyNC00MTMyLThhMjAtZGI5OTE1NzFlZGJjXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '20+', 155, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'),
-(20, 'Deadpool 18', 'https://nerdist.com/wp-content/uploads/2019/01/venom-2018-movie-4k-8h-1.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '20', 155, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'),
-(21, 'Resad 2', 'https://m.media-amazon.com/images/M/MV5BYzE5MjY1ZDgtMTkyNC00MTMyLThhMjAtZGI5OTE1NzFlZGJjXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '20', 155, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4');
+INSERT INTO `movies` (`id`, `name`, `image`, `year`, `description`, `movieType`, `addedDate`, `rate`, `length`, `movieLink`, `isDeleted`) VALUES
+(1, 'Deadpool', '/covers/26068.jpg', '2012-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 2, '2014-05-05 05:00:00', '10+', 0, NULL, b'0'),
+(2, 'Unforgetten', '/covers/unforget.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 04:00:00', '16+', 120, '/movies/buny.mp4', b'0'),
+(3, 'Deadpool 3', '/covers/1572213094.jpg', '2011-09-21', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2019-10-27 09:51:34', '18+', 398, '/movies/buny.mp4', b'0'),
+(4, 'Deadpool 4', '/covers/26068.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2019-10-27 09:43:48', '0+', 0, '/movies/buny.mp4', b'0'),
+(5, 'Deadpool 5', '/covers/26068.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2019-10-27 09:44:48', '0+', 0, '/movies/buny.mp4', b'0'),
+(6, 'Deadpool 6', '/covers/26068.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '0+', 645, '/movies/buny.mp4', b'0'),
+(7, 'Deadpool 7', '/covers/26068.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '0+', 255, '/movies/buny.mp4', b'0'),
+(8, 'Deadpool 2', '/covers/26068.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '15+', 471, '/movies/buny.mp4', b'0'),
+(9, 'Deadpool 8', '/covers/26068.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '15+', 64, '/movies/buny.mp4', b'0'),
+(10, 'Deadpool 9', '/covers/26068.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '15+', 66, '/movies/buny.mp4', b'0'),
+(11, 'Deadpool 10', '/covers/26068.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '15+', 127, '/movies/buny.mp4', b'1'),
+(12, 'Deadpool 11', '/covers/26068.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '20+', 285, '/movies/buny.mp4', b'0'),
+(13, 'Deadpool 12', '/covers/26068.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '20+', 155, '/movies/buny.mp4', b'0'),
+(14, 'Deadpool 13', '/covers/26068.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '20+', 155, '/movies/buny.mp4', b'0'),
+(15, 'Resad', '/covers/26068.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '20+', 155, '/movies/buny.mp4', b'0'),
+(16, 'Deadpool 14', '/covers/26068.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '20+', 155, '/movies/buny.mp4', b'0'),
+(17, 'Deadpool 15', '/covers/26068.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '20+', 155, '/movies/buny.mp4', b'0'),
+(18, 'Deadpool 16', '/covers/26068.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '20+', 155, '/movies/buny.mp4', b'0'),
+(19, 'Deadpool 17', '/covers/26068.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '20+', 155, '/movies/buny.mp4', b'0'),
+(20, 'Deadpool 18', '/covers/26068.jpg', '2011-09-20', 'Unforgettable follows Carrie Wells, an enigmatic former police detective with a rare condition that makes her memory so flawless that every place, every conversation, every moment of joy and every heartbreak is forever embedded in her mind. It\'s not just that she doesn\'t forget anything - she can\'t; except for one thing: the details that would help solve her sister\'s long-ago murder. Carrie has tried to put her past behind her, but she\'s unexpectedly reunited with her ex-boyfriend and partner, NYPD Detective Al Burns when she consults on a homicide case.', 1, '2014-05-05 05:00:00', '20', 155, '/movies/buny.mp4', b'0');
 
 -- --------------------------------------------------------
 
@@ -213,8 +238,8 @@ CREATE TABLE `movietypes` (
 --
 
 INSERT INTO `movietypes` (`id`, `name`) VALUES
-(1, 'movie'),
-(2, 'series');
+(1, 'Movie'),
+(2, 'Series');
 
 -- --------------------------------------------------------
 
@@ -237,6 +262,12 @@ INSERT INTO `suggestedmovies` (`id`, `movieID`) VALUES
 --
 -- Dökümü yapılmış tablolar için indeksler
 --
+
+--
+-- Tablo için indeksler `admins`
+--
+ALTER TABLE `admins`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Tablo için indeksler `episodes`
@@ -298,6 +329,12 @@ ALTER TABLE `suggestedmovies`
 --
 
 --
+-- Tablo için AUTO_INCREMENT değeri `admins`
+--
+ALTER TABLE `admins`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Tablo için AUTO_INCREMENT değeri `episodes`
 --
 ALTER TABLE `episodes`
@@ -313,25 +350,25 @@ ALTER TABLE `genres`
 -- Tablo için AUTO_INCREMENT değeri `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `moviecasts`
 --
 ALTER TABLE `moviecasts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `moviegenres`
 --
 ALTER TABLE `moviegenres`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `movies`
 --
 ALTER TABLE `movies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `movietypes`
@@ -359,14 +396,14 @@ ALTER TABLE `likes`
 -- Tablo kısıtlamaları `moviecasts`
 --
 ALTER TABLE `moviecasts`
-  ADD CONSTRAINT `CastMovieTable` FOREIGN KEY (`movieID`) REFERENCES `movies` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `CastMovieTable` FOREIGN KEY (`movieID`) REFERENCES `movies` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION;
 
 --
 -- Tablo kısıtlamaları `moviegenres`
 --
 ALTER TABLE `moviegenres`
-  ADD CONSTRAINT `GenreTable` FOREIGN KEY (`genreID`) REFERENCES `genres` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `MovieTable` FOREIGN KEY (`movieID`) REFERENCES `movies` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `GenreTable` FOREIGN KEY (`genreID`) REFERENCES `genres` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  ADD CONSTRAINT `MovieTable` FOREIGN KEY (`movieID`) REFERENCES `movies` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION;
 
 --
 -- Tablo kısıtlamaları `movies`
