@@ -23,7 +23,7 @@
         <div class="col-8">
             <div class="list-group ">
                 <div class="list-group-item active" style="background-color: #ff861f ">
-                    Episodes: <div class="d-none addingLink" style="float:right;"><a id="addlink" href="/AdminPanelPinnme/newepisode">Add episode</a></div>
+                    Episodes: <div class="d-none addingLink" style="float:right;"><a id="addlink" target="_blank" href="/AdminPanelPinnme/newepisode">Add episode</a></div>
                 </div>
                 <div class="append">
                         <li class="list-group-item">No Series Selected</li>
@@ -50,8 +50,8 @@
             
             $.each( data, function( key, val ) {
                 
-                list.push( '<li class="list-group-item">' + ++key +'. '+ val['name'] + '<div style="float: right">  <a href="'
-                +link("episodeDetail", val['id'])+'">View</a> | <a href="'
+                list.push( '<li class="list-group-item">' + ++key +'. '+ val['name'] + '<div style="float: right">  <a target="blank_" href="'
+                +link("episodeview", val['id'])+'">View</a> | <a href="'
                 +link("episodeEdit", val['id'])
                 +'">Edit</a>  | <a href="'+
                 link("episodeDelete", val['id']) + '">Delete</a></div> </li>' )

@@ -7,7 +7,7 @@
     </div>
 @endif
 
-<form action="{{url('AdminPanelPinnme/postEpisode')}}" method="post" enctype="multipart/form-data">
+<form action="{{url('AdminPanelPinnme/postEpisode')}}/{{$id}}" method="post" enctype="multipart/form-data">
   <div class="container-fluid">
     <div class="row">
       @csrf
@@ -25,7 +25,10 @@
           <label>Upload Video: </label>
           <div class="custom-file">
               <input type="file" class="custom-file-input" id="video" name="video" required>
-              <label class="custom-file-label" for="video">Choose video</label>
+              <label class="custom-file-label" id="videoLabel" for="video">Choose video</label>
+              <div class="alert alert-success d-none" id="success">
+                  File Selected!
+                </div>
             </div>
         </div>
       </div>
@@ -43,7 +46,8 @@
 
         <div class="custom-file">
           <input type="file" class="custom-file-input" name="cover" id="imgInp" required>
-          <label class="custom-file-label" for="imgInp">Choose cover</label>
+          <label class="custom-file-label" id="coverLabel" for="imgInp">Choose cover</label>
+
         </div>
 
       </div>
@@ -59,21 +63,36 @@
 
 <script>
 
+$("#video").change(function(){
+  if(this.files && this.files[0]){
+    $("#videoLabel").html(this.files[0].name)
+    $("#success").removeClass("d-none");
+  }else{
+    $("#success").addClass("d-none");
+    $("#videoLabel").html("Choose Video")
+
+  }
+})
 
 function readURL(input) {
   if (input.files && input.files[0]) {
     var reader = new FileReader();
-    
+    $("#coverLabel").html(input.files[0].name)
+
     reader.onload = function(e) {
       $('#blah').attr('src', e.target.result);
     }
     
     reader.readAsDataURL(input.files[0]);
+  }else{
+  $("#coverLabel").html("Choose Cover")
+  $('#blah').attr('src', "//via.placeholder.com/150");
   }
 }
 
 $("#imgInp").change(function() {
   readURL(this);
+
 });
 </script>
 @endsection

@@ -47,14 +47,14 @@ $(document).ready(function() {
                 extend: 'excelHtml5',
                 title: 'Movie List',
                 exportOptions: {
-                    columns: [ 0, 1, 2]
+                    columns: [ 0, 1, 2, 3, 4]
                 }
             },
             {
                 extend: 'pdfHtml5',
                 title: 'Movie List',
                 exportOptions: {
-                    columns: [ 0, 1, 2]
+                    columns: [ 0, 1, 2, 3, 4]
                 }
             },
      
