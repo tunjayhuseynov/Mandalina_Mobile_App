@@ -15,6 +15,12 @@ class AdminPanel
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+
+        if($request->session()->get('admin', 0) == 1){
+
+            return $next($request);
+        }
+
+        return redirect('herewegoagain/login');
     }
 }

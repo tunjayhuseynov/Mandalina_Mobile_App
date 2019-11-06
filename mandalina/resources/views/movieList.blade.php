@@ -11,6 +11,7 @@
     <thead>
         <tr>
             <th>Name</th>
+            <th style="width: 60px">Id</th>
             <th style="width: 100px">Type</th>
             <th style="width: 100px">Episodes</th>
             <th style="width: 200px">Addition Date</th>
@@ -22,6 +23,7 @@
 
         <tr>
             <td>{{$item['name']}}</td>
+            <td>{{$item['id']}}</td>
             <td>{{$item['movieType']==1?"Movie":"Series"}}</td>
             <td>{{$item['movieType']==2?count($item['episodes'])." Episodes":""}}</td>
             <td>{{$item['addedDate']}}</td>
@@ -57,7 +59,7 @@ $(document).ready(function() {
             },
      
         ],
-        order: [[3,"desc"]],
+        order: [[4,"desc"]],
     });
 } );
 </script>

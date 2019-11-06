@@ -1,7 +1,10 @@
 <?php
 
 
-Route::get('/EnterAP', 'Log@index');
+Route::get('/herewegoagain/login', 'Log@index');
+Route::post('/herewegoagain/process', 'Log@process');
+Route::get('/herewegoagain/out', 'Log@out');
+
 
 Route::group(['prefix' => 'AdminPanelPinnme','middleware' => ['checkAdmin']], function () {
     Route::get('/', 'Dashboard@index');
@@ -14,6 +17,8 @@ Route::group(['prefix' => 'AdminPanelPinnme','middleware' => ['checkAdmin']], fu
     Route::get('/delete/{id}', 'Dashboard@Delete');
     Route::get('/episodes', 'Dashboard@episodes');
     Route::get('/fetchepisodes/{id}', 'Dashboard@FetchEpisodes');
+    Route::get('/addEpisode/{id}', 'EpisodeCrud@add');
+    Route::get('/postEpisode', 'EpisodeCrud@postAdd');
 });
 
 Route::group(['prefix' => 'api', 'middleware' => ['validApi']], function () {

@@ -107,7 +107,6 @@ class Dashboard extends Controller
             }
         }
         $covername = time() . '.' . $cover->getClientOriginalExtension();
-        Storage::disk('public_uploads')->put("covers/".$covername, file_get_contents($cover));
         
         $id =  DB::table('movies')->insertGetId(
             ['name' => $name , 'image' => '/covers/'.$covername , 'year' => $year, 'description' => trim($description),
@@ -115,7 +114,13 @@ class Dashboard extends Controller
             'movieLink' => isset($video)==1?'/movies/'.$videoname:'', 'isDeleted' => FALSE]
         );
 
+        Storage::disk('public_uploads')->put("covers/".$id."/".$covername, file_get_contents($cover));
 
+        if($request->hasFile("video")){
+            if($request->file("video")->isValid()){
+                Storage::disk('public_uploads')->put("movies/".$id."/".$videoname, file_get_contents($video));
+            }
+        }
         foreach ($genres as $key => $value) {
             DB::table('moviegenres')->insert([
                 'movieID' => $id,
@@ -152,8 +157,6 @@ class Dashboard extends Controller
         if($request->hasFile("video")){
             if($request->file("video")->isValid()){
                 $video = $request->file("video");
-
-
                 $videoname = time() . '.' . $video->getClientOriginalExtension();
                 Storage::disk('public_uploads')->put("movies/".$videoname, file_get_contents($video));
             }

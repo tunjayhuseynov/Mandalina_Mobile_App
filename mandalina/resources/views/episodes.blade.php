@@ -23,7 +23,7 @@
         <div class="col-8">
             <div class="list-group ">
                 <div class="list-group-item active" style="background-color: #ff861f ">
-                    Episodes: <div class="addingLink" style="float:right;"><a href="/AdminPanelPinnme/newepisode">Add episode</a></div>
+                    Episodes: <div class="d-none addingLink" style="float:right;"><a id="addlink" href="/AdminPanelPinnme/newepisode">Add episode</a></div>
                 </div>
                 <div class="append">
                         <li class="list-group-item">No Series Selected</li>
@@ -40,14 +40,21 @@
     });
 
     $('.js-example-basic-single').on('change', function(){
+        $(".addingLink").removeClass("d-none")
+        var id =$(this).val()
         $.getJSON( "{{$data[1]}}/AdminPanelPinnme/fetchepisodes/"+$(this).val(), function(data){
             var list = [];
+           
+           
+            $("#addlink").attr("href", "/AdminPanelPinnme/addEpisode/"+id)
+            
             $.each( data, function( key, val ) {
                 
                 list.push( '<li class="list-group-item">' + ++key +'. '+ val['name'] + '<div style="float: right">  <a href="'
                 +link("episodeDetail", val['id'])+'">View</a> | <a href="'
                 +link("episodeEdit", val['id'])
-                +'">Edit</a> </div> </li>' )
+                +'">Edit</a>  | <a href="'+
+                link("episodeDelete", val['id']) + '">Delete</a></div> </li>' )
                 
          });
         
