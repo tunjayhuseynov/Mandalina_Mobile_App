@@ -51,9 +51,9 @@
             $.each( data, function( key, val ) {
                 
                 list.push( '<li class="list-group-item">' + ++key +'. '+ val['name'] + '<div style="float: right">  <a target="blank_" href="'
-                +link("episodeview", val['id'])+'">View</a> | <a href="'
+                +link("episodeview", val['id'])+'">View</a> | <a target="blank_" href="'
                 +link("episodeEdit", val['id'])
-                +'">Edit</a>  | <a href="'+
+                +'">Edit</a>  | <a onclick="return confirm(`Do you really want to delete it?`);"  href="'+
                 link("episodeDelete", val['id']) + '">Delete</a></div> </li>' )
                 
          });

@@ -19,7 +19,10 @@ Route::group(['prefix' => 'AdminPanelPinnme','middleware' => ['checkAdmin']], fu
     Route::get('/fetchepisodes/{id}', 'Dashboard@FetchEpisodes');
     Route::get('/addEpisode/{id}', 'EpisodeCrud@add');
     Route::post('/postEpisode/{id}', 'EpisodeCrud@postAdd');
+    Route::post('/editEpisode/{id}', 'EpisodeCrud@postEdit');
     Route::get('/episodeview/{id}', 'EpisodeCrud@view');
+    Route::get('/episodeDelete/{id}', 'EpisodeCrud@delete');
+    Route::get('/episodeEdit/{id}', 'EpisodeCrud@edit');
 });
 
 Route::group(['prefix' => 'api', 'middleware' => ['validApi']], function () {

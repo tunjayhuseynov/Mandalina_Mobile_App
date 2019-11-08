@@ -174,7 +174,7 @@ class Dashboard extends Controller
         ->where('id', $movieid)
         ->update(
             ['name' => $name , 'image' => isset($cover)==1?'/covers/'.$covername:$oldcover , 'year' => $year, 'description' => trim($description),
-            'movieType' => $type, 'addedDate' => date("Y-m-d h:i:s"), 'rate' => $limit, 'length' => $oldlimit!=$duration?$duration:$oldlimit,
+            'movieType' => $type, 'rate' => $limit, 'length' => $oldlimit!=$duration?$duration:$oldlimit,
             'movieLink' => isset($video)==1?'/movies/'.$videoname:$oldvideo, 'isDeleted' => FALSE]
         );
         
