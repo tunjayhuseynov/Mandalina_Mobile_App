@@ -9,7 +9,7 @@ class VideoState extends State<Video> {
   void initState() {
     link = widget.link;
     controlVisible = true;
-    vcontroller = VideoPlayerController.network(link);
+    vcontroller = VideoPlayerController.network(pichost + link);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
       statusBarColor: Colors.transparent,
     ));

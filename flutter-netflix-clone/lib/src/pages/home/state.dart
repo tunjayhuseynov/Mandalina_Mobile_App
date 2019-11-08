@@ -20,8 +20,8 @@ class HomeState extends State<Home> with SingleTickerProviderStateMixin {
         indicatorWeight: 0.1,
         controller: controller,
         tabs: <Widget>[
-          Tab(text: 'Ana Menü', icon: Icon(Icons.home)),
-          Tab(text: 'Arama', icon: Icon(Icons.search)),
+          Container( height: 55,child: Tab(text: 'Ana Menü', icon: Icon(Icons.home, size: 18,)),),
+          Container( height: 55,child: Tab(text: 'Arama', icon: Icon(Icons.search, size: 18,)),),
         ],
       ),
       body: TabBarView(

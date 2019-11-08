@@ -88,8 +88,7 @@ class SummaryState extends State<Summary> {
     final Size screenSize = MediaQuery.of(context).size;
     Result show;
     bloc.fetchAllMovies();
-
-
+    
     return StreamBuilder(
       stream: bloc.allMovies,
       builder: (context, AsyncSnapshot<List<ItemModel>> snapshot) {
@@ -109,7 +108,7 @@ class SummaryState extends State<Summary> {
                     child: Stack(
                       fit: StackFit.expand,
                       children: <Widget>[
-                        Image.network(show.image, fit: BoxFit.cover),
+                        Image.network(pichost + show.image, fit: BoxFit.cover),
                         DecoratedBox(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(

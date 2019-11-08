@@ -56,7 +56,7 @@ class TvShowState extends State<TvShow> {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: NetworkImage(
-                            widget.item.image,
+                            pichost + widget.item.image,
                           ),
                           fit: BoxFit.fitWidth,
                         ),
@@ -365,7 +365,7 @@ class TvShowState extends State<TvShow> {
                           height: 90.0,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: NetworkImage(seasonEpisodes[index].image),
+                              image: NetworkImage(pichost + seasonEpisodes[index].image),
                             ),
                           ),
                           child: Center(

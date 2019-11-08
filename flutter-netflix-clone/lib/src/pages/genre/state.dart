@@ -3,7 +3,6 @@ part of netflix;
 class GenreState extends State<Genre> {
   StreamController _streamController;
   ScrollController _scrollController;
-  final String host = 'http://188.227.209.89:90';
   int movieAmount = 0;
   List<Result> movieList = new List();
   @override
@@ -73,7 +72,7 @@ class GenreState extends State<Genre> {
                       margin: EdgeInsets.fromLTRB(3, 4, 3, 4),
                       width: 120.0,
                       height: 140.0,
-                      child: Image.network(movieList[index].image,
+                      child: Image.network(pichost + movieList[index].image,
                           fit: BoxFit.cover),
                     ),
                   );
@@ -94,7 +93,7 @@ class GenreState extends State<Genre> {
 
   Future fetchMovie(int start, int end) async {
     final response =
-        await Client().get("$host/api/${widget.item.toLowerCase()}/$start/$end");
+        await Client().get("$pichost/api/${widget.item.toLowerCase()}/$start/$end");
     if (response.statusCode == 200) {
             String body  = response.body;
       if(!response.body.endsWith(']')){

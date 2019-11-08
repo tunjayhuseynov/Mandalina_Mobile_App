@@ -21,10 +21,10 @@ class ShowsList extends StatelessWidget {
       return InkWell(
         onTap: () => onTap(item, 99),
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 2.5),
+          margin: EdgeInsets.symmetric(horizontal: 10.5),
           width: 120.0,
           height: 140.0,
-          child: Image.network(item.image, fit: BoxFit.cover),
+          child: Image.network(pichost + item.image, fit: BoxFit.cover),
         ),
       );
     }).toList();
@@ -39,13 +39,13 @@ class ShowsList extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.fromLTRB(1, 0, 0, 5),
+            padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
             child: GestureDetector(
               onTap: ()=> goToGenre(title),
               child: Text(
             title.toUpperCase(),
             textAlign: TextAlign.start,
-            style: TextStyle(color: Colors.white, decoration: TextDecoration.underline),
+            style: TextStyle(color: Colors.white, fontSize: 14),
           ),
             ),
           ),

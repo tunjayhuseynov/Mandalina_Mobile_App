@@ -177,7 +177,7 @@ class CustomSearchDelegate extends SearchDelegate {
                       margin: EdgeInsets.fromLTRB(3, 4, 3, 4),
                       width: 120.0,
                       height: 140.0,
-                      child: Image.network(snapshot.data[index].image,
+                      child: Image.network(pichost + snapshot.data[index].image,
                           fit: BoxFit.cover),
                     ),
                   );

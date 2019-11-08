@@ -1,7 +1,8 @@
 part of netflix;
-
+final String host = 'http://10.0.2.2:8000';
+final String pichost = 'http://10.0.2.2:8000';
 class MovieApiProvider {
-  final String host = 'http://78.111.61.58:90';
+
   Client client = Client();
 
   Future<List<ItemModel>> fetchMovieList() async {
