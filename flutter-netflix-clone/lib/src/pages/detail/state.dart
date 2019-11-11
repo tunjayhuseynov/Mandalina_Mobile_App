@@ -143,7 +143,7 @@ class TvShowState extends State<TvShow> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              "Çıkış Tarihi: " + widget.item.date.year.toString(),
+                              "Çıkış Tarihi: " + widget.item.date,
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 color: Color.fromRGBO(255, 255, 255, 0.3),

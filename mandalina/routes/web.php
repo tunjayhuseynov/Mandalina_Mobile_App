@@ -23,6 +23,7 @@ Route::group(['prefix' => 'AdminPanelPinnme','middleware' => ['checkAdmin']], fu
     Route::get('/episodeview/{id}', 'EpisodeCrud@view');
     Route::get('/episodeDelete/{id}', 'EpisodeCrud@delete');
     Route::get('/episodeEdit/{id}', 'EpisodeCrud@edit');
+
 });
 
 Route::group(['prefix' => 'api', 'middleware' => ['validApi']], function () {

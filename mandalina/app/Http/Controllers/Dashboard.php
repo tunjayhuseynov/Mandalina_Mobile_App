@@ -15,10 +15,10 @@ class Dashboard extends Controller
     }
 
     public function list(Request $request)
-    {   
+    {
         $data = DataManupilation::AllMovies();
-        
-        return view('movieList')->with('data',$data);
+
+        return view('movieList')->with('data', $data);
     }
 
     public function AdditionPage(Request $request)
@@ -27,18 +27,18 @@ class Dashboard extends Controller
         $types = DB::table('movietypes')->get();
         $data = array($genres, $types);
 
-        return view('add')->with('data',$data);
+        return view('add')->with('data', $data);
     }
 
-    
+
     public function Delete(Request $request)
     {
         $id = $request->route("id");
 
         DB::table('movies')->where('id', $id)
-        ->update(['isDeleted'=> TRUE]);
+            ->update(['isDeleted' => TRUE]);
 
-        return redirect()->back()->with("message", "Successfully Deleted!");   
+        return redirect()->back()->with("message", "Successfully Deleted!");
     }
 
     public function View(Request $request)
@@ -78,9 +78,9 @@ class Dashboard extends Controller
         $id = $request->route('id');
 
         $data = DB::table('episodes')->where("movieID", $id)
-        ->orderBy("season", "ASC")
-        ->orderBy("number", "ASC")
-        ->get();
+            ->orderBy("season", "ASC")
+            ->orderBy("number", "ASC")
+            ->get();
 
         return response()->json($data, 200);
     }
@@ -88,8 +88,10 @@ class Dashboard extends Controller
 
     public function MovieAdding(Request $request)
     {
+
         $name = $request->input("name");
         $year = $request->input("year");
+        $tag = $request->input("tagName");
         $genres = $request->input("genres");
         $cast = $request->input("cast");
         $description = $request->input("description");
@@ -97,37 +99,35 @@ class Dashboard extends Controller
         $cover = $request->file("cover");
         $type = $request->input("type");
 
-        if($request->hasFile("video")){
-            if($request->file("video")->isValid()){
+        if ($request->hasFile("video")) {
+            if ($request->file("video")->isValid()) {
                 $video = $request->file("video");
                 $duration = $request->input("duration");
-
                 $videoname = time() . '.' . $video->getClientOriginalExtension();
-                Storage::disk('public_uploads')->put("movies/".$videoname, file_get_contents($video));
+
+               // Storage::disk('public_uploads')->put("movies/" . $name . "/" . $videoname, file_get_contents($video));
             }
         }
         $covername = time() . '.' . $cover->getClientOriginalExtension();
-        
+
         $id =  DB::table('movies')->insertGetId(
-            ['name' => $name , 'image' => '/covers/'.$covername , 'year' => $year, 'description' => trim($description),
-            'movieType' => $type, 'addedDate' => date("Y-m-d h:i:s"), 'rate' => $limit, 'length' => isset($duration)==1?$duration:0,
-            'movieLink' => isset($video)==1?'/movies/'.$videoname:'', 'isDeleted' => FALSE]
+            [
+                'name' => $name, 'image' => '/covers/' . $name . '/' . $covername, 'year' => $year, 'description' => trim($description),
+                'movieType' => $type, 'addedDate' => date("Y-m-d h:i:s"), 'rate' => $limit, 'length' => isset($duration) == 1 ? $duration : 0,
+                'movieLink' => isset($video) == 1 ? '/movies/' . $name . '/' . $videoname : '', 'isDeleted' => FALSE, 'tagName' => $tag
+            ]
         );
 
-        Storage::disk('public_uploads')->put("covers/".$id."/".$covername, file_get_contents($cover));
+        Storage::disk('public_uploads')->put("covers/" . $name . "/" . $covername, file_get_contents($cover));
 
-        if($request->hasFile("video")){
-            if($request->file("video")->isValid()){
-                Storage::disk('public_uploads')->put("movies/".$id."/".$videoname, file_get_contents($video));
-            }
-        }
+
         foreach ($genres as $key => $value) {
             DB::table('moviegenres')->insert([
                 'movieID' => $id,
                 'genreID' => $value
             ]);
         }
-        
+
         foreach ($cast as $key => $value) {
             DB::table('moviecasts')->insert([
                 'name' => $value,
@@ -142,6 +142,7 @@ class Dashboard extends Controller
     public function updating(Request $request)
     {
         $movieid = $request->input("movieid");
+        $tag = $request->input("tagName");
         $name = $request->input("name");
         $year = $request->input("year");
         $genres = $request->input("genres");
@@ -153,43 +154,45 @@ class Dashboard extends Controller
         $oldvideo = $request->input("oldvideo");
         $oldlimit = $request->input("oldlimit");
         $duration = $request->input("duration");
-        
-        if($request->hasFile("video")){
-            if($request->file("video")->isValid()){
+
+        if ($request->hasFile("video")) {
+            if ($request->file("video")->isValid()) {
                 $video = $request->file("video");
                 $videoname = time() . '.' . $video->getClientOriginalExtension();
-                Storage::disk('public_uploads')->put("movies/".$videoname, file_get_contents($video));
+                Storage::disk('public_uploads')->put("movies/" . $name . "/" . $videoname, file_get_contents($video));
             }
         }
 
-        if($request->hasFile("cover")){
-            if($request->file("cover")->isValid()){
+        if ($request->hasFile("cover")) {
+            if ($request->file("cover")->isValid()) {
                 $cover = $request->file("cover");
                 $covername = time() . '.' . $cover->getClientOriginalExtension();
-                Storage::disk('public_uploads')->put("covers/".$covername, file_get_contents($cover));
+                Storage::disk('public_uploads')->put("covers/" . $name . "/" . $covername, file_get_contents($cover));
             }
         }
 
         DB::table('movies')
-        ->where('id', $movieid)
-        ->update(
-            ['name' => $name , 'image' => isset($cover)==1?'/covers/'.$covername:$oldcover , 'year' => $year, 'description' => trim($description),
-            'movieType' => $type, 'rate' => $limit, 'length' => $oldlimit!=$duration?$duration:$oldlimit,
-            'movieLink' => isset($video)==1?'/movies/'.$videoname:$oldvideo, 'isDeleted' => FALSE]
-        );
-        
+            ->where('id', $movieid)
+            ->update(
+                [
+                    'name' => $name, 'image' => isset($cover) == 1 ? '/covers/' . $name . "/" . $covername : $oldcover, 'year' => $year, 'description' => trim($description),
+                    'movieType' => $type, 'rate' => $limit, 'length' => $oldlimit != $duration ? $duration : $oldlimit,
+                    'movieLink' => isset($video) == 1 ? '/movies/' . $name . "/" . $videoname : $oldvideo, 'isDeleted' => FALSE, 'tagName' => $tag
+                ]
+            );
+
 
         DB::table('moviegenres')->where("movieID", $movieid)->delete();
         DB::table('moviecasts')->where("movieID", $movieid)->delete();
 
         foreach ($genres as $key => $value) {
             DB::table('moviegenres')
-            ->insert([
-                'movieID' => $movieid,
-                'genreID' => $value
-            ]);
+                ->insert([
+                    'movieID' => $movieid,
+                    'genreID' => $value
+                ]);
         }
-        
+
         foreach ($cast as $key => $value) {
             DB::table('moviecasts')->insert([
                 'name' => $value,
@@ -198,6 +201,8 @@ class Dashboard extends Controller
         }
 
         return redirect()->back()->with("message", "Update Saved!");
-        
     }
+
+
+    
 }

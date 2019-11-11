@@ -9,19 +9,19 @@ class Result {
   List<String> _cast;
   List<Episode> _episodes;
   List<int> _seasons = [];
-  DateTime _date;
+  String _date;
   String _description;
   String _rate;
   int _movieLength;
   String _movieLink;
 
   Result.fromJson(Map<String, dynamic> parsedJson) {
-    _id = parsedJson['id'];
+    _id = int.parse(parsedJson['id']);
     _name = parsedJson['name'];
     _rate = parsedJson['rate'];
     _movieLink = parsedJson['movieLink'] ?? parsedJson['episodes'][0]['url'];
-    _movieLength = parsedJson['length'] ?? 0;
-    _movieAmountByGenre = parsedJson['movieAmountByGenre'];
+    _movieLength = parsedJson['length']  != null? 1:1;
+    _movieAmountByGenre = parsedJson['movieAmountByGenre']??1;
     _image = parsedJson['image'];
     _genres = List.from(parsedJson['genres'])
         .map((genre) => genre["name"].toString())
@@ -30,8 +30,8 @@ class Result {
         .map((cast) => cast['name'].toString())
         .toList();
     _date = parsedJson['year'] != null
-        ? DateTime.parse(parsedJson['year'].toString())
-        : DateTime.now();
+        ? parsedJson['year']
+        : DateTime.now().year.toString();
     RegExp exp = new RegExp(r"<[^>]*>");
     _description = parsedJson['description'].replaceAll(exp, '');
     _episodes = List.from(parsedJson['episodes'])
@@ -51,7 +51,7 @@ class Result {
   String get rate => _rate;
   List<String> get genres => _genres;
   List<String> get cast => _cast;
-  DateTime get date => _date;
+  String get date => _date;
   String get description => _description;
   List<Episode> get episodes => _episodes;
   List<int> get seasons => _seasons;

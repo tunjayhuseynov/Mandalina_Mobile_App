@@ -35,6 +35,9 @@ array_push($cast, $item->name);
                 <input class="form-control" type="text" name="name" placeholder="Name" value="{{$data[2]['name']}}"
                     required> <br>
                 <div>
+                        <label for="name">Tag Name: </label>
+                <input class="form-control" type="text" name="tag" value="{{$data[2]['tagName']}}" placeholder="Tag Name" required> <br>
+
                     <label for="Genres">Genres: </label>
                     <select class="js-example-basic-multiple" style="width: 100%" name="genres[]" multiple="multiple"
                         required>

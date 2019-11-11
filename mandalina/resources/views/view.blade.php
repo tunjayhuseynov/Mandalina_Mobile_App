@@ -17,6 +17,10 @@
                                 <h4>{{$data[2]['name']}}</h4>
                         </div>
                         <div class="box text-center">
+                                <label>Tag: </label>
+                                <h4>{{$data[2]['tagName']}}</h4>
+                        </div>
+                        <div class="box text-center">
                                 <label>Type: </label>
                                 <h4>{{$data[2]['movieType']==DataManupilation::Movie?"Movie":"Series"}}</h4>
                         </div>
@@ -45,11 +49,12 @@
                         </div>
                         @if($data[2]['movieType']==DataManupilation::Movie)
                         <div class="box text-center" style="padding: 15px 15px;">
-                                        <label>Movie Link: </label>
-                                        <h5 style="text-align: center">
-                                        <a target="_blank" href="{{{$data[3].$data[2]['movieLink']}}}">{{{$data[3].$data[2]['movieLink']}}}</a>
-                                        </h5>
-                                </div>
+                                <label>Movie Link: </label>
+                                <h5 style="text-align: center">
+                                        <a target="_blank"
+                                                href="{{{$data[3].$data[2]['movieLink']}}}">{{{$data[3].$data[2]['movieLink']}}}</a>
+                                </h5>
+                        </div>
                         @endif
                 </div>
         </div>

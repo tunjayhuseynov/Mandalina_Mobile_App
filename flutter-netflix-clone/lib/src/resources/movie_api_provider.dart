@@ -1,6 +1,6 @@
 part of netflix;
-final String host = 'http://10.0.2.2:8000';
-final String pichost = 'http://10.0.2.2:8000';
+final String host = 'https://filmdizimob.com';
+final String pichost = 'https://filmdizimob.com';
 class MovieApiProvider {
 
   Client client = Client();
