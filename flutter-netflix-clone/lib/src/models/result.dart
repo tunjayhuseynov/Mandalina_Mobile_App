@@ -20,7 +20,7 @@ class Result {
     _name = parsedJson['name'];
     _rate = parsedJson['rate'];
     _movieLink = parsedJson['movieLink'] ?? parsedJson['episodes'][0]['url'];
-    _movieLength = parsedJson['length']  != null? 1:1;
+    _movieLength = int.parse(parsedJson['length']);
     _movieAmountByGenre = parsedJson['movieAmountByGenre']??1;
     _image = parsedJson['image'];
     _genres = List.from(parsedJson['genres'])
