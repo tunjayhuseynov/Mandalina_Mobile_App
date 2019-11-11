@@ -11,7 +11,7 @@ class VideoState extends State<Video> {
     controlVisible = true;
     vcontroller = VideoPlayerController.network(pichost + link);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-      statusBarColor: Colors.transparent,
+      statusBarColor: Colors.black,
     ));
     super.initState();
     autoHide();
@@ -51,20 +51,22 @@ class VideoState extends State<Video> {
 
   @override
   Widget build(BuildContext context) {
-    final aspectRatio = 0.75;
+    final aspectRatio = .75;
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Stack(
+      body:  Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          PlayerLifeCycle(
+          Container(
+            margin: EdgeInsets.fromLTRB(0, 25, 0, 25),
+            child: PlayerLifeCycle(
             vcontroller,
             (BuildContext context, VideoPlayerController controller) =>
                 AspectRatio(
                   aspectRatio: aspectRatio,
                   child: VideoPlayer(vcontroller),
                 ),
-          ),
+          ),),
           GestureDetector(
             child: PlayerControl(
               vcontroller,
@@ -75,6 +77,7 @@ class VideoState extends State<Video> {
           ),
         ],
       ),
+      
     );
   }
 }
