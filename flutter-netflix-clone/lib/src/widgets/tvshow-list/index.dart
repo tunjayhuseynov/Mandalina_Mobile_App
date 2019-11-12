@@ -21,9 +21,9 @@ class ShowsList extends StatelessWidget {
       return InkWell(
         onTap: () => onTap(item, 99),
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 10.5),
+          margin: EdgeInsets.fromLTRB(10.5, 0, 0, 0),
           width: 120.0,
-          height: 140.0,
+          height: 160.0,
           child: Image.network(pichost + item.image, fit: BoxFit.cover),
         ),
       );
@@ -39,7 +39,7 @@ class ShowsList extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
+            padding: EdgeInsets.fromLTRB(10, 10, 0, 5),
             child: GestureDetector(
               onTap: ()=> goToGenre(title),
               child: Text(

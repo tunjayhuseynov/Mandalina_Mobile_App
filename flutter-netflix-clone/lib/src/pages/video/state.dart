@@ -10,9 +10,11 @@ class VideoState extends State<Video> {
     link = widget.link;
     controlVisible = true;
     vcontroller = VideoPlayerController.network(pichost + link);
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-      statusBarColor: Colors.black,
-    ));
+    //SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+      //statusBarColor: Colors.black,
+    //));
+          SystemChrome.setEnabledSystemUIOverlays([]);
+
     super.initState();
     autoHide();
   }
@@ -26,6 +28,8 @@ class VideoState extends State<Video> {
   void dispose() {
     vcontroller?.dispose();
     timer?.cancel();
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
@@ -58,7 +62,7 @@ class VideoState extends State<Video> {
         fit: StackFit.expand,
         children: <Widget>[
           Container(
-            margin: EdgeInsets.fromLTRB(0, 25, 0, 25),
+            //margin: EdgeInsets.fromLTRB(0, 25, 0, 25),
             child: PlayerLifeCycle(
             vcontroller,
             (BuildContext context, VideoPlayerController controller) =>

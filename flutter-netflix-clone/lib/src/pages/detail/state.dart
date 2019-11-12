@@ -42,7 +42,7 @@ class TvShowState extends State<TvShow> {
         slivers: <Widget>[
           SliverAppBar(
             primary: true,
-            expandedHeight: 430.0,
+            expandedHeight: 470.0,
             backgroundColor: Colors.black,
             flexibleSpace: FlexibleSpaceBar(
               collapseMode: CollapseMode.pin,
@@ -189,7 +189,7 @@ class TvShowState extends State<TvShow> {
                                 child: Text(
                                   widget.item.description,
                                   overflow: TextOverflow.ellipsis,
-                                  maxLines: 3,
+                                  maxLines: 10,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     color: Color.fromRGBO(255, 255, 255, 0.8),

@@ -145,7 +145,7 @@ class SummaryState extends State<Summary> {
                                       maxLines: 3,
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
-                                        height: 0.65,
+                                        height: .9,
                                         color: Colors.white,
                                         fontWeight: FontWeight.w700,
                                         fontSize: 30.0,
