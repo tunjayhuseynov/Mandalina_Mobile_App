@@ -3,15 +3,19 @@ part of netflix;
 class MoviesBloc {
   final _repository = Repository();
   final _moviesFetcher = PublishSubject<List<ItemModel>>();
+  final _seriesFetcher = PublishSubject<List<ItemModel>>();
   final _movieFetcher = PublishSubject<Result>();
   final _movieSearch = PublishSubject<List<Result>>();
   final _suggestedFetcher = PublishSubject<Result>();
   final _genresFetcher = PublishSubject<List<GenreResult>>();
+  final _suggestedSeriesFetcher = PublishSubject<Result>();
   final _sendLike = PublishSubject<int>();
 
   Observable<List<ItemModel>> get allMovies => _moviesFetcher.stream;
+  Observable<List<ItemModel>> get allSeries => _seriesFetcher.stream;
   Observable<Result> get oneMovie => _movieFetcher.stream;
   Observable<Result> get suggestedMovie => _suggestedFetcher.stream;
+  Observable<Result> get suggestedSeries => _suggestedSeriesFetcher.stream;
   Observable<List<GenreResult>> get genres => _genresFetcher.stream;
   Observable<List<Result>> get search => _movieSearch.stream;
   Observable<int> get likeCommited => _sendLike.stream;
@@ -22,6 +26,11 @@ class MoviesBloc {
     _moviesFetcher.sink.add(items);
   }
 
+  fetchAllSeries() async {
+    List<ItemModel> items = await _repository.fetchAllSeries();
+    _seriesFetcher.sink.add(items);
+  }
+
   fetchOneMovie(int id) async {
     Result item = await _repository.fetchMovie(id);
     _movieFetcher.sink.add(item);
@@ -29,6 +38,11 @@ class MoviesBloc {
 
   fetchSuggestedMovie() async{
     Result item = await _repository.fetchSuggestedMovie();
+    _suggestedFetcher.sink.add(item);
+  }
+
+  fetchSuggestedSeries() async{
+    Result item = await _repository.fetchSuggestedSeries();
     _suggestedFetcher.sink.add(item);
   }
 
@@ -54,6 +68,8 @@ class MoviesBloc {
     _suggestedFetcher.close();
     _genresFetcher.close();
     _movieSearch.close();
+    _seriesFetcher.close();
+    _suggestedSeriesFetcher.close();
   }
 }
 

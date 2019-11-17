@@ -1,7 +1,7 @@
 part of netflix;
 
 typedef Widget VideoWidgetBuilder(
-    BuildContext context, VideoPlayerController controller);
+    BuildContext context, VideoPlayerController controller, bool isLoaded);
 
 class PlayerLifeCycle extends StatefulWidget {
   final VideoPlayerController controller;

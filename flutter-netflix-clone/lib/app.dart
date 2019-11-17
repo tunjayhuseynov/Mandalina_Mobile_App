@@ -9,6 +9,8 @@ import 'package:http/http.dart' show Client;
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wakelock/wakelock.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 // Plugins import...
 import 'package:fluro/fluro.dart';
@@ -63,6 +65,7 @@ class Netflix extends StatelessWidget {
     Routes.configureRoutes(router);
     Application.router = router;    
     bloc.fetchSuggestedMovie();
+    bloc.fetchSuggestedSeries();
   }
   @override
   Widget build(BuildContext context) {

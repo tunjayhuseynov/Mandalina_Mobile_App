@@ -12,6 +12,7 @@ class Result {
   String _date;
   String _description;
   String _rate;
+  int _movieType;
   int _movieLength;
   String _movieLink;
 
@@ -19,6 +20,7 @@ class Result {
     _id = int.parse(parsedJson['id']);
     _name = parsedJson['name'];
     _rate = parsedJson['rate'];
+    _movieType = int.parse(parsedJson['movieType']);
     _movieLink = parsedJson['movieLink'] ?? parsedJson['episodes'][0]['url'];
     _movieLength = int.parse(parsedJson['length']);
     _movieAmountByGenre = parsedJson['movieAmountByGenre']??1;
@@ -47,6 +49,7 @@ class Result {
   String get movieLink => _movieLink;
   int get movieLength => _movieLength;
   int get movieAmountByGenre => _movieAmountByGenre;
+  int get movieType => _movieType;
   String get image => _image;
   String get rate => _rate;
   List<String> get genres => _genres;

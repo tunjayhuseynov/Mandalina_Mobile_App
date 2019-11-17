@@ -24,14 +24,17 @@ class ShowsList extends StatelessWidget {
           margin: EdgeInsets.fromLTRB(10.5, 0, 0, 0),
           width: 120.0,
           height: 160.0,
-          child: Image.network(pichost + item.image, fit: BoxFit.cover),
+          child: //Image.network(pichost + item.image, fit: BoxFit.cover),
+          FadeInImage.memoryNetwork(image: pichost + item.image, fit: BoxFit.cover, placeholder: kTransparentImage,)
         ),
       );
     }).toList();
-  }
 
+  }
+  
   @override
   Widget build(BuildContext context) {
+    print(items.last.movieType);
     return new Container(
       margin: new EdgeInsets.only(top: 8.0),
       child: Column(
@@ -41,7 +44,7 @@ class ShowsList extends StatelessWidget {
           Padding(
             padding: EdgeInsets.fromLTRB(10, 10, 0, 5),
             child: GestureDetector(
-              onTap: ()=> goToGenre(title),
+              onTap: ()=> goToGenre(title, items.last.movieType),
               child: Text(
             title.toUpperCase(),
             textAlign: TextAlign.start,

@@ -8,7 +8,7 @@ class SearchState extends State<Search> with SingleTickerProviderStateMixin {
     super.initState();
   }
 
-  void goToGenre(String item) {
+  void goToGenre(String item, int type) {
     if (item.split(" ").length > 0) {
       item = item.replaceAll(" ", "_");
     }
@@ -17,7 +17,7 @@ class SearchState extends State<Search> with SingleTickerProviderStateMixin {
       '${Routes.genre}',
       transition: TransitionType.inFromRight,
       transitionDuration: const Duration(milliseconds: 200),
-      object: {'item': item},
+      object: {'item': item, 'type': type==0?'all':'movies'},
     );
   } 
 
@@ -60,7 +60,7 @@ class SearchState extends State<Search> with SingleTickerProviderStateMixin {
                           return ListTile(
                             title: GestureDetector(
                               onTap: () =>
-                                  goToGenre(snapshot.data[index].genreName),
+                                  goToGenre(snapshot.data[index].genreName, 0),
                               child: Text(
                                 snapshot.data[index].genreName,
                                 style: TextStyle(color: Colors.white),
@@ -196,7 +196,47 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    if(query.length > 0){
+    bloc.fetchSearch(query);
     return Container(
+      color: Colors.black,
+      child: StreamBuilder(
+        stream: bloc.search,
+        builder: (context, AsyncSnapshot<List<Result>> snapshot){
+          if(snapshot.hasData){
+             return Column(
+                children: <Widget>[
+                  Expanded(
+                    child: Scrollbar(
+                      child: snapshot.data.length != 0?GridView.builder(
+                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3, mainAxisSpacing: 5),
+                itemCount: snapshot.data.length,
+                itemBuilder: (BuildContext context, int index) {
+
+                    return InkWell(
+                    onTap: () => goToDetail(snapshot.data[index], 99),
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(3, 4, 3, 4),
+                      width: 120.0,
+                      height: 140.0,
+                      child: Image.network(pichost + snapshot.data[index].image,
+                          fit: BoxFit.cover),
+                    ),
+                  );
+                }
+              ): Center(child: new Text("Maalesef bu isimde henüz film/dizi yok", style: TextStyle(color: Colors.white),)),
+                    ),
+                  ),
+                ],
+              ); 
+          }
+          return Center(child: CircularProgressIndicator(),);
+        },
+      ),
+    );
+    }else{
+      return Container(
       color: Colors.black,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -210,5 +250,6 @@ class CustomSearchDelegate extends SearchDelegate {
         ],
       ),
     );
+    }
   }
 }

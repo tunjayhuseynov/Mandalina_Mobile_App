@@ -2,7 +2,7 @@ part of netflix;
 
 class PlayerLifeCycleState extends State<PlayerLifeCycle> {
   VideoPlayerController get controller => widget.controller;
-
+  bool isLoaded = false;
   @override
   void initState() {
     super.initState();
@@ -11,7 +11,11 @@ class PlayerLifeCycleState extends State<PlayerLifeCycle> {
         print(controller.value.errorDescription);
       }
     });
-    controller.initialize();
+    controller.initialize().then((data){
+      setState(() {
+        isLoaded = true;
+      });
+    });
     controller.setLooping(false);
     controller.play();
   }
@@ -23,6 +27,6 @@ class PlayerLifeCycleState extends State<PlayerLifeCycle> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.childBuilder(context, controller);
+    return widget.childBuilder(context, controller, isLoaded);
   }
 }

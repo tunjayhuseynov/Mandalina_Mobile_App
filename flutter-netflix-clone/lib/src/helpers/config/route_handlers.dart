@@ -9,7 +9,7 @@ var rootHandler = Handler(
 var summaryRouteHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params,
       [dynamic object]) {
-    return Summary();
+    return Summary(object['type']);
   },
 );
 var searchRouteHandler = Handler(
@@ -34,7 +34,7 @@ var trailerRouteHandler = Handler(
 var genreRouteHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params,
       [dynamic object]) {
-    return Genre(item: object['item']);
+    return Genre(item: object['item'], type: object['type']);
   },
 );
 

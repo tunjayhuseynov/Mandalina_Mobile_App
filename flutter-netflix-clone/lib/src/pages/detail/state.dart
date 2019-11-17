@@ -189,7 +189,7 @@ class TvShowState extends State<TvShow> {
                                 child: Text(
                                   widget.item.description,
                                   overflow: TextOverflow.ellipsis,
-                                  maxLines: 10,
+                                  maxLines: 15,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     color: Color.fromRGBO(255, 255, 255, 0.8),

@@ -1,5 +1,6 @@
 part of netflix;
 
+Map<String, dynamic> seriesShow ;
 Map<String, dynamic> tvShow ; /*{
 "id": 1,
 "name": "Unforgetten",

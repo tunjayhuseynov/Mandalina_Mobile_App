@@ -8,7 +8,7 @@ class HomeState extends State<Home> with SingleTickerProviderStateMixin {
     super.initState();
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
         .copyWith(statusBarColor: Colors.transparent));
-    controller = TabController(length: 2, initialIndex: 0, vsync: this);
+    controller = TabController(length: 3, initialIndex: 0, vsync: this);
   }
 
   @override
@@ -20,7 +20,8 @@ class HomeState extends State<Home> with SingleTickerProviderStateMixin {
         indicatorWeight: 0.1,
         controller: controller,
         tabs: <Widget>[
-          Container( height: 55,child: Tab(text: 'Ana Menü', icon: Icon(Icons.home, size: 18,)),),
+          Container( height: 55,child: Tab(text: 'Film', icon: Icon(Icons.movie_filter, size: 18,)),),
+          Container( height: 55,child: Tab(text: 'Dizi', icon: Icon(Icons.format_list_numbered, size: 18,)),),
           Container( height: 55,child: Tab(text: 'Arama', icon: Icon(Icons.search, size: 18,)),),
         ],
       ),
@@ -28,8 +29,9 @@ class HomeState extends State<Home> with SingleTickerProviderStateMixin {
         controller: controller,
         physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
-          Summary(),
-          Search()
+          Summary(1),
+          Summary(2),
+          Search(),
         ],
       ),
     );

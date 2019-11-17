@@ -7,13 +7,14 @@ class VideoState extends State<Video> {
   String link;
   @override
   void initState() {
+    Wakelock.enable();
     link = widget.link;
-    controlVisible = true;
+    controlVisible = false;
     vcontroller = VideoPlayerController.network(pichost + link);
     //SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-      //statusBarColor: Colors.black,
+    //statusBarColor: Colors.black,
     //));
-          SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemChrome.setEnabledSystemUIOverlays([]);
 
     super.initState();
     autoHide();
@@ -26,6 +27,7 @@ class VideoState extends State<Video> {
 
   @override
   void dispose() {
+    Wakelock.disable();
     vcontroller?.dispose();
     timer?.cancel();
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
@@ -58,19 +60,27 @@ class VideoState extends State<Video> {
     final aspectRatio = .75;
     return Scaffold(
       backgroundColor: Colors.black,
-      body:  Stack(
+      body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
           Container(
             //margin: EdgeInsets.fromLTRB(0, 25, 0, 25),
-            child: PlayerLifeCycle(
-            vcontroller,
-            (BuildContext context, VideoPlayerController controller) =>
-                AspectRatio(
+            child: PlayerLifeCycle(vcontroller, (BuildContext context,
+                VideoPlayerController controller, bool isLoaded) {
+              if (isLoaded) {
+                return AspectRatio(
                   aspectRatio: aspectRatio,
                   child: VideoPlayer(vcontroller),
-                ),
-          ),),
+                );
+              } else {
+                return Center(
+                    child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                      Color.fromRGBO(219, 0, 0, 1.0)),
+                ));
+              }
+            }),
+          ),
           GestureDetector(
             child: PlayerControl(
               vcontroller,
@@ -81,7 +91,6 @@ class VideoState extends State<Video> {
           ),
         ],
       ),
-      
     );
   }
 }

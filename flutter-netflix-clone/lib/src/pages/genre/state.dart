@@ -60,20 +60,21 @@ class GenreState extends State<Genre> {
                   Expanded(
                     child: Scrollbar(
                       child: movieList.length != 0?GridView.builder(
+                        padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                         controller: _scrollController,
                 gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3, mainAxisSpacing: 5),
+                    crossAxisCount: 3, mainAxisSpacing: 15, crossAxisSpacing: 15, childAspectRatio: 0.75),
                 itemCount: movieList.length,
                 itemBuilder: (BuildContext context, int index) {
 
                     return InkWell(
                     onTap: () => goToDetail(movieList[index], 99),
                     child: Container(
-                      margin: EdgeInsets.fromLTRB(3, 4, 3, 4),
+                      //margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
                       width: 120.0,
-                      height: 140.0,
-                      child: Image.network(pichost + movieList[index].image,
-                          fit: BoxFit.cover),
+                      height: 160.0,
+                      child: //Image.network(pichost + movieList[index].image,fit: BoxFit.cover),
+                          FadeInImage.memoryNetwork(image: pichost + movieList[index].image, fit: BoxFit.cover, placeholder: kTransparentImage,)
                     ),
                   );
                 }
@@ -93,7 +94,7 @@ class GenreState extends State<Genre> {
 
   Future fetchMovie(int start, int end) async {
     final response =
-        await Client().get("$pichost/api/${widget.item.toLowerCase()}/$start/$end");
+        await Client().get("$pichost/api/${widget.type.toLowerCase()}/${widget.item.toLowerCase()}/$start/$end");
     if (response.statusCode == 200) {
             String body  = response.body;
       if(!response.body.endsWith(']')){
