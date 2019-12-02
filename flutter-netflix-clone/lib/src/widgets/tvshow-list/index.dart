@@ -14,27 +14,34 @@ class ShowsList extends StatelessWidget {
     this.goToGenre,
   });
 
-  
-
   List<Widget> renderItems() {
     return items.map((item) {
       return InkWell(
         onTap: () => onTap(item, 99),
         child: Container(
-          margin: EdgeInsets.fromLTRB(10.5, 0, 0, 0),
-          width: 120.0,
-          height: 160.0,
-          child: //Image.network(pichost + item.image, fit: BoxFit.cover),
-          FadeInImage.memoryNetwork(image: pichost + item.image, fit: BoxFit.cover, placeholder: kTransparentImage,)
-        ),
+            margin: EdgeInsets.fromLTRB(10.5, 0, 0, 0),
+            width: 120.0,
+            height: 160.0,
+            child: //Image.network(pichost + item.image, fit: BoxFit.cover),
+                //FadeInImage.memoryNetwork(fadeInDuration: Duration(milliseconds: 100),image: MovieApiProvider.pichost + item.image, fit: BoxFit.cover, placeholder: kTransparentImage,)
+                /*FadeInImage.assetNetwork(
+              fadeInDuration: Duration(milliseconds: 100),
+              image: MovieApiProvider.pichost + item.image,
+              fit: BoxFit.cover,
+              placeholder: "assets/images/loader.gif",
+            )*/
+            FadeInImage(
+              image: CachedNetworkImageProvider(MovieApiProvider.pichost + item.image),
+              fadeInDuration: Duration(milliseconds: 100),
+              placeholder: AssetImage("assets/images/loader.gif"),
+              fit: BoxFit.cover,
+            )),
       );
     }).toList();
-
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    print(items.last.movieType);
     return new Container(
       margin: new EdgeInsets.only(top: 8.0),
       child: Column(
@@ -43,13 +50,24 @@ class ShowsList extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.fromLTRB(10, 10, 0, 5),
-            child: GestureDetector(
-              onTap: ()=> goToGenre(title, items.last.movieType),
+            child:
+                /*GestureDetector(
+              onTap: () => goToGenre(title, items.last.movieType),
               child: Text(
-            title.toUpperCase(),
-            textAlign: TextAlign.start,
-            style: TextStyle(color: Colors.white, fontSize: 14),
-          ),
+                title.toUpperCase(),
+                textAlign: TextAlign.start,
+                style: TextStyle(color: Colors.white, fontSize: 14),
+              ),
+            ),*/
+                RaisedButton.icon(
+                  color: Colors.transparent,
+              onPressed: () => goToGenre(title, items.last.movieType),
+              label: Text(
+                title.toUpperCase(),
+                textAlign: TextAlign.start,
+                style: TextStyle(color: Colors.white, fontSize: 14),
+              ),
+              icon: Icon(Icons.arrow_forward_ios, color: Colors.white,),
             ),
           ),
           SingleChildScrollView(

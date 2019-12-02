@@ -7,7 +7,7 @@
     </div>
 @endif
 
-<form action="{{url('AdminPanelPinnme/movieadding')}}" method="post" enctype="multipart/form-data">
+<form action="{{url('AdminPanelPinnme/Movieadding/')}}" method="post" enctype="multipart/form-data">
   <div class="container-fluid">
     <div class="row">
       @csrf
@@ -15,10 +15,9 @@
       <div class="col-6">
         <label for="name">Movie/Series Name: </label>
         <input class="form-control" type="text" name="name" placeholder="Name" required> <br>
-        <label for="name">Tag Name: </label>
-        <input class="form-control" type="text" name="tag" placeholder="Tag Name" required> <br>
         <div>
-
+            <label for="name">Tag Name: </label>
+            <input class="form-control" type="text" name="tag" placeholder="Tag Name" required> <br>
           <label for="Genres">Genres: </label>
           <select class="js-example-basic-multiple" style="width: 100%" name="genres[]" multiple="multiple" required>
             @foreach ($data[0] as $item)
@@ -48,13 +47,11 @@
         <div class="movieType d-none">
           <label for="length">Movie Duration: </label>
           <input class="form-control" type="text" name="duration" required placeholder="Only number (as minutes)"><br>
-         <label>Upload Video: </label>
+          <label>Upload Video: </label>
           <div class="custom-file">
               <input type="file" class="custom-file-input" id="video" name="video" required>
               <label class="custom-file-label" for="video">Choose video</label>
             </div>
-
-  
         </div>
       </div>
 
@@ -85,7 +82,7 @@
       </div>
      
       <div class="col-12 text-center" style="margin-bottom: 20px"> <br><br>
-          <button class="btn btn-primary " type="submit">Add</button>
+          <button class="btn btn-primary " type="submit" formmethod="post" formaction="{{url('AdminPanelPinnme/Movieadding/')}}">Add</button>
       </div>
     </div>
   </div>
@@ -94,7 +91,6 @@
 </form>
 
 <script>
-  
   $(document).ready(function() {
     $('.js-example-basic-multiple').select2({
         placeholder: 'Select Genres',
@@ -140,6 +136,5 @@ function readURL(input) {
 $("#imgInp").change(function() {
   readURL(this);
 });
-
 </script>
 @endsection

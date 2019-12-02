@@ -2,7 +2,7 @@ part of netflix;
 
 class SummaryState extends State<Summary> {
   int get requestType => widget.type;
-
+  
   void goTo(String type) {
     Application.router.navigateTo(
       context,
@@ -44,7 +44,7 @@ class SummaryState extends State<Summary> {
       Application.router.navigateTo(
         context,
         Routes.video,
-        object: {'title': '${tvShow["name"]}', 'link': '$link'},
+        object: {'title': '${JsonApi.tvShow["name"]}', 'link': '$link'},
         transition: TransitionType.inFromBottom,
         transitionDuration: const Duration(milliseconds: 200),
       );
@@ -52,7 +52,7 @@ class SummaryState extends State<Summary> {
   }
 
   List<Widget> renderMainGenres() {
-    Map<String, dynamic> genre = requestType == 2? seriesShow:tvShow;
+    Map<String, dynamic> genre = requestType == 2? JsonApi.seriesShow:JsonApi.tvShow;
     List<Widget> genres = List.from(genre['genres'].map((g) {
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: 8.0),
@@ -101,7 +101,7 @@ class SummaryState extends State<Summary> {
         stream: requestType==2?bloc.allSeries:bloc.allMovies,
         builder: (context, AsyncSnapshot<List<ItemModel>> snapshot) {
           if (snapshot.hasData) {
-            show = Result.fromJson(requestType==2?seriesShow:tvShow);
+            show = Result.fromJson(requestType==2?JsonApi.seriesShow:JsonApi.tvShow);
             return CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar(
@@ -116,7 +116,7 @@ class SummaryState extends State<Summary> {
                       child: Stack(
                         fit: StackFit.expand,
                         children: <Widget>[
-                          Image.network(pichost + show.image,
+                          Image.network(MovieApiProvider.pichost + show.image,
                               fit: BoxFit.cover),
                           DecoratedBox(
                             decoration: BoxDecoration(
@@ -150,7 +150,7 @@ class SummaryState extends State<Summary> {
                                         ),
                                       ),
                                       child: Text(
-                                        requestType==2?seriesShow['name'].replaceAll(' ', '\n'):tvShow['name'].replaceAll(' ', '\n'),
+                                        requestType==2?JsonApi.seriesShow['name'].replaceAll(' ', '\n'):JsonApi.tvShow['name'].replaceAll(' ', '\n'),
                                         maxLines: 5,
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
@@ -174,20 +174,9 @@ class SummaryState extends State<Summary> {
                                           MainAxisAlignment.center,
                                       children: <Widget>[
                                         FlatButton(
-                                          textColor: Colors.white,
-                                          child: Column(
-                                            children: <Widget>[
-                                              Text(
-                                                '',
-                                                style: TextStyle(
-                                                    fontSize: 10.0,
-                                                    fontWeight:
-                                                        FontWeight.w300),
-                                              ),
-                                            ],
-                                          ),
+                                          child: Container(),
                                           onPressed: () =>
-                                              print('Bosluq Doldurur'),
+                                              print(0),
                                         ),
                                         RaisedButton(
                                             textColor: Colors.black,

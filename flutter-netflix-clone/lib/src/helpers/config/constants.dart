@@ -1,7 +1,11 @@
 part of netflix;
 
-Map<String, dynamic> seriesShow ;
-Map<String, dynamic> tvShow ; /*{
+class JsonApi{
+static Map<String, dynamic> seriesShow;
+static Map<String, dynamic> tvShow;
+
+}
+ /*{
 "id": 1,
 "name": "Unforgetten",
 "image": "https://images-na.ssl-images-amazon.com/images/I/51rLEGWeR4L._SY445_.jpg",

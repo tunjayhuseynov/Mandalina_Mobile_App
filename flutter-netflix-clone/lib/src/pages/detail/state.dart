@@ -16,17 +16,17 @@ class TvShowState extends State<TvShow> {
       Application.router.navigateTo(
         context,
         Routes.video,
-        object: {'title': '${name}', 'link': '${link}' },
+        object: {'title': '$name', 'link': '$link'},
         transition: TransitionType.inFromBottom,
         transitionDuration: const Duration(milliseconds: 200),
       );
     });
   }
 
-  void like(int id){
+  void like(int id) {
     bloc.sendLike(id);
     setState(() {
-     isLiked = true; 
+      isLiked = true;
     });
   }
 
@@ -42,7 +42,7 @@ class TvShowState extends State<TvShow> {
         slivers: <Widget>[
           SliverAppBar(
             primary: true,
-            expandedHeight: 470.0,
+            expandedHeight: 515.0,
             backgroundColor: Colors.black,
             flexibleSpace: FlexibleSpaceBar(
               collapseMode: CollapseMode.pin,
@@ -53,13 +53,12 @@ class TvShowState extends State<TvShow> {
                     Container(
                       width: screenSize.width,
                       height: 220,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            pichost + widget.item.image,
-                          ),
-                          fit: BoxFit.fitWidth,
-                        ),
+                      child: FadeInImage.memoryNetwork(
+                        fadeInDuration: Duration(milliseconds: 100),
+                        image: MovieApiProvider.pichost +
+                            widget.item.image,
+                        fit: BoxFit.cover,
+                        placeholder: kTransparentImage,
                       ),
                     ),
                     Container(
@@ -87,8 +86,8 @@ class TvShowState extends State<TvShow> {
                                   width: 64.0,
                                   child: OutlineButton(
                                     padding: EdgeInsets.all(0.0),
-                                    onPressed: () =>
-                                        showMovie(widget.item.name, widget.item.movieLink),
+                                    onPressed: () => showMovie(widget.item.name,
+                                        widget.item.movieLink),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
                                         Radius.circular(32.0),
@@ -160,16 +159,19 @@ class TvShowState extends State<TvShow> {
                                 fontSize: 12.0,
                               ),
                             ),
-                                Text(
-                                  widget.item.seasons.length>0?'${widget.item.seasons.length} Sezon':widget.item.movieLength>0?"Uzunluk: ${widget.item.movieLength}dk":"",
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(255, 255, 255, 0.3),
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 12.0,
-                                  ),
-                                ),
-                              
+                            Text(
+                              widget.item.seasons.length > 0
+                                  ? '${widget.item.seasons.length} Sezon'
+                                  : widget.item.movieLength > 0
+                                      ? "Uzunluk: ${widget.item.movieLength}dk"
+                                      : "",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                color: Color.fromRGBO(255, 255, 255, 0.3),
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12.0,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -228,47 +230,51 @@ class TvShowState extends State<TvShow> {
                               padding: EdgeInsets.only(top: 8.0),
                               child: Row(
                                 children: <Widget>[
-                                  isLiked==false?FlatButton(
-                                    textColor: Colors.white70,
-                                    onPressed: () => like(widget.item.id),
-                                    child: Container(
-                                      height: 50.0,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: <Widget>[
-                                          Icon(
-                                            Icons.thumb_up,
-                                            size: 24.0,
+                                  isLiked == false
+                                      ? FlatButton(
+                                          textColor: Colors.white70,
+                                          onPressed: () => like(widget.item.id),
+                                          child: Container(
+                                            height: 50.0,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: <Widget>[
+                                                Icon(
+                                                  Icons.thumb_up,
+                                                  size: 24.0,
+                                                ),
+                                                Text(
+                                                  'Beğen',
+                                                  style:
+                                                      TextStyle(fontSize: 10.0),
+                                                )
+                                              ],
+                                            ),
                                           ),
-                                          Text(
-                                            'Beğen',
-                                            style: TextStyle(fontSize: 10.0),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ):FlatButton(
-                                    textColor: Colors.blueAccent,
-                                    onPressed: () => print("Done"),
-                                    child: Container(
-                                      height: 50.0,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: <Widget>[
-                                          Icon(
-                                            Icons.thumb_up,
-                                            size: 24.0,
+                                        )
+                                      : FlatButton(
+                                          textColor: Colors.blueAccent,
+                                          onPressed: () => print("Done"),
+                                          child: Container(
+                                            height: 50.0,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: <Widget>[
+                                                Icon(
+                                                  Icons.thumb_up,
+                                                  size: 24.0,
+                                                ),
+                                                Text(
+                                                  'Beğen',
+                                                  style:
+                                                      TextStyle(fontSize: 10.0),
+                                                )
+                                              ],
+                                            ),
                                           ),
-                                          Text(
-                                            'Beğen',
-                                            style: TextStyle(fontSize: 10.0),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
+                                        ),
                                   FlatButton(
                                     textColor: Colors.white70,
                                     onPressed: () => print('Compartir'),
@@ -365,7 +371,8 @@ class TvShowState extends State<TvShow> {
                           height: 90.0,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: NetworkImage(pichost + seasonEpisodes[index].image),
+                              image: NetworkImage(MovieApiProvider.pichost +
+                                  seasonEpisodes[index].image),
                             ),
                           ),
                           child: Center(
@@ -374,8 +381,9 @@ class TvShowState extends State<TvShow> {
                               width: 32.0,
                               child: OutlineButton(
                                 padding: EdgeInsets.all(0.0),
-                                onPressed: () =>
-                                    showMovie(seasonEpisodes[index].name, seasonEpisodes[index].url),
+                                onPressed: () => showMovie(
+                                    seasonEpisodes[index].name,
+                                    seasonEpisodes[index].url),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(32.0),

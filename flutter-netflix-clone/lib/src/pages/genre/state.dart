@@ -3,7 +3,6 @@ part of netflix;
 class GenreState extends State<Genre> {
   StreamController _streamController;
   ScrollController _scrollController;
-  int movieAmount = 0;
   List<Result> movieList = new List();
   @override
   void initState() {
@@ -12,17 +11,17 @@ class GenreState extends State<Genre> {
     fetchMovie(0, 15).then((res) async {
       _streamController.add(res);
       movieList.addAll(res);
-      movieAmount = res[0].movieAmountByGenre;
       return res;
     });
 
-    _scrollController.addListener((){
-      if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
-       fetchMovie(movieList.length , movieList.length + 15).then((res) async {
-      _streamController.add(res);
-      movieList.addAll(res);
-      return null;
-    });
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        fetchMovie(movieList.length, movieList.length + 15).then((res) async {
+          _streamController.add(res);
+          movieList.addAll(res);
+          return null;
+        });
       }
     });
     super.initState();
@@ -59,45 +58,60 @@ class GenreState extends State<Genre> {
                 children: <Widget>[
                   Expanded(
                     child: Scrollbar(
-                      child: movieList.length != 0?GridView.builder(
-                        padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                        controller: _scrollController,
-                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3, mainAxisSpacing: 15, crossAxisSpacing: 15, childAspectRatio: 0.75),
-                itemCount: movieList.length,
-                itemBuilder: (BuildContext context, int index) {
-
-                    return InkWell(
-                    onTap: () => goToDetail(movieList[index], 99),
-                    child: Container(
-                      //margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      width: 120.0,
-                      height: 160.0,
-                      child: //Image.network(pichost + movieList[index].image,fit: BoxFit.cover),
-                          FadeInImage.memoryNetwork(image: pichost + movieList[index].image, fit: BoxFit.cover, placeholder: kTransparentImage,)
-                    ),
-                  );
-                }
-              ): Center(child: new Text("Maalesef bu türde henüz film/dizi yok", style: TextStyle(color: Colors.white),)),
+                      child: movieList.length != 0
+                          ? GridView.builder(
+                              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                              controller: _scrollController,
+                              gridDelegate:
+                                  new SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3,
+                                      mainAxisSpacing: 15,
+                                      crossAxisSpacing: 15,
+                                      childAspectRatio: 0.75),
+                              itemCount: movieList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return InkWell(
+                                  onTap: () => goToDetail(movieList[index], 99),
+                                  child: Container(
+                                      //margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                      width: 120.0,
+                                      height: 160.0,
+                                      child: //Image.network(pichost + movieList[index].image,fit: BoxFit.cover),
+                                          FadeInImage.assetNetwork(
+                                        fadeInDuration:
+                                            Duration(milliseconds: 100),
+                                        image: MovieApiProvider.pichost +
+                                            movieList[index].image,
+                                        fit: BoxFit.cover,
+                                        placeholder: "assets/images/loader.gif",
+                                      )),
+                                );
+                              })
+                          : Center(
+                              child: new Text(
+                              "Maalesef bu türde henüz film/dizi yok",
+                              style: TextStyle(color: Colors.white),
+                            )),
                     ),
                   ),
                 ],
               );
+            } else if (snapshot.hasError) {
+              return Text(snapshot.error);
             }
-          else if (snapshot.hasError) {
-            return Text(snapshot.error);
-          }
-          return Center(child: CircularProgressIndicator(),);
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           },
         ));
   }
 
   Future fetchMovie(int start, int end) async {
-    final response =
-        await Client().get("$pichost/api/${widget.type.toLowerCase()}/${widget.item.toLowerCase()}/$start/$end");
+    final response = await Client().get(
+        "${MovieApiProvider.pichost}/api/${widget.type.toLowerCase()}/${widget.item.toLowerCase()}/$start/$end");
     if (response.statusCode == 200) {
-            String body  = response.body;
-      if(!response.body.endsWith(']')){
+      String body = response.body;
+      if (!response.body.endsWith(']')) {
         body += ']';
       }
       List<Result> _results = List.from(json.decode(body))

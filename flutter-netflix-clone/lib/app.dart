@@ -3,7 +3,7 @@ library netflix;
 // Dart Imports
 import 'dart:async';
 import 'dart:convert';
-
+import 'dart:io';
 // Flutter imports
 import 'package:http/http.dart' show Client;
 import 'package:rxdart/rxdart.dart';
@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wakelock/wakelock.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 // Plugins import...
 import 'package:fluro/fluro.dart';
@@ -34,17 +36,12 @@ part 'src/blocs/movies_bloc.dart';
 // Resources
 part 'src/resources/movie_api_provider.dart';
 part 'src/resources/repository.dart';
-
-part 'src/utils/theme/color.dart';
-part 'src/utils/theme/typography.dart';
 part 'src/pages/video/index.dart';
 part 'src/pages/video/state.dart';
 part 'src/pages/home/index.dart';
 part 'src/pages/home/state.dart';
 part 'src/pages/summary/index.dart';
 part 'src/pages/summary/state.dart';
-part 'src/pages/filter/index.dart';
-part 'src/pages/filter/state.dart';
 part 'src/pages/detail/index.dart';
 part 'src/pages/detail/state.dart';
 part 'src/pages/search/state.dart';
@@ -63,12 +60,21 @@ class Netflix extends StatelessWidget {
   Netflix({Key key}) : super(key: key) {
     final router = Router();
     Routes.configureRoutes(router);
-    Application.router = router;    
+    Application.router = router;
     bloc.fetchSuggestedMovie();
     bloc.fetchSuggestedSeries();
   }
+
+  load() async {
+    var file = await DefaultCacheManager().getFilePath();
+    var folder = File(file);
+    print(folder.lengthSync());
+    print(file);
+  }
+
   @override
   Widget build(BuildContext context) {
+    load();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Netflix',

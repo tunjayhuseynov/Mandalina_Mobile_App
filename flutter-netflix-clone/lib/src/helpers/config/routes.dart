@@ -19,7 +19,7 @@ class Routes {
     router.define(root, handler: rootHandler);
     router.define(summary, handler: summaryRouteHandler);
     router.define(detail, handler: detailRouteHandler);
-    router.define(filter, handler: filterRouteHandler);
+    //router.define(filter, handler: filterRouteHandler);
     router.define(video, handler: trailerRouteHandler);
     router.define(genre, handler: genreRouteHandler);
     router.define(search, handler: genreRouteHandler);

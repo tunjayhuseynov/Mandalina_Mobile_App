@@ -5,19 +5,26 @@ class VideoState extends State<Video> {
   bool controlVisible;
   Timer timer;
   String link;
+  bool isScreenExpended = false;
   @override
   void initState() {
     Wakelock.enable();
     link = widget.link;
     controlVisible = false;
-    vcontroller = VideoPlayerController.network(pichost + link);
-    //SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-    //statusBarColor: Colors.black,
-    //));
+    isScreenExpended = false;
+    vcontroller = VideoPlayerController.network(MovieApiProvider.pichost + link);
+
     SystemChrome.setEnabledSystemUIOverlays([]);
 
     super.initState();
     autoHide();
+
+  }
+
+  callbackScreenSize() {
+    setState(() {
+      isScreenExpended = !isScreenExpended;
+    });
   }
 
   @override
@@ -64,7 +71,9 @@ class VideoState extends State<Video> {
         fit: StackFit.expand,
         children: <Widget>[
           Container(
-            //margin: EdgeInsets.fromLTRB(0, 25, 0, 25),
+            margin: isScreenExpended
+                ? EdgeInsets.fromLTRB(0, 15, 0, 15)
+                : EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: PlayerLifeCycle(vcontroller, (BuildContext context,
                 VideoPlayerController controller, bool isLoaded) {
               if (isLoaded) {
@@ -84,6 +93,7 @@ class VideoState extends State<Video> {
           GestureDetector(
             child: PlayerControl(
               vcontroller,
+              callbackScreenSize,
               visible: controlVisible,
               title: widget.title,
             ),

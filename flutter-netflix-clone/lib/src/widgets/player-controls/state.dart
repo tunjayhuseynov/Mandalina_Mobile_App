@@ -4,7 +4,6 @@ class PlayerControlState extends State<PlayerControl> {
   VideoPlayerController get controller => widget.controller;
   String get title => widget.title ?? '';
   bool get visible => widget.visible ?? false;
-
   @override
   void initState() {
     super.initState();
@@ -17,10 +16,11 @@ class PlayerControlState extends State<PlayerControl> {
   }
 
   void init() {
-    if (mounted)
+    if (mounted){
       controller.addListener(() {
         setState(() {});
       });
+    }
   }
 
   void replay(double min, double current) {
@@ -74,8 +74,7 @@ class PlayerControlState extends State<PlayerControl> {
       height: screenSize.height,
       width: screenSize.width,
       color: Color.fromRGBO(0, 0, 0, 0.3),
-      padding:
-          EdgeInsets.only(bottom: 0.0, left: 20.0, right: 20.0, top: 10.0),
+      padding: EdgeInsets.only(bottom: 0.0, left: 20.0, right: 20.0, top: 10.0),
       child: Opacity(
         opacity: visible ? 1 : 0,
         child: visible
@@ -83,7 +82,9 @@ class PlayerControlState extends State<PlayerControl> {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  Container(
+                  Flexible(
+                    flex: 1,
+                    child: Container(
                     width: screenSize.width,
                     height: 30.0,
                     child: Row(
@@ -97,7 +98,8 @@ class PlayerControlState extends State<PlayerControl> {
                           onPressed: () => Application.router.pop(context),
                         ),
                         Container(
-                          width: screenSize.width - 100.0,
+                          width: screenSize.width - 150.0,
+                          padding: EdgeInsets.only(left: 20),
                           child: Center(
                             child: Text(
                               title,
@@ -107,13 +109,25 @@ class PlayerControlState extends State<PlayerControl> {
                               ),
                             ),
                           ),
-                        )
+                        ),
+                        Expanded(
+                            child: IconButton(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          color: Colors.white,
+                          icon: Icon(Icons.zoom_out_map),
+                          onPressed: () {
+                            widget.callback();
+                          },
+                        ))
                       ],
                     ),
                   ),
-                  Container(
+                  ),
+                  Flexible(
+                    flex: 7,
+                    child: Container(
                     width: screenSize.width,
-                    height: 268.0,
+                    height: 568.0,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -141,7 +155,10 @@ class PlayerControlState extends State<PlayerControl> {
                       ],
                     ),
                   ),
-                  Row(
+                  ),
+                  Flexible(
+                    flex: 1,
+                    child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       Container(
@@ -162,6 +179,7 @@ class PlayerControlState extends State<PlayerControl> {
                         style: TextStyle(fontSize: 12.0, color: Colors.white),
                       )
                     ],
+                  ),
                   ),
                 ],
               )

@@ -1,8 +1,8 @@
 part of netflix;
-final String host = 'https://filmdizimob.com';
-final String pichost = 'https://filmdizimob.com';
-class MovieApiProvider {
 
+class MovieApiProvider {
+static final String host = 'https://filmdizimob.com';
+static final String pichost = 'https://filmdizimob.com';
   Client client = Client();
 
   Future<List<ItemModel>> fetchMovieList() async {
@@ -60,7 +60,7 @@ class MovieApiProvider {
     Future<Result> fetchSuggested() async {
     final response = await client.get('$host/api/suggestedMovie');
     if (response.statusCode == 200) {
-      tvShow = json.decode(response.body);
+      JsonApi.tvShow = json.decode(response.body);
       return Result.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to load post');
@@ -70,7 +70,7 @@ class MovieApiProvider {
       Future<Result> fetchSeriesSuggested() async {
     final response = await client.get('$host/api/suggestedSeries');
     if (response.statusCode == 200) {
-      seriesShow = json.decode(response.body);
+      JsonApi.seriesShow = json.decode(response.body);
       return Result.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to load post');
@@ -94,9 +94,7 @@ class MovieApiProvider {
   }
 
   Future<int> sendLike(int id) async{
-    print(id);
     final response = await client.get('$host/api/like/$id');
-    print(response.statusCode);
     if(response.statusCode == 200){
       return 1;
     }else{

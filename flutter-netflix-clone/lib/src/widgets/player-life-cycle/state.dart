@@ -6,7 +6,7 @@ class PlayerLifeCycleState extends State<PlayerLifeCycle> {
   @override
   void initState() {
     super.initState();
-    controller.addListener(() {
+    controller.addListener(() { 
       if (controller.value.hasError) {
         print(controller.value.errorDescription);
       }

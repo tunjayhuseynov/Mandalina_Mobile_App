@@ -139,7 +139,6 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
-        JildertMiedema\LaravelPlupload\LaravelPluploadServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
@@ -190,7 +189,7 @@ return [
     */
 
     'aliases' => [
-        'Plupload' => JildertMiedema\LaravelPlupload\Facades\Plupload::class,
+
         'App' => Illuminate\Support\Facades\App::class,
         'Arr' => Illuminate\Support\Arr::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,

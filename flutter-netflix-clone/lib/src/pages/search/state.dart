@@ -17,11 +17,9 @@ class SearchState extends State<Search> with SingleTickerProviderStateMixin {
       '${Routes.genre}',
       transition: TransitionType.inFromRight,
       transitionDuration: const Duration(milliseconds: 200),
-      object: {'item': item, 'type': type==0?'all':'movies'},
+      object: {'item': item, 'type': type == 0 ? 'all' : 'movies'},
     );
-  } 
-
-
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +31,8 @@ class SearchState extends State<Search> with SingleTickerProviderStateMixin {
           children: <Widget>[
             GestureDetector(
               onTap: () => showSearch(
-                  context: context, delegate: CustomSearchDelegate(context: context)),
+                  context: context,
+                  delegate: CustomSearchDelegate(context: context)),
               child: Container(
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey, width: 2),
@@ -90,8 +89,8 @@ class SearchState extends State<Search> with SingleTickerProviderStateMixin {
 class CustomSearchDelegate extends SearchDelegate {
   BuildContext context;
   CustomSearchDelegate({@required this.context});
-  
-    void goToDetail(Result item, int match) {
+
+  void goToDetail(Result item, int match) {
     Application.router.navigateTo(
       context,
       '${Routes.detail}',
@@ -100,7 +99,6 @@ class CustomSearchDelegate extends SearchDelegate {
       object: {'match': match, 'show': item},
     );
   }
-
 
   @override
   String get searchFieldLabel => 'Ara';
@@ -144,51 +142,64 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    if(query.length == 0)
+    if (query.length == 0)
       return Container(
         color: Colors.black,
         child: Center(
-            child: Text(
-              "Arama için film/dizi ismi giriniz.",
-              style: TextStyle(color: Colors.white),
-            ),
+          child: Text(
+            "Arama için film/dizi ismi giriniz.",
+            style: TextStyle(color: Colors.white),
           ),
+        ),
       );
     bloc.fetchSearch(query);
     return Container(
       color: Colors.black,
       child: StreamBuilder(
         stream: bloc.search,
-        builder: (context, AsyncSnapshot<List<Result>> snapshot){
-          if(snapshot.hasData){
-             return Column(
-                children: <Widget>[
-                  Expanded(
-                    child: Scrollbar(
-                      child: snapshot.data.length != 0?GridView.builder(
-                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3, mainAxisSpacing: 5),
-                itemCount: snapshot.data.length,
-                itemBuilder: (BuildContext context, int index) {
-
-                    return InkWell(
-                    onTap: () => goToDetail(snapshot.data[index], 99),
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(3, 4, 3, 4),
-                      width: 120.0,
-                      height: 140.0,
-                      child: Image.network(pichost + snapshot.data[index].image,
-                          fit: BoxFit.cover),
-                    ),
-                  );
-                }
-              ): Center(child: new Text("Maalesef bu isimde henüz film/dizi yok", style: TextStyle(color: Colors.white),)),
-                    ),
+        builder: (context, AsyncSnapshot<List<Result>> snapshot) {
+          if (snapshot.hasData) {
+            return Column(
+              children: <Widget>[
+                Expanded(
+                  child: Scrollbar(
+                    child: snapshot.data.length != 0
+                        ? GridView.builder(
+                            gridDelegate:
+                                new SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3, mainAxisSpacing: 5),
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return InkWell(
+                                onTap: () =>
+                                    goToDetail(snapshot.data[index], 99),
+                                child: Container(
+                                  margin: EdgeInsets.fromLTRB(3, 4, 3, 4),
+                                  width: 120.0,
+                                  height: 160.0,
+                                  child: FadeInImage.assetNetwork(
+                                    fadeInDuration: Duration(milliseconds: 100),
+                                    image: MovieApiProvider.pichost +
+                                        snapshot.data[index].image,
+                                    fit: BoxFit.cover,
+                                    placeholder: "assets/images/loader.gif",
+                                  ),
+                                ),
+                              );
+                            })
+                        : Center(
+                            child: new Text(
+                            "Maalesef bu isimde henüz film/dizi yok",
+                            style: TextStyle(color: Colors.white),
+                          )),
                   ),
-                ],
-              ); 
+                ),
+              ],
+            );
           }
-          return Center(child: CircularProgressIndicator(),);
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         },
       ),
     );
@@ -196,60 +207,77 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    if(query.length > 0){
-    bloc.fetchSearch(query);
-    return Container(
-      color: Colors.black,
-      child: StreamBuilder(
-        stream: bloc.search,
-        builder: (context, AsyncSnapshot<List<Result>> snapshot){
-          if(snapshot.hasData){
-             return Column(
+    if (query.length > 0) {
+      bloc.fetchSearch(query);
+      return Container(
+        color: Colors.black,
+        child: StreamBuilder(
+          stream: bloc.search,
+          builder: (context, AsyncSnapshot<List<Result>> snapshot) {
+            if (snapshot.hasData) {
+              return Column(
                 children: <Widget>[
                   Expanded(
                     child: Scrollbar(
-                      child: snapshot.data.length != 0?GridView.builder(
-                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3, mainAxisSpacing: 5),
-                itemCount: snapshot.data.length,
-                itemBuilder: (BuildContext context, int index) {
-
-                    return InkWell(
-                    onTap: () => goToDetail(snapshot.data[index], 99),
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(3, 4, 3, 4),
-                      width: 120.0,
-                      height: 140.0,
-                      child: Image.network(pichost + snapshot.data[index].image,
-                          fit: BoxFit.cover),
-                    ),
-                  );
-                }
-              ): Center(child: new Text("Maalesef bu isimde henüz film/dizi yok", style: TextStyle(color: Colors.white),)),
+                      child: snapshot.data.length != 0
+                          ? GridView.builder(
+                              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                              gridDelegate:
+                                  new SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3,
+                                      mainAxisSpacing: 15,
+                                      crossAxisSpacing: 15,
+                                      childAspectRatio: 0.75),
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return InkWell(
+                                  onTap: () =>
+                                      goToDetail(snapshot.data[index], 99),
+                                  child: Container(
+                                      //margin: EdgeInsets.fromLTRB(8, 4, 8, 4),
+                                      width: 120.0,
+                                      height: 160.0,
+                                      child: FadeInImage.assetNetwork(
+                                        fadeInDuration:
+                                            Duration(milliseconds: 100),
+                                        image: MovieApiProvider.pichost +
+                                            snapshot.data[index].image,
+                                        fit: BoxFit.cover,
+                                        placeholder: "assets/images/loader.gif",
+                                      )),
+                                );
+                              })
+                          : Center(
+                              child: new Text(
+                              "Maalesef bu isimde henüz film/dizi yok",
+                              style: TextStyle(color: Colors.white),
+                            )),
                     ),
                   ),
                 ],
-              ); 
-          }
-          return Center(child: CircularProgressIndicator(),);
-        },
-      ),
-    );
-    }else{
+              );
+            }
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        ),
+      );
+    } else {
       return Container(
-      color: Colors.black,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Center(
-            child: Text(
-              "Arama için film/dizi ismi giriniz.",
-              style: TextStyle(color: Colors.white),
-            ),
-          )
-        ],
-      ),
-    );
+        color: Colors.black,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Center(
+              child: Text(
+                "Arama için film/dizi ismi giriniz.",
+                style: TextStyle(color: Colors.white),
+              ),
+            )
+          ],
+        ),
+      );
     }
   }
 }

@@ -38,11 +38,11 @@ var genreRouteHandler = Handler(
   },
 );
 
-var filterRouteHandler = Handler(
+/*var filterRouteHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params,
       [dynamic object]) {
     return Filter(
       type: object['type'],
     );
   },
-);
+);*/
