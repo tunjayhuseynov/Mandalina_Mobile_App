@@ -5,6 +5,12 @@ static Map<String, dynamic> seriesShow;
 static Map<String, dynamic> tvShow;
 
 }
+
+class DesignWidget{
+  static Widget _bar(){
+    return CircularProgressIndicator(strokeWidth: 5,backgroundColor: Color.fromRGBO(254, 221, 188, 1), valueColor: AlwaysStoppedAnimation(Color.fromRGBO(225, 91, 100, 1)),);
+  }
+}
  /*{
 "id": 1,
 "name": "Unforgetten",

@@ -203,6 +203,19 @@ class Dashboard extends Controller
         return redirect()->back()->with("message", "Update Saved!");
     }
 
+    public function Suggestion(Request $request)
+    {
+        $selected = DB::table('suggestedmovies')->find(1);
+        $arr = array($selected, DB::table('movies')->where([["isDeleted", 0], ["movieType",1]])->get());
+        return view('suggestion')->with("movies", $arr);
+    }
+
+    public function changeSuggestion(Request $request)
+    {
+        $id = $request->input("selection");
+        DB::table('suggestedmovies')->where("id", 1)->update(["movieID"=> $id]);
+        return redirect()->back()->with("message", "Update Saved!");
+    }
 
     
 }

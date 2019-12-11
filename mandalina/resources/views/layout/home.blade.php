@@ -45,6 +45,7 @@
           <a class="collapse-item" href="{{url('AdminPanelPinnme/movielist')}}">List</a>
           <a class="collapse-item" href="{{url('AdminPanelPinnme/addition')}}">Addition</a>
           <a class="collapse-item" href="{{url('AdminPanelPinnme/episodes')}}">Episodes Addition</a>
+          <a class="collapse-item" href="{{url('AdminPanelPinnme/changeSuggestion')}}">Suggestion</a>
         </div>
       </div>
     </li>

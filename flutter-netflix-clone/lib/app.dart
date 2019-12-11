@@ -3,7 +3,7 @@ library netflix;
 // Dart Imports
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
+
 // Flutter imports
 import 'package:http/http.dart' show Client;
 import 'package:rxdart/rxdart.dart';
@@ -12,7 +12,6 @@ import 'package:flutter/services.dart';
 import 'package:wakelock/wakelock.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 // Plugins import...
 import 'package:fluro/fluro.dart';
@@ -65,20 +64,13 @@ class Netflix extends StatelessWidget {
     bloc.fetchSuggestedSeries();
   }
 
-  load() async {
-    var file = await DefaultCacheManager().getFilePath();
-    var folder = File(file);
-    print(folder.lengthSync());
-    print(file);
-  }
-
   @override
   Widget build(BuildContext context) {
-    load();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Netflix',
       theme: ThemeData(
+        cursorColor: Color.fromRGBO(225, 91, 100, 1),
         fontFamily: 'GoogleSans',
         primaryColor: Colors.black,
       ),

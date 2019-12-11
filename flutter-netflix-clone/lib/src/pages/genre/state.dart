@@ -68,24 +68,34 @@ class GenreState extends State<Genre> {
                                       mainAxisSpacing: 15,
                                       crossAxisSpacing: 15,
                                       childAspectRatio: 0.75),
-                              itemCount: movieList.length,
+                              itemCount: movieList.length != movieList[0].movieAmountByGenre?movieList.length + 2:movieList.length,
                               itemBuilder: (BuildContext context, int index) {
-                                return InkWell(
-                                  onTap: () => goToDetail(movieList[index], 99),
-                                  child: Container(
-                                      //margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                      width: 120.0,
-                                      height: 160.0,
-                                      child: //Image.network(pichost + movieList[index].image,fit: BoxFit.cover),
-                                          FadeInImage.assetNetwork(
-                                        fadeInDuration:
-                                            Duration(milliseconds: 100),
-                                        image: MovieApiProvider.pichost +
-                                            movieList[index].image,
-                                        fit: BoxFit.cover,
-                                        placeholder: "assets/images/loader.gif",
-                                      )),
-                                );
+                                return index < movieList.length
+                                    ? InkWell(
+                                        onTap: () =>
+                                            goToDetail(movieList[index], 99),
+                                        child: Container(
+                                            //margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                            width: 120.0,
+                                            height: 160.0,
+                                            child: //Image.network(pichost + movieList[index].image,fit: BoxFit.cover),
+                                                FadeInImage(
+                                              fadeInDuration:
+                                                  Duration(milliseconds: 100),
+                                              image: CachedNetworkImageProvider(
+                                                  MovieApiProvider.pichost +
+                                                      movieList[index].image),
+                                              fit: BoxFit.cover,
+                                              placeholder: AssetImage(
+                                                  "assets/images/loader.gif"),
+                                            )),
+                                      )
+                                    : movieList.length !=
+                                            movieList[0].movieAmountByGenre
+                                        ? index!=movieList.length+1?Container(height: 0, width: 0,):Center(
+                                            child: DesignWidget._bar()
+                                          )
+                                        : Container();
                               })
                           : Center(
                               child: new Text(
@@ -100,7 +110,7 @@ class GenreState extends State<Genre> {
               return Text(snapshot.error);
             }
             return Center(
-              child: CircularProgressIndicator(),
+              child: DesignWidget._bar(),
             );
           },
         ));

@@ -15,15 +15,17 @@ class Result {
   int _movieType;
   int _movieLength;
   String _movieLink;
+  int _seasonNumber;
 
   Result.fromJson(Map<String, dynamic> parsedJson) {
     _id = int.parse(parsedJson['id']);
     _name = parsedJson['name'];
     _rate = parsedJson['rate'];
+    _seasonNumber = int.parse(parsedJson['seasonNumber']??"0");
     _movieType = int.parse(parsedJson['movieType']);
     _movieLink = parsedJson['movieLink'] ?? parsedJson['episodes'][0]['url'];
     _movieLength = int.parse(parsedJson['length']);
-    _movieAmountByGenre = parsedJson['movieAmountByGenre']??1;
+    _movieAmountByGenre = parsedJson['movieAmountByGenre']??0;
     _image = parsedJson['image'];
     _genres = List.from(parsedJson['genres'])
         .map((genre) => genre["name"].toString())
@@ -59,4 +61,5 @@ class Result {
   List<Episode> get episodes => _episodes;
   List<int> get seasons => _seasons;
   int get id => _id;
+  int get seasonNumber => _seasonNumber;
 }

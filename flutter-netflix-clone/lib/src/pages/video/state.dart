@@ -83,10 +83,7 @@ class VideoState extends State<Video> {
                 );
               } else {
                 return Center(
-                    child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                      Color.fromRGBO(219, 0, 0, 1.0)),
-                ));
+                    child: DesignWidget._bar());
               }
             }),
           ),

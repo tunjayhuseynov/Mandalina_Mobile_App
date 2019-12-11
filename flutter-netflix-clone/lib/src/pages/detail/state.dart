@@ -1,8 +1,8 @@
 part of netflix;
 
 class TvShowState extends State<TvShow> {
-  var currentSeason = 1;
   bool isLiked = false;
+  int whichSeason = 0;
   @override
   void initState() {
     super.initState();
@@ -32,17 +32,27 @@ class TvShowState extends State<TvShow> {
 
   @override
   Widget build(BuildContext context) {
+    List<DropdownMenuItem> seasonList = new List();
     Size screenSize = MediaQuery.of(context).size;
-    List<Episode> seasonEpisodes = widget.item.episodes
-        .where((Episode e) => e.season == currentSeason)
-        .toList();
+    List<Episode> seasonEpisodes =
+        widget.item.episodes.where((w) => w.season == whichSeason + 1).toList();
+    for (var i = 0; i < widget.item.seasonNumber; i++) {
+      seasonList.add(DropdownMenuItem(
+        value: i,
+        child: SizedBox(
+          width: 150,
+          child:
+              Text((i + 1).toString() + ". Sezon", textAlign: TextAlign.center),
+        ),
+      ));
+    }
     return Scaffold(
       backgroundColor: Colors.black,
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
             primary: true,
-            expandedHeight: 515.0,
+            expandedHeight: 430 + (widget.item.description.length<200?widget.item.description.length * 0.01:widget.item.description.length*0.21),
             backgroundColor: Colors.black,
             flexibleSpace: FlexibleSpaceBar(
               collapseMode: CollapseMode.pin,
@@ -51,16 +61,22 @@ class TvShowState extends State<TvShow> {
                   fit: StackFit.loose,
                   children: <Widget>[
                     Container(
-                      width: screenSize.width,
-                      height: 220,
-                      child: FadeInImage.memoryNetwork(
+                        width: screenSize.width,
+                        height: 220,
+                        child:
+                            /*FadeInImage.memoryNetwork(
                         fadeInDuration: Duration(milliseconds: 100),
-                        image: MovieApiProvider.pichost +
-                            widget.item.image,
+                        image: MovieApiProvider.pichost + widget.item.image,
                         fit: BoxFit.cover,
                         placeholder: kTransparentImage,
-                      ),
-                    ),
+                      ),*/
+                            FadeInImage(
+                          fadeInDuration: Duration(milliseconds: 100),
+                          image: CachedNetworkImageProvider(
+                              MovieApiProvider.pichost + widget.item.image),
+                          fit: BoxFit.cover,
+                          placeholder: AssetImage("assets/images/loader.gif"),
+                        )),
                     Container(
                       width: screenSize.width,
                       height: 220,
@@ -160,8 +176,8 @@ class TvShowState extends State<TvShow> {
                               ),
                             ),
                             Text(
-                              widget.item.seasons.length > 0
-                                  ? '${widget.item.seasons.length} Sezon'
+                              widget.item.seasonNumber > 0
+                                  ? '${widget.item.seasonNumber} Sezon'
                                   : widget.item.movieLength > 0
                                       ? "Uzunluk: ${widget.item.movieLength}dk"
                                       : "",
@@ -300,7 +316,7 @@ class TvShowState extends State<TvShow> {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: 8.0),
+                              padding: EdgeInsets.only(top: 12.0, bottom: 7),
                               child: Container(
                                 child: Text(
                                   seasonEpisodes.length != 0 ? 'Bölümler' : "",
@@ -315,39 +331,26 @@ class TvShowState extends State<TvShow> {
                                 ),
                               ),
                             ),
-                            FlatButton(
-                              padding: EdgeInsets.all(0.0),
-                              onPressed: widget.item.seasons.length > 1
-                                  ? () => print('cambiando temporada')
-                                  : null,
-                              child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    seasonEpisodes.length != 0
-                                        ? 'Sezon Sayı: $currentSeason'
-                                        : "",
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 3,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: Color.fromRGBO(255, 255, 255, 0.6),
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 15.0,
+                            seasonList.length > 0
+                                ? Container(
+                                    width: 120,
+                                    height: 40,
+                                    color: Colors.white38,
+                                    padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
+                                    child: DropdownButton(
+                                      isExpanded: true,
+                                      isDense: true,
+                                      iconEnabledColor: Colors.white,
+                                      value: seasonList[whichSeason].value,
+                                      items: seasonList,
+                                      onChanged: (selected) {
+                                        setState(() {
+                                          whichSeason = selected;
+                                        });
+                                      },
                                     ),
-                                  ),
-                                  (widget.item.seasons.length > 1
-                                      ? Padding(
-                                          padding: EdgeInsets.only(left: 8.0),
-                                          child: Icon(
-                                            Icons.arrow_drop_down,
-                                            color: Color.fromRGBO(
-                                                255, 255, 255, 0.6),
-                                          ),
-                                        )
-                                      : Container())
-                                ],
-                              ),
-                            ),
+                                  )
+                                : Container(),
                           ],
                         ),
                       ),
@@ -360,14 +363,14 @@ class TvShowState extends State<TvShow> {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) => Container(
-                margin: EdgeInsets.only(bottom: 16.0),
+                margin: EdgeInsets.symmetric(vertical: 15),
                 child: Column(
                   children: <Widget>[
                     Row(
                       children: <Widget>[
                         Container(
                           margin: EdgeInsets.only(right: 8.0),
-                          width: 150.0,
+                          width: 130.0,
                           height: 90.0,
                           decoration: BoxDecoration(
                             image: DecorationImage(
@@ -406,42 +409,51 @@ class TvShowState extends State<TvShow> {
                             ),
                           ),
                         ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              '${index + 1}. ${seasonEpisodes[index].name}',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14.0,
-                                color: Color.fromRGBO(255, 255, 255, 0.8),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                '${index + 1}. ${seasonEpisodes[index].name}',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14.0,
+                                  color: Color.fromRGBO(255, 255, 255, 0.8),
+                                ),
                               ),
-                            ),
-                            Text(
-                              '${seasonEpisodes[index].duration}m',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 12.0,
-                                color: Color.fromRGBO(255, 255, 255, 0.3),
+                              Text(
+                                '${seasonEpisodes[index].duration}m',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 12.0,
+                                  color: Color.fromRGBO(255, 255, 255, 0.3),
+                                ),
                               ),
-                            )
-                          ],
+                              Padding(
+                                padding: EdgeInsets.only(top: 4),
+                              ),
+                              Container(
+                                width: 200,
+                                child: Text(
+                                  seasonEpisodes[index].summary,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 3,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontSize: 10.0,
+                                    color: Color.fromRGBO(255, 255, 255, 0.3),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         )
                       ],
                     ),
-                    Text(
-                      seasonEpisodes[index].summary,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 10.0,
-                        color: Color.fromRGBO(255, 255, 255, 0.3),
-                      ),
-                    )
                   ],
                 ),
               ),

@@ -37,12 +37,12 @@ class SearchState extends State<Search> with SingleTickerProviderStateMixin {
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey, width: 2),
                     borderRadius: BorderRadius.all(Radius.circular(40))),
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery.of(context).size.width-150,
                 height: 50,
                 child: Center(
                     child: Text(
                   "Arama Başlat",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w700),
                 )),
               ),
             ),
@@ -74,10 +74,7 @@ class SearchState extends State<Search> with SingleTickerProviderStateMixin {
                 return Center(
                     child: Padding(
                   padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                        Color.fromRGBO(219, 0, 0, 1.0)),
-                  ),
+                  child: DesignWidget._bar(),
                 ));
               },
             ),
@@ -177,13 +174,23 @@ class CustomSearchDelegate extends SearchDelegate {
                                   margin: EdgeInsets.fromLTRB(3, 4, 3, 4),
                                   width: 120.0,
                                   height: 160.0,
-                                  child: FadeInImage.assetNetwork(
+                                  child: /*FadeInImage.assetNetwork(
                                     fadeInDuration: Duration(milliseconds: 100),
                                     image: MovieApiProvider.pichost +
                                         snapshot.data[index].image,
                                     fit: BoxFit.cover,
                                     placeholder: "assets/images/loader.gif",
-                                  ),
+                                  ),*/
+                                  FadeInImage(
+                                        fadeInDuration:
+                                            Duration(milliseconds: 100),
+                                        image: CachedNetworkImageProvider(
+                                            MovieApiProvider.pichost +
+                                                snapshot.data[index].image),
+                                        fit: BoxFit.cover,
+                                        placeholder: AssetImage(
+                                            "assets/images/loader.gif"),
+                                      ),
                                 ),
                               );
                             })
@@ -198,7 +205,7 @@ class CustomSearchDelegate extends SearchDelegate {
             );
           }
           return Center(
-            child: CircularProgressIndicator(),
+            child: DesignWidget._bar(),
           );
         },
       ),
@@ -237,13 +244,24 @@ class CustomSearchDelegate extends SearchDelegate {
                                       //margin: EdgeInsets.fromLTRB(8, 4, 8, 4),
                                       width: 120.0,
                                       height: 160.0,
-                                      child: FadeInImage.assetNetwork(
+                                      child:
+                                          /*FadeInImage.assetNetwork(
                                         fadeInDuration:
                                             Duration(milliseconds: 100),
                                         image: MovieApiProvider.pichost +
                                             snapshot.data[index].image,
                                         fit: BoxFit.cover,
                                         placeholder: "assets/images/loader.gif",
+                                      )*/
+                                          FadeInImage(
+                                        fadeInDuration:
+                                            Duration(milliseconds: 100),
+                                        image: CachedNetworkImageProvider(
+                                            MovieApiProvider.pichost +
+                                                snapshot.data[index].image),
+                                        fit: BoxFit.cover,
+                                        placeholder: AssetImage(
+                                            "assets/images/loader.gif"),
                                       )),
                                 );
                               })
@@ -258,7 +276,7 @@ class CustomSearchDelegate extends SearchDelegate {
               );
             }
             return Center(
-              child: CircularProgressIndicator(),
+              child: DesignWidget._bar(),
             );
           },
         ),

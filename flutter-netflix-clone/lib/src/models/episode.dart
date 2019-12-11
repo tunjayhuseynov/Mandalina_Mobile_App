@@ -11,8 +11,8 @@ class Episode {
 
   Episode.fromJson(Map<String, dynamic> parsedJson) {
     RegExp exp = new RegExp(r"<[^>]*>");
-    _number = parsedJson['number'];
-    _season = parsedJson['season'];
+    _number = int.parse(parsedJson['number']);
+    _season = int.parse(parsedJson['season']);
     _url = parsedJson['url'];
     _image = (parsedJson['image'] ?? {});
     _summary = parsedJson['summary'] != null

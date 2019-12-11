@@ -1,6 +1,4 @@
 <?php
-
-
 Route::get('/herewegoagain/login', 'Log@index');
 Route::post('/herewegoagain/process', 'Log@process');
 Route::get('/herewegoagain/out', 'Log@out');
@@ -12,7 +10,9 @@ Route::group(['prefix' => 'AdminPanelPinnme','middleware' => ['checkAdmin']], fu
     Route::get('/', 'Dashboard@index');
     Route::get('/movielist', 'Dashboard@list');
     Route::get('/addition', 'Dashboard@AdditionPage');
-    Route::post('/Movieadding/', 'Dashboard@MovieAdding');
+    Route::get('/changeSuggestion', 'Dashboard@Suggestion');
+    Route::post('/postSuggestion', 'Dashboard@changeSuggestion');
+    Route::post('/Movieadding', 'Dashboard@MovieAdding');
     Route::post('/update', 'Dashboard@updating');
     Route::get('/edit/{id}', 'Dashboard@Edit');
     Route::get('/view/{id}', 'Dashboard@View');
@@ -25,6 +25,7 @@ Route::group(['prefix' => 'AdminPanelPinnme','middleware' => ['checkAdmin']], fu
     Route::get('/episodeview/{id}', 'EpisodeCrud@view');
     Route::get('/episodeDelete/{id}', 'EpisodeCrud@delete');
     Route::get('/episodeEdit/{id}', 'EpisodeCrud@edit');
+
 });
 
 Route::group(['prefix' => 'api', 'middleware' => ['validApi']], function () {
