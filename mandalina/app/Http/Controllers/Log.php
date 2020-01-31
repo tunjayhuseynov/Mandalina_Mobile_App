@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 class Log extends Controller
 {
-
     public function index(Request $request)
     {
         return view("login");
@@ -17,11 +16,11 @@ class Log extends Controller
     {
         $username = $request->input("username");
         $password = $request->input("password");
-        if (DB::table('admins')->where("username", $username)->exists()) {
+        if(DB::table('admins')->where("username", $username)->exists()){
 
             $db = DB::table('admins')->where("username", $username)->first();
 
-            if ($db->password == $password) {
+            if($db->password == $password){
 
                 $request->session()->put('admin', 1);
                 $request->session()->put('name', $db->name);
@@ -32,6 +31,7 @@ class Log extends Controller
         }
 
         return redirect()->back()->with("message", "Wrong credentials!");
+
     }
 
     public function out(Request $request)
@@ -40,4 +40,6 @@ class Log extends Controller
 
         return redirect('herewegoagain/login');
     }
+
+    
 }

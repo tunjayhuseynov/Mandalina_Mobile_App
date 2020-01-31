@@ -26,6 +26,7 @@ class EpisodeCrud extends Controller
     public function postAdd(Request $request)
     {
         $id = $request->route('id');
+        $seriesName = DB::table('movies')->where('id', $id)->pluck('name')->first();
         $name = $request->input('name');
         $season = $request->input('season');
         $number = $request->input('number');
@@ -36,7 +37,7 @@ class EpisodeCrud extends Controller
             if($request->file("video")->isValid()){
                 $video = $request->file("video");
                 $videoname = time() . '.' . $video->getClientOriginalExtension();
-                Storage::disk('public_uploads')->put("series/videos/".$id."/".$videoname, file_get_contents($video));
+                Storage::disk('public_uploads')->put("series/videos/".$seriesName."/".$season."/".$number."/".$videoname, file_get_contents($video));
             }
         }
 
@@ -44,14 +45,14 @@ class EpisodeCrud extends Controller
             if($request->file("cover")->isValid()){
                 $cover = $request->file("cover");
                 $covername = time() . '.' . $cover->getClientOriginalExtension();
-                Storage::disk('public_uploads')->put("series/covers/".$id."/".$covername, file_get_contents($cover));
+                Storage::disk('public_uploads')->put("series/covers/".$seriesName."/".$season."/".$number."/".$covername, file_get_contents($cover));
             }
         }
 
         DB::table('episodes')->insertGetId(
-            ['name' => $name , 'url' => "/series/videos/".$id."/".$videoname, 'season' => $season, 'number' => $number,
+            ['name' => $name , 'url' => "/series/videos/".$seriesName."/".$season."/".$number."/".$videoname, 'season' => $season, 'number' => $number,
             'summary' => $description, "movieID" => $id, 'isDeleted' => FALSE, 'addedDate' => date("Y-m-d h:i:s"),
-            'image' => "/series/covers/".$id."/".$covername, 'airtime' => $duration]
+            'image' => "/series/covers/".$seriesName."/".$season."/".$number."/".$covername, 'airtime' => $duration]
         );
 
 
@@ -77,6 +78,7 @@ class EpisodeCrud extends Controller
     public function postEdit(Request $request)
     {
         $id = $request->route('id');
+        $seriesName = DB::table('movies')->where('id', $id)->pluck('name')->first();
         $name = $request->input('name');
         $season = $request->input('season');
         $number = $request->input('number');
@@ -89,7 +91,7 @@ class EpisodeCrud extends Controller
             if($request->file("video")->isValid()){
                 $video = $request->file("video");
                 $videoname = time() . '.' . $video->getClientOriginalExtension();
-                Storage::disk('public_uploads')->put("series/videos/".$id."/".$videoname, file_get_contents($video));
+                Storage::disk('public_uploads')->put("series/videos/".$seriesName."/".$season."/".$number."/".$videoname, file_get_contents($video));
             }
         }
 
@@ -97,16 +99,16 @@ class EpisodeCrud extends Controller
             if($request->file("cover")->isValid()){
                 $cover = $request->file("cover");
                 $covername = time() . '.' . $cover->getClientOriginalExtension();
-                Storage::disk('public_uploads')->put("series/covers/".$id."/".$covername, file_get_contents($cover));
+                Storage::disk('public_uploads')->put("series/covers/".$seriesName."/".$season."/".$number."/".$covername, file_get_contents($cover));
             }
         }
 
         DB::table('episodes')
         ->where('id', $id)
         ->update(
-            ['name' => $name , 'image' => isset($cover)==1?"/series/covers/".$id."/".$covername:$oldcover , 'season' => $season, 'summary' => trim($description),
+            ['name' => $name , 'image' => isset($cover)==1?"/series/covers/".$seriesName."/".$season."/".$number."/".$covername:$oldcover , 'season' => $season, 'summary' => trim($description),
             'number' => $number, 'airtime' => $duration,
-            'url' => isset($video)==1?"/series/videos/".$id."/".$videoname:$oldvideo, 'isDeleted' => FALSE]
+            'url' => isset($video)==1?"/series/videos/".$seriesName."/".$season."/".$number."/".$videoname:$oldvideo, 'isDeleted' => FALSE]
         );
 
 

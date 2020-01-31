@@ -1,0 +1,26 @@
+body{
+    background-color: rgb(39, 39, 39)!important;
+}
+
+.playButton {
+    position: absolute;
+    top: calc(50% - 50px);
+    left: calc(50% - 50px);
+}
+
+.playFont{
+    font-size: 100px;
+}
+
+.playFont:hover{
+    color: white;
+    cursor: pointer;
+}
+
+.custom-box-div{
+    
+}
+
+.boxMovieName{
+    color: white;
+}
