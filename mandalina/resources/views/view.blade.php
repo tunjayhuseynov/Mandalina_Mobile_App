@@ -56,6 +56,20 @@
                                 </h5>
                         </div>
                         @endif
+                        <div class="box text-center" style="padding: 15px 15px;">
+                                <label>Trailer Link: </label>
+                                @if($data[2]['trailerName'] != null)
+                                <h5 style="text-align: center">
+                                        <a target="_blank"
+                                                href="{{{$data[3].$data[2]['trailerName']}}}">{{{$data[3].$data[2]['trailerName']}}}</a>
+                                </h5>
+
+                                @else
+                                <h5 style="text-align: center">
+                                        No Trailer
+                                </h5>
+                                @endif
+                        </div>
                 </div>
         </div>
 </div>

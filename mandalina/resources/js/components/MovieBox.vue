@@ -1,12 +1,8 @@
 <template>
   <div class="custom-box-div">
-    <v-lazy-image class="imageSize lazy" :src="moviePoster" src-placeholder="/assets/loader.gif"/>
-    <div class="playButton">
-      <router-link :to="{ name: 'VideoPlayer', params: { value } }"><i class="far fa-play-circle playFont"></i></router-link>
-    </div>
+   <div v-on:click="onClick">  <v-lazy-image style="cursor: pointer" class="imageSize lazy" :src="moviePoster" src-placeholder="/assets/loader.gif" /></div>
     <div class="boxMovieName">
-      
-     <h6> <router-link :to="{ name: 'VideoPlayer', params: { value } }" class="titelFont">{{ movieName }}</router-link></h6>
+      <h6 class="titelFont" v-on:click="onClick" style="cursor: pointer">{{ movieName }}</h6>
     </div>
   </div>
 </template>
@@ -16,14 +12,23 @@
 import VLazyImage from "v-lazy-image";
 
 export default {
-  props: ["movieName", "moviePoster", "movieLink", "description", "rate", "length", "year"],
-  mounted() {
-
-  },
+  props: [
+    "movieName",
+    "moviePoster",
+    "movieLink",
+    "description",
+    "rate",
+    "length",
+    "year",
+    "id",
+    "clickedInfo",
+    "arrayIndex"
+  ],
+  mounted() {},
   components: {
     VLazyImage
   },
-    data () {
+  data() {
     return {
       value: {
         link: this.movieLink,
@@ -32,8 +37,15 @@ export default {
         rate: this.rate,
         length: this.length,
         year: this.year,
-        poster: this.moviePoster
+        poster: this.moviePoster,
+        id: this.id,
+        clickedInfo: this.clickedInfo,
       }
+    };
+  },
+  methods: {
+    onClick() {
+      this.$emit("clicked", this.id, ".info-"+ this.clickedInfo, this.clickedInfo, ".info-"+ (Math.floor(this.clickedInfo/6)*6));
     }
   }
 };

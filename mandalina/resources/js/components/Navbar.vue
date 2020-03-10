@@ -11,15 +11,31 @@
           </div>
         </div>
         <div class="col-lg-4">
-          <h3
-            style="text-align: center; color: #ead044; font-family: Georgia, 'Times New Roman', Times, serif"
-          >FILMDIZIMOB</h3>
+          <h3 style="text-align: center;">
+            <a
+              href="/"
+              
+            ><img src="/assets/logoless.png" width="250" height="30" alt="" srcset=""></a>
+          </h3>
         </div>
         <div class="col-lg-4">
           <div class="rightNavbar">
             <ul>
-              <li>Filmler</li>
-              <li>Diziler</li>
+              <li class="movieBar" style="position: relative">
+                <a href="/" style="color:white;">Filmler</a>
+                <div class="posNav">
+                  <ul class="subMoveGenre">
+                    <li class="movies" v-for="(array, index, name) in genres" :key="name" v-on:click="onClick">{{genres[index].name}}</li>
+                  </ul>
+                </div>
+              </li>
+              <li class="movieBar" style="position: relative"><a onclick="window.location.hash = '#series'; window.location.reload()" class="hoverAdd" style="color:white;">Diziler</a>
+                 <div class="posNav">
+                  <ul class="subMoveGenre">
+                    <li class="series" v-for="(array, index, name) in genres" :key="name" v-on:click="onClick">{{genres[index].name}}</li>
+                  </ul>
+                </div> 
+              </li>
             </ul>
           </div>
         </div>
@@ -31,13 +47,14 @@
 
 <script>
 export default {
+  props: ["genres"],
   methods: {
+    onClick(e) {
+      this.$emit("clicked", $(e.target).html(), $(e.target).attr('class'));
+    },
     onChange(v) {
       this.$emit("changed", document.getElementsByName("search")[0].value);
     }
-  },
-  mounted() {
-    console.log("Done Mount.");
   }
 };
 </script>

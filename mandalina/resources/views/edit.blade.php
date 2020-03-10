@@ -30,6 +30,7 @@ array_push($cast, $item->name);
         <input type="hidden" name="oldcover" value="{{$data[2]['image']}}">
         <input type="hidden" name="oldlimit" value="{{$data[2]['length']}}">
         <input type="hidden" name="oldvideo" value="{{$data[2]['movieLink']}}">
+        <input type="hidden" name="oldtrailer" value="{{$data[2]['trailerName']}}">
             <div class="col-6">
                 <label for="name">Movie/Series Name: </label>
                 <input class="form-control" type="text" name="name" placeholder="Name" value="{{$data[2]['name']}}"
@@ -60,6 +61,12 @@ array_push($cast, $item->name);
                     </select>
                 </div>
                 <br>
+                <label>Upload Video: </label>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" name="trailer">
+                    <label class="custom-file-label" for="video">Choose video</label>
+                </div>
+                <br><br>
                 <label for="Genres">Type: </label>
                 <div>
                     <select class="js-example-basic-single" style="width: 100%" name="type" required>

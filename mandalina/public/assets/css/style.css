@@ -1,5 +1,6 @@
 body {
     background-color: rgb(41, 38, 38) !important;
+    overflow-y: scroll;
 }
 
 .genreTitle {
@@ -24,12 +25,25 @@ body {
 
 .playButton {
     position: absolute;
-    top: calc(20% - 50px);
-    left: calc(35% - 50px);
+    top: calc(50% - 35px);
+    left: calc(50% - 35px);
 }
 
+
+.liStyle>li{
+    color: #e4e4e4;
+    text-align: left;
+    font-weight: 500;
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.fill { 
+    min-height: 100%;
+    height: 100%;
+}
 .playFont {
-    font-size: 45px;
+    font-size: 70px;
     color: rgb(41, 38, 38);
     transition: all .5s ease;
 }
@@ -51,6 +65,93 @@ body {
     color: white;
 }
 
+.inSearch{
+    position: relative;
+    left: -2em;
+    width: 100vw!important;
+}
+
+.movieBar .subMoveGenre{
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    background-color: rgba(0, 0, 0, .6);
+    width: 150px;
+    height: 300px;
+    padding: 0px 1px!important;
+    top: 21px;
+    left: -7px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    transition: all .5s linear;
+
+}
+
+.posNav{
+    position: absolute;
+    top: 22px;
+    left: 0;
+    width: 80px;
+    padding-top: 25px;
+}
+
+.movieBar:hover .subMoveGenre{
+    visibility: visible;
+    opacity: 1;
+}
+
+.hoverAdd:hover{
+    text-decoration: underline!important;
+}
+
+.suggested{
+    position: relative;
+    width: 100%;
+    height: 550px;
+}
+
+.suggested .pan{
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+}
+
+.suggested .pan .text{
+    position: relative;
+    font-weight: bold;
+    font-size: 2.5em;
+    color: white;
+}
+
+.suggested .pan .genres{
+    color: white;
+    padding: 0;
+    text-align: center;
+}
+
+.suggested .pan .genres>li{
+    display: inline;
+    font-size: 20px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.suggested .pan .text::after{
+    content: '';
+    position: absolute;
+    height: 5px;
+    width: 102%;
+    left: -1px;
+    bottom: 0;
+    background: linear-gradient(90deg, rgba(225,94,103,1) 0%, rgba(254,217,177,1) 100%);
+}
+.subMoveGenre>li{
+    width: 100%;
+    display: block!important;
+    text-align: left;
+    padding: 5px;
+}
 
 .navBar {
     position: fixed;
@@ -62,7 +163,7 @@ body {
 }
 
 .navPadding {
-    padding-top: 65px;
+    padding-top: 55px;
 }
 
 .leftNavbar {
@@ -73,6 +174,7 @@ body {
 .rightNavbar {
     margin-top: 3px;
     float: right;
+    margin-right: 8px;
 }
 
 .rightNavbar ul {
@@ -83,7 +185,7 @@ body {
     font-weight: 400;
     cursor: pointer;
     display: inline;
-    margin-right: 35px;
+    margin-right: 65px;
     list-style-type: none;
     font-size: 20px;
     color: white;
@@ -91,202 +193,6 @@ body {
 
 .navBar ul li:hover {
     text-decoration-color: #ead044;
-}
-
-
-/*SPINER SPINER SPINER*/
-/*SPINER SPINER SPINER*/
-/*SPINER SPINER SPINER*/
-/*SPINER SPINER SPINER*/
-/*SPINER SPINER SPINER*/
-/*SPINER SPINER SPINER*/
-/*SPINER SPINER SPINER*/
-/*SPINER SPINER SPINER*/
-
-.bg_load {
-    position: fixed;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-    background: rgb(41, 38, 38);
-}
-
-.wrapper {
-    /* Size and position */
-    font-size: 25px;
-    /* 1em */
-    width: 16em;
-    height: 16em;
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    margin-top: -200px;
-    margin-left: -200px;
-
-    /* Styles */
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1em dashed transparent;
-    box-shadow:
-        inset 0 0 2em rgba(255, 255, 255, 0.3),
-        0 0 0 0.7em rgba(255, 255, 255, 0.3);
-    animation: rota 3.5s linear infinite;
-
-    /* Font styles */
-    font-family: 'Racing Sans One', sans-serif;
-
-    color: #444;
-    text-align: center;
-    text-transform: uppercase;
-    text-shadow: 0 .04em rgba(255, 255, 255, 0.9);
-    line-height: 14em;
-}
-
-.wrapper:before,
-.wrapper:after {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    border-radius: inherit;
-    box-shadow: inset 0 0 2em transparent;
-    border: 1em dashed;
-}
-
-.wrapper:before {
-    border-color: transparent;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-}
-
-.wrapper:after {
-    border-color: transparent;
-    top: 1em;
-    right: 1em;
-    bottom: 1em;
-    left: 1em;
-}
-
-.wrapper .inner {
-    width: 100%;
-    height: 100%;
-    animation: rota 3.5s linear reverse infinite;
-}
-
-.wrapper span {
-    color: white;
-    display: inline-block;
-    animation: placeholder 1.5s ease-out infinite;
-}
-
-.wrapper span:nth-child(1) {
-    animation-name: loading-1;
-}
-
-.wrapper span:nth-child(2) {
-    animation-name: loading-2;
-}
-
-.wrapper span:nth-child(3) {
-    animation-name: loading-3;
-}
-
-.wrapper span:nth-child(4) {
-    animation-name: loading-4;
-}
-
-.wrapper span:nth-child(5) {
-    animation-name: loading-5;
-}
-
-.wrapper span:nth-child(6) {
-    animation-name: loading-6;
-}
-
-.wrapper span:nth-child(7) {
-    animation-name: loading-7;
-}
-
-.wrapper span:nth-child(8) {
-    animation-name: loading-8;
-}
-
-.wrapper span:nth-child(9) {
-    animation-name: loading-9;
-}
-
-.wrapper span:nth-child(10) {
-    animation-name: loading-10;
-}
-
-.wrapper span:nth-child(11) {
-    animation-name: loading-11;
-}
-
-.wrapper span:nth-child(12) {
-    animation-name: loading-12;
-}
-
-.wrapper span:nth-child(13) {
-    animation-name: loading-13;
-}
-
-.wrapper span:nth-child(14) {
-    animation-name: loading-14;
-}
-
-.wrapper span:nth-child(15) {
-    animation-name: loading-15;
-}
-
-@keyframes rota {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes loading-1 {
-    14.28% {
-        opacity: 0.3;
-    }
-}
-
-@keyframes loading-2 {
-    28.57% {
-        opacity: 0.3;
-    }
-}
-
-@keyframes loading-3 {
-    42.86% {
-        opacity: 0.3;
-    }
-}
-
-@keyframes loading-4 {
-    57.14% {
-        opacity: 0.3;
-    }
-}
-
-@keyframes loading-5 {
-    71.43% {
-        opacity: 0.3;
-    }
-}
-
-@keyframes loading-6 {
-    85.71% {
-        opacity: 0.3;
-    }
-}
-
-@keyframes loading-7 {
-    100% {
-        opacity: 0.3;
-    }
 }
 
 

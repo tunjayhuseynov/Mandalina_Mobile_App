@@ -42,4 +42,9 @@ Route::group(['prefix' => 'api', 'middleware' => ['validApi']], function () {
     Route::get('/genres','Movies@fetchgenres');
     Route::get('/search/{movie}', 'Movies@search');
     Route::get('/like/{id}', 'Movies@like');
+    Route::get('/all', "Movies@all");
+});
+
+Route::get('/player', function (Request $request) {
+    return redirect('/'.$request->path());
 });

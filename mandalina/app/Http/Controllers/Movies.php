@@ -194,4 +194,9 @@ $db = $db->unique();
 
         return response()->json(array_values($data), 200);
     }
+
+    public function all(Request $request)
+    {
+        return response()->json(array_values(DataManupilation::AllMovies()),200);
+    }
 }

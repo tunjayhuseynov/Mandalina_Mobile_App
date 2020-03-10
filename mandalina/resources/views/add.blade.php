@@ -33,6 +33,14 @@
           </select>
         </div>
         <br>
+        <div>
+          <label>Upload Trailer: </label>
+          <div class="custom-file">
+              <input type="file" class="custom-file-input" name="trailer" required>
+              <label class="custom-file-label" for="video">Choose Trailer</label>
+            </div>
+        </div>
+        <br>
         <label for="Genres">Type: </label>
         <div>
           <select class="js-example-basic-single" style="width: 100%" name="type" required>

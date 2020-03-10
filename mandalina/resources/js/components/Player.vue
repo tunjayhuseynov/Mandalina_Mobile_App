@@ -8,42 +8,13 @@
       controls
       preload="none"
     >
-      <source :src="'//filmdizimob.com' + value.link" type="video/mp4" />
-      <source :src="'//filmdizimob.com' + value.link" type="video/webm" />
+      <source :src="assetdomain + target" type="video/mp4" />
+      <source :src="assetdomain + target" type="video/webm" />
     </video>
     <div id="backButton">
-      <a @click="$router.go(-1)">
+      <a @click="$router.push({ name: 'Home', hash: route})">
         <i class="fas fa-arrow-left"></i>
       </a>
-    </div>
-    <div class="aboutMovie">
-      <ul>
-        <li>
-          <b>Film:</b>
-          {{value.name}}
-        </li>
-        <li>
-          <b>Çıkış Yılı:</b>
-          {{value.year}}
-        </li>
-        <li>
-          <b>Içerik Yaşı:</b>
-          {{value.rate}}
-        </li>
-        <li>
-          <b>Uzunluk:</b>
-          {{value.length}} dakika
-        </li>
-      </ul>
-    </div>
-    <div class="desOnVideo">
-      <p style="margin-bottom: 5px; text-align: center">
-        <b>Açıklama:</b>
-      </p>
-      <p>{{value.desc}}</p>
-    </div>
-    <div class="posterinplayer">
-      <img :src="value.poster" alt srcset height="500" />
     </div>
   </div>
 </template>
@@ -52,16 +23,29 @@
 @import url("https://vjs.zencdn.net/7.6.6/video-js.css");
 @import "/assets/css/player.css";
 body {
-  overflow: hidden;
+  overflow: hidden!important;
 }
 </style>
 
 <script>
 export default {
-  props: ["value"],
+  created() {
+    $("body").css("overflow-y","hidden")
+    
+    fetch(this.domainlink + "/api/movie/"+this.link).then(res => {
+      console.log(this.link)
+      return res.json().then(e => {
+            console.log(e.movieLink);
+            this.target = e.movieLink;
+      });
+    });
+  },
   data() {
     return {
-      setup: '{ "aspectRatio":"16:8", "playbackRates": [1, 1.5, 2] }'
+      link: window.location.hash.split("movie=")[1],
+      setup: '{ "aspectRatio":"16:8", "playbackRates": [1, 1.5, 2] }',
+      target: null,
+      route: window.location.hash.split("&movie=")[0].split("link=")[1]=="series"?"#series":"#"
     };
   },
   mounted() {
@@ -91,19 +75,13 @@ export default {
         .on("pause", function() {
           if ($(".vjs-scrubbing")[0]) {
           } else {
-            $(".desOnVideo").fadeIn(1500);
-            $(".aboutMovie").fadeIn(1500);
-            $(".posterinplayer").fadeIn(1500);
             $(".backgroundBlack").fadeIn(1500);
             $(".vjs-big-play-button").fadeIn(1500);
-            $("#backButton").stop()
+            $("#backButton").stop();
           }
         })
         .on("play", function() {
           $(".vjs-big-play-button").fadeOut(500);
-          $(".desOnVideo").fadeOut(500);
-          $(".aboutMovie").fadeOut(500);
-          $(".posterinplayer").fadeOut(500);
           $(".backgroundBlack").fadeOut(500);
           $(".vjs-big-play-button").fadeOut(500);
         });
@@ -111,6 +89,8 @@ export default {
   }
 };
 </script>
+
+
 
 
 

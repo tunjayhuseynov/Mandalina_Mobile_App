@@ -109,12 +109,23 @@ class Dashboard extends Controller
                 Storage::disk('public_uploads')->put("movies/".$name."/".$videoname, file_get_contents($video));
             }
         }
+
+        if($request->hasFile("trailer")){
+            if($request->file("trailer")->isValid()){
+                $trailer = $request->file("trailer");
+
+                $trailername = time() . '.' . $trailer->getClientOriginalExtension();
+                Storage::disk('public_uploads')->put("movies/".$name."/".$trailername, file_get_contents($trailer));
+            }
+        }
+
         $covername = time() . '.' . $cover->getClientOriginalExtension();
         
         $id =  DB::table('movies')->insertGetId(
             ['name' => $name , 'image' => '/covers/'.$name.'/'.$covername , 'year' => $year, 'description' => trim($description),
             'movieType' => $type, 'addedDate' => date("Y-m-d h:i:s"), 'rate' => $limit, 'length' => isset($duration)==1?$duration:0,
-            'movieLink' => isset($video)==1?'/movies/'.$name.'/'.$videoname:'', 'isDeleted' => FALSE, 'tagName' => $tag]
+            'movieLink' => isset($video)==1?'/movies/'.$name.'/'.$videoname:'', 'isDeleted' => FALSE, 
+            'tagName' => $tag, "trailerName" => '/movies/'.$name.'/'.$trailername]
         );
 
         Storage::disk('public_uploads')->put("covers/".$name."/".$covername, file_get_contents($cover));
@@ -162,6 +173,7 @@ class Dashboard extends Controller
         $type = $request->input("type");
         $oldcover = $request->input("oldcover");
         $oldvideo = $request->input("oldvideo");
+        $oldtrailer = $request->input("oldtrailer");
         $oldlimit = $request->input("oldlimit");
         $duration = $request->input("duration");
         
@@ -170,6 +182,15 @@ class Dashboard extends Controller
                 $video = $request->file("video");
                 $videoname = time() . '.' . $video->getClientOriginalExtension();
                 Storage::disk('public_uploads')->put("movies/".$name."/".$videoname, file_get_contents($video));
+            }
+        }
+
+        if($request->hasFile("trailer")){
+            if($request->file("trailer")->isValid()){
+                $trailer = $request->file("trailer");
+
+                $trailername = time() . '.' . $trailer->getClientOriginalExtension();
+                Storage::disk('public_uploads')->put("movies/".$name."/".$trailername, file_get_contents($trailer));
             }
         }
 
@@ -186,7 +207,8 @@ class Dashboard extends Controller
         ->update(
             ['name' => $name , 'image' => isset($cover)==1?'/covers/'.$name."/".$covername:$oldcover , 'year' => $year, 'description' => trim($description),
             'movieType' => $type, 'rate' => $limit, 'length' => $oldlimit!=$duration?$duration:$oldlimit,
-            'movieLink' => isset($video)==1?'/movies/'.$name."/".$videoname:$oldvideo, 'isDeleted' => FALSE, 'tagName' => $tag]
+            'movieLink' => isset($video)==1?'/movies/'.$name."/".$videoname:$oldvideo, 'isDeleted' => FALSE, 'tagName' => $tag,
+            'trailerName' => isset($trailer)==1?'/movies/'.$name.'/'.$trailername:$oldtrailer]
         );
         
 

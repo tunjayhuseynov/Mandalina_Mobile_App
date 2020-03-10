@@ -1,5 +1,10 @@
 const mix = require('laravel-mix');
 
+require('laravel-mix-bundle-analyzer');
+ 
+if (mix.isWatching()) {
+    mix.bundleAnalyzer();
+}
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
