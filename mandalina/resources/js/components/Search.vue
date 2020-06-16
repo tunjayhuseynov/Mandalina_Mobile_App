@@ -11,8 +11,8 @@
       </h5>
       <div class="row" style="padding: 0 12px;">
         <div
-          v-for="(value, name, index) in res"
-          :key="index"
+          v-for="(value, name) in res"
+          :key="name"
           class="col-lg-2"
           style="margin-bottom: 35px; position: static"
         >
@@ -35,7 +35,8 @@
             :class="['info-'+name] + ' infoBase inSearch'"
             :json="res[movieIndex]"
             :domain="assetdomain"
-            :filmType="filmType"
+            :filmType="res[movieIndex].movieType == 1?'movies':'series'"
+            :videoActive="videoActive"
           ></Information>
         </div>
       </div>
@@ -49,7 +50,11 @@
 const MovieBox = () => import("./MovieBox.vue");
 const Information = () => import("./Information.vue");
 export default {
-  props: ["res", "searchTitle", "genre", "filmType"],
+  beforeUpdate() {
+    
+    window.location.hash = "#" + this.searchTitle;
+  },
+  props: ["res", "searchTitle", "genre", "filmingType"],
   data() {
     return {
       onlyMovieList: [],
@@ -57,16 +62,18 @@ export default {
       prevValue: null,
       prevInfo: null,
       isGenre: this.genre,
-      isSearchTitle: this.searchTitle
+      isSearchTitle: this.searchTitle,
+      videoActive: false,
+
     };
   },
   mounted() {
     if (this.isGenre) {
       window.location.href = "/#" + this.searchTitle;
-      $(window).on("popstate", function(e) {
-        if($(".fas").hasClass("series")){location.hash= "#series"}else{location.hash = ""}
-        location.reload();
-      });
+      // $(window).on("popstate", function(e) {
+      //   if($(".fas").hasClass("series")){location.hash= "#series"}else{location.hash = ""}
+      //   location.reload();
+      // });
     }
   },
   components: {
@@ -74,8 +81,11 @@ export default {
     Information
   },
   methods: {
+    videoActivate() {
+      this.videoActive = !this.videoActive;
+    },
     backClick(e) {
-      this.$emit("backed", true, $(e.target).attr('class'));
+      this.$emit("backed", true, $(e.target).attr("class"));
     },
     toggle(info, value) {
       return $(info).slideToggle({
@@ -87,10 +97,13 @@ export default {
     infoSection(value, info, index, indexInfo) {
       if (this.prevValue != value && this.prevValue != null) {
         $(".infoBase").slideUp(400);
+        this.videoActivate();
         setTimeout(() => {
+          if (!this.videoActive) this.videoActivate();
           this.toggle(indexInfo, index);
         }, 400);
       } else {
+        this.videoActivate();
         this.toggle(indexInfo, index);
       }
 

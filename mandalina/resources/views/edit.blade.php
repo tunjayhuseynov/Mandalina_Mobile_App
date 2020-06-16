@@ -61,7 +61,7 @@ array_push($cast, $item->name);
                     </select>
                 </div>
                 <br>
-                <label>Upload Video: </label>
+                <label>Upload Trailer: </label>
                 <div class="custom-file">
                     <input type="file" class="custom-file-input" name="trailer">
                     <label class="custom-file-label" for="video">Choose video</label>

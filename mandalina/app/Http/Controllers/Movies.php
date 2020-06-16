@@ -159,6 +159,10 @@ class Movies extends Controller
 
         return response()->json($data, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'], JSON_UNESCAPED_UNICODE);
     }
+    public function SeriesById(Request $request)
+    {
+        return response()->json(DB::table('episodes')->find($request->route("id")), 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'], JSON_UNESCAPED_UNICODE);
+    }
 
     public function fetchgenres(Request $request)
     {
@@ -171,12 +175,12 @@ class Movies extends Controller
     {
         //$db = DB::table('movies')->where([ ["'name", "LIKE", '%'.$request->route("movie").'%'], ["movies.isDeleted", 0] ])->take(15)->get();
 
-$db = DB::table('movies')->whereRaw('LOWER(`name`) LIKE ? AND movies.isDeleted = 0', '%'.strtolower($request->route("movie")).'%' )->take(15)->get();
+       $db = DB::table('movies')->whereRaw('LOWER(`name`) LIKE ? AND movies.isDeleted = 0', '%'.strtolower($request->route("movie")).'%' )->take(15)->get();
 
-$tagname = DB::table('movies')->whereRaw('LOWER(`tagName`) LIKE ? AND movies.isDeleted = 0', '%'.strtolower($request->route("movie")).'%' )->take(15)->get();
+       $tagname = DB::table('movies')->whereRaw('LOWER(`tagName`) LIKE ? AND movies.isDeleted = 0', '%'.strtolower($request->route("movie")).'%' )->take(15)->get();
 
-$db = $db->merge($tagname);
-$db = $db->unique();
+       $db = $db->merge($tagname);
+       $db = $db->unique();
         $data = json_decode($db, true);
 
         foreach ($data as $key => $value) {

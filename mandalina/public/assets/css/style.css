@@ -30,7 +30,7 @@ body {
 }
 
 
-.liStyle>li{
+.liStyle>li {
     color: #e4e4e4;
     text-align: left;
     font-weight: 500;
@@ -38,10 +38,11 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.fill { 
+.fill {
     min-height: 100%;
     height: 100%;
 }
+
 .playFont {
     font-size: 70px;
     color: rgb(41, 38, 38);
@@ -65,20 +66,20 @@ body {
     color: white;
 }
 
-.inSearch{
+.inSearch {
     position: relative;
     left: -2em;
-    width: 100vw!important;
+    width: 100vw !important;
 }
 
-.movieBar .subMoveGenre{
+.movieBar .subMoveGenre {
     visibility: hidden;
     opacity: 0;
     position: absolute;
     background-color: rgba(0, 0, 0, .6);
     width: 150px;
     height: 300px;
-    padding: 0px 1px!important;
+    padding: 0px 1px !important;
     top: 21px;
     left: -7px;
     overflow-y: scroll;
@@ -87,7 +88,7 @@ body {
 
 }
 
-.posNav{
+.posNav {
     position: absolute;
     top: 22px;
     left: 0;
@@ -95,60 +96,158 @@ body {
     padding-top: 25px;
 }
 
-.movieBar:hover .subMoveGenre{
+.movieBar:hover .subMoveGenre {
     visibility: visible;
     opacity: 1;
 }
 
-.hoverAdd:hover{
-    text-decoration: underline!important;
+.hoverAdd:hover {
+    text-decoration: underline !important;
 }
 
-.suggested{
+.suggested {
     position: relative;
     width: 100%;
     height: 550px;
 }
 
-.suggested .pan{
+.suggested .pan {
     position: absolute;
-    top: 65%;
+    top: 80%;
     left: 50%;
     transform: translate(-50%, -50%)
 }
 
-.suggested .pan .text{
+.suggested .pan .text {
     position: relative;
     font-weight: bold;
     font-size: 2.5em;
     color: white;
 }
 
-.suggested .pan .genres{
+.suggested .pan .genres {
     color: white;
     padding: 0;
     text-align: center;
 }
 
-.suggested .pan .genres>li{
+.eachEpisode {
+    cursor: pointer;
+    display: block;
+    color: white;
+    text-align: left;
+    padding: 14px;
+    text-decoration: none;
+}
+
+
+.eachSeason {
+    cursor: pointer;
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.eachSeason:hover {
+    background-color: #777;
+}
+
+.eachEpisode:hover {
+    background-color: #777;
+}
+
+
+.episodes {
+    background-color: #333;
+    overflow: auto;
+    height: 244px;
+    white-space: nowrap;
+}
+
+.seasons::-webkit-scrollbar {
+    height: 12px;
+}
+
+.cardTwo {
+    transform-style: preserve-3d;
+    transition: transform .6s;
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+}
+
+.col-2:hover .cardTwo{
+    transform: rotateY(180deg);
+}
+
+.col-2:hover .cardTwo .playFont{
+    display: none;
+}
+
+.front {
+    position: absolute;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    perspective: 1000;
+
+}
+
+.back {
+    position: absolute;
+    width: 200px;
+    transform: rotateY(180deg);
+    
+}
+
+.seasons {
+    text-align: center;
+    height: 56px;
+    scrollbar-width: thin;
+    background-color: #292626;
+    overflow: auto;
+    white-space: nowrap;
+    margin-top: 17px;
+}
+
+.btnPan {
+    border-radius: 10px;
+    padding: 7px 50px;
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
+    border: none;
+    background: linear-gradient(90deg, rgba(225, 94, 103, 1) 0%, rgba(254, 217, 177, 1) 100%);
+
+}
+
+.btnPan:hover {
+    text-decoration: none;
+    color: white;
+}
+
+.suggested .pan .genres>li {
     display: inline;
     font-size: 20px;
     margin-right: 5px;
     margin-left: 5px;
 }
 
-.suggested .pan .text::after{
+.suggested .pan .text::after {
     content: '';
     position: absolute;
     height: 5px;
     width: 102%;
     left: -1px;
     bottom: 0;
-    background: linear-gradient(90deg, rgba(225,94,103,1) 0%, rgba(254,217,177,1) 100%);
+    background: linear-gradient(90deg, rgba(225, 94, 103, 1) 0%, rgba(254, 217, 177, 1) 100%);
 }
-.subMoveGenre>li{
+
+.subMoveGenre>li {
     width: 100%;
-    display: block!important;
+    display: block !important;
     text-align: left;
     padding: 5px;
 }
@@ -221,15 +320,17 @@ body {
 
 
 /*AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA*/
-.sample.seven button.btn-search[data-v-6dde423b], .sample.eight button.btn-search[data-v-6dde423b]{
-    background: none!important;
+.sample.seven button.btn-search[data-v-6dde423b],
+.sample.eight button.btn-search[data-v-6dde423b] {
+    background: none !important;
     left: 120px;
     -webkit-transition: all 0.3s ease-in;
     transition: all 0.3s ease-in;
 }
 
-.sample.seven input:focus ~ button.btn-search[data-v-6dde423b], .sample.eight input:focus ~ button.btn-search[data-v-6dde423b]{
-    background: #ead044!important;
+.sample.seven input:focus~button.btn-search[data-v-6dde423b],
+.sample.eight input:focus~button.btn-search[data-v-6dde423b] {
+    background: #ead044 !important;
     border-radius: 0 50% 50% 0;
     color: #fff;
     left: 220px;

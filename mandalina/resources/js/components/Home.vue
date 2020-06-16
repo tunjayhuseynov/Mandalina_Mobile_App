@@ -1,7 +1,7 @@
 <template>
   <div>
     <navbar @changed="onChange" :genres="genres" @clicked="onClick"></navbar>
-    <LoaderBar :load="loading"></LoaderBar>
+    <LoaderBar :load="loading && !isDOMready"></LoaderBar>
     <carousel
       @clicked="onClick"
       v-if="!isSearching && !isGenre && !loading"
@@ -11,12 +11,13 @@
     ></carousel>
     <search v-if="isSearching" :res="searchedMovie" :searchTitle="searchTitle"></search>
     <search
+      :key="rerender"
       v-if="isGenre"
       @backed="backedClick"
       :res="genreMovie"
       :searchTitle="searchTitle"
       :genre="true"
-      :filmType="type"
+      :filmingType="type"
     ></search>
   </div>
 </template>
@@ -27,21 +28,25 @@ const LoaderBar = () => import("./Loading.vue");
 
 export default {
   beforeRouteUpdate(to, from, next) {
-    if(to.hash == "#series" || to.hash == "" || to.hash == "#"){
-      location.hash = to.hash
-    location.reload()
+    if (to.hash == "#series" || to.hash == "" || to.hash == "#") {
+      location.hash = to.hash;
+      window.scrollTo(0, 0);
+      location.reload();
     }
     next();
   },
   props: ["types"],
   data: function() {
     return {
+      db: null,
       isGenre: false,
       isSearching: false,
+      rerender: 0,
       movies: null,
       searchedMovie: null,
       genreMovie: null,
       genres: null,
+      isDOMready: false,
       loading: true,
       type: window.location.hash == "#series" ? "series" : "movies",
       playertype: location.hash.includes("player")
@@ -54,6 +59,11 @@ export default {
     };
   },
   created: function() {
+    this.openDb();
+
+    $(document).ready(function() {
+      this.isDOMready = true;
+    });
     if (location.hash.includes("player")) {
       var hash = location.hash.split("movie=")[1];
       this.$router.push({
@@ -75,13 +85,12 @@ export default {
     },
     onChange(v) {
       if (v) {
-        this.isGenre = false
-        this.loading = true
-        this.isSearching = true;
+        this.isGenre = false;
+        (this.loading = true), (this.isSearching = true);
         this.searchedMovie = null;
         fetch(this.domainlink + "/api/search/" + v).then(res => {
           return res.json().then(res => {
-            this.loading = false
+            this.loading = false;
             this.searchedMovie = res;
             this.searchTitle = v;
           });
@@ -91,9 +100,9 @@ export default {
       }
     },
     onClick(e, c) {
+      this.rerender++;
       this.genreMovie = null;
-      this.loading = true;
-      this.isGenre = true;
+      this.loading, (this.isGenre = true);
       this.searchTitle = c == "series" ? e + "+" + c : e;
       fetch(
         this.domainlink + "/api/" + c + "/" + e.toLowerCase() + "/0/10000"
@@ -125,9 +134,44 @@ export default {
           this.genres = res;
         });
       });
-    }
+    },
+    openDb() {
+      let openRequest = indexedDB.open("movies", 1);
+      openRequest.onupgradeneeded = function() {
+        let db = openRequest.result;
+        if (
+          !db.objectStoreNames.contains("watchedMovie") &&
+          !db.objectStoreNames.contains("watchedSerie")
+        ) {
+          // if there's no "books" store
+          db.createObjectStore("watchedMovie", { keyPath: "id" }); // create it
+          db.createObjectStore("watchedSerie", { keyPath: "id" }); // create it
+        }
+      };
+
+      openRequest.onerror = function() {
+        console.error("Error", openRequest.error);
+      };
+
+      openRequest.onsuccess = () => {
+        //  console.log(openRequest.result);
+      };
+    },
+
   },
-  mounted() {},
+  mounted() {
+    window.addEventListener(
+      "hashchange",
+      a => {
+        console.log(a.newURL.split("#")[1]);
+        var hash = a.newURL.split("#")[1];
+        if (hash.includes("series")) {
+          this.onClick(hash.split("+")[0], "series");
+        }
+      },
+      false
+    );
+  },
   components: {
     LoaderBar
   }
