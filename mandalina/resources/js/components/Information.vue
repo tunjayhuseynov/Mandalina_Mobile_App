@@ -2,7 +2,42 @@
   <div id="info">
     <div class="container-fluid fill">
       <div class="row fill">
-        <div class="col-2" style>
+        <div v-if="filmType == 'series'" class="col-2" style>
+          <div class="custom-col cardTwo">
+            <div class="front">
+              <img :src="domain+json.image" height="300" width="200" style="margin-top:17px;" alt />
+              <div class="playButton">
+                <router-link :to="{ name: 'Player', params: {id: json.id, link: filmType} }">
+                  <i class="far fa-play-circle playFont"></i>
+                </router-link>
+              </div>
+            </div>
+            <div class="back">
+              <div class="seasons">
+                <div
+                  v-for="(name, index) in seasonAmount(json.episodes)"
+                  :key="index"
+                  class="eachSeason"
+                  @click="changeSeason(index)"
+                >{{++index}}. Sezon</div>
+              </div>
+              <div class="episodes" :key="updateEpisodes">
+                <div
+                  v-for="(name, index) in json.episodes"
+                  v-show="currentSeason == name.season"
+                  :key="index"
+                  class="eachEpisode"
+                >
+                  <router-link
+                    style="color: white; text-decoration: none"
+                    :to="{ name: 'Player', params: {id: name.id, link: 'series'} }"
+                  >{{name.number}}. {{name.name}}</router-link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div v-else class="col-2" style>
           <img :src="domain+json.image" height="300" width="200" style="margin-top:17px;" alt />
           <div class="playButton">
             <router-link :to="{ name: 'Player', params: {id: json.id, link: filmType} }">
@@ -37,6 +72,7 @@
               :class="videoId"
               @mouseover="play"
               @mouseleave="pause"
+              poster="/assets/trailercover.png"
               style="width: 100%; height: 100%; margin-right: -15px; object-fit: cover;"
               preload="none"
             >
@@ -59,7 +95,12 @@
   position: absolute;
   width: 15px;
   height: 336px;
-  background: linear-gradient(90deg, rgba(29,29,29,1) 0%, rgba(29,29,29,0.5) 50%, rgba(29,29,29,0) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(29, 29, 29, 1) 0%,
+    rgba(29, 29, 29, 0.5) 50%,
+    rgba(29, 29, 29, 0) 100%
+  );
 }
 </style>
 
@@ -68,20 +109,33 @@ export default {
   props: ["json", "domain", "filmType", "id", "videoActive"],
   data() {
     return {
+      currentSeason: 1,
       videoId: "video-" + this.id,
+      updateEpisodes: 0
     };
   },
-  methods:{
-    play(e){
-      $(e.target).get(0).play()
+  methods: {
+    changeSeason(season) {
+      console.log(season);
+      $(".episodes").html("");
+      this.currentSeason = season;
+      this.updateEpisodes++;
     },
-    pause(e){
-      $(e.target).get(0).pause()
+    seasonAmount(arr) {
+      return Math.max(...arr.map(user => user.season));
+    },
+    play(e) {
+      $(e.target)
+        .get(0)
+        .play();
+    },
+    pause(e) {
+      $(e.target)
+        .get(0)
+        .pause();
     }
   },
-  mounted() {
-
-  }
+  mounted() {}
 };
 </script>
 

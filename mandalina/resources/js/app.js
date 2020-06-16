@@ -36,13 +36,18 @@ Vue.component('information', require('./components/Information.vue').default);
  */
 
 Vue.mixin({
+    methods:{
+        getDb(){
+            
+        }
+    },
     data: function () {
         return {
             get domainlink() {
-                return "http://127.0.0.1:8000/" //"//filmdizimob.com";
+                return "" //"//filmdizimob.com";
             },
-            get assetdomain(){
-                return "http://127.0.0.1:8887/"
+            get assetdomain() {
+                return ""
             },
 
         };
