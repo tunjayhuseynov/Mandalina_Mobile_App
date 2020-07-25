@@ -22,16 +22,8 @@
         <div class="movieType">
           <label for="length">Episode Duration: </label>
         <input class="form-control" type="text" value="{{$data->airtime}}" name="duration" required placeholder="Only number (as minutes)"><br>
-          <label>Upload Video: </label>
-          <div class="custom-file">
-              <input type="file" class="custom-file-input" id="video" name="video">
-              <input type="hidden" value="{{$data->url}}" name="oldvideo">
-
-              <label class="custom-file-label" id="videoLabel" for="video">Choose video</label>
-              <div class="alert alert-success d-none" id="success">
-                  File Selected!
-                </div>
-            </div>
+          <label>Episode Link: </label>
+          <input class="form-control" type="text" name="episodeLink" value="{{$data->url}}" placeholder="Episode Link" required> <br>
         </div>
       </div>
 

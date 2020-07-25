@@ -47,7 +47,7 @@
                         <div class="box text-center" style="padding: 15px 15px;">
                                         <label>Episode Link: </label>
                                         <h5 style="text-align: center">
-                                        <a target="_blank" href="{{{$data[1].$data[0]->url}}}">{{$data[1].$data[0]->url}}</a>
+                                        <a target="_blank" href="{{{$data[0]->url}}}">{{$data[0]->url}}</a>
                                         </h5>
                                 </div>
 

@@ -1,280 +1,195 @@
 <template>
-  <div class="navPadding">
-    <div class="suggested" @mouseover="play" @mouseleave="pause">
-      <video
-        id="videoId"
-        style="width: 100%; height: 100%; margin-right: -15px; object-fit: cover;"
-        preload="metadata"
-      >
-        <source src="/assets/sampleTrailer.mp4" type="video/mp4" />
-      </video>
-      <div class="pan">
-        <div class="text">Example Case</div>
-        <ul class="genres">
-          <li>Aksiyon</li>
-          <li>Dram</li>
-        </ul>
-        <div class="buttonPan" style="text-align: center;  cursor: pointer;">
-          <a href="#" class="btnPan">OYNAT</a>
-        </div>
+  <div>
+    <div class="carouselSection">
+      <div class="title">
+        {{json.title}}
+        <svg
+          version="1.1"
+          id="nextIcon"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px"
+          y="0px"
+          width="1.4rem"
+          height="1.4rem"
+          fill="white"
+          viewBox="0 0 46.02 46.02"
+          style="enable-background:new 0 0 46.02 46.02;"
+          xml:space="preserve"
+        >
+          <path
+            d="M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645
+			C8.46,7.37,8.54,3.76,10.816,1.582c2.277-2.178,5.886-2.097,8.063,0.179l16.505,17.253c2.104,2.2,2.108,5.665,0.013,7.872
+			L18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
+          />
+        </svg>
       </div>
-    </div>
-    <div class="container text-center my-3" style="max-width: 100%;" v-if="hasWatched">
-      <h5 class="genreTitle">
-        <div
-          v-on:click="onClick"
-          :class="filmType"
-          style=" display: inline-table; cursor: pointer"
-        >Izlemeye Devam Et</div>
-      </h5>
-      <div
-        :id="['obj-999']"
-        class="carousel slide w-100"
-        data-ride="carousel"
-        data-interval="false"
-      >
-        <div class="carousel-inner w-100" role="listbox">
-          <div style="height: 305px!important" class="carousel-item row no-gutters active">
-            <div class="container-fluid">
-              <div class="row">
-                <div
-                  v-for="(value,int,index) in watchedMoviearray"
-                  :key="index"
-                  class="col-lg-2"
-                >
-                  <MovieBox
-                    :clickedInfo="999"
-                    @clicked="infoSection"
-                    :movieName="value.name"
-                    :moviePoster="assetdomain+value.image"
-                    :movieLink="value.movieLink"
-                    :description="value.description"
-                    :length="value.length"
-                    :rate="value.rate"
-                    :year="value.year"
-                    :id="value.id"
-                  ></MovieBox>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div class="carouselContainer">
+        <div class="item" v-for="(item, index) in 20" :key="index">
+          <img height="350" src="/examplePoster.jpg" />
         </div>
-        <a
-          class="carousel-control-prev"
-          :href="['#obj-'+999]"
-          style="left: -15px!important; width: 3.7%!important"
-          role="button"
-          data-slide="prev"
-        >
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a
-          class="carousel-control-next"
-          :href="['#obj-'+999]"
-          style="right: -15px!important;  width: 3.7%!important"
-          role="button"
-          data-slide="next"
-        >
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
+        <div class="rightSpace"></div>
       </div>
-      <Information
-        style="margin-top: 5px"
-        :class="['info-'+999] + ' infoBase'"
-        :json="watchedMoviearray[dbIndex]"
-        :domain="assetdomain"
-        :filmType="filmType"
-        :id="999"
-        :videoActive="videoActive"
-      ></Information>
-    </div>
-    <div
-      v-for="(array, name, index) in res"
-      :key="index"
-      class="container text-center my-3"
-      style="max-width: 100%;"
-    >
-      <h5 class="genreTitle">
-        <div
-          v-on:click="onClick"
-          :class="filmType"
-          style=" display: inline-table; cursor: pointer"
-        >{{array.title}}</div>
-      </h5>
-      <div
-        :id="['obj-'+name]"
-        class="carousel slide w-100"
-        data-ride="carousel"
-        data-interval="false"
-      >
-        <div class="carousel-inner w-100" role="listbox">
-          <div
-            v-for="(value, nameIndex, ind) in spliting(array.items.length)"
-            :key="ind"
-            style="height: 305px!important"
-            :class="{'carousel-item row no-gutters':true, 'active':(nameIndex==0) }"
-          >
-            <div class="container-fluid">
-              <div class="row">
-                <div
-                  v-for="(value,int,index) in slicing(array.items, nameIndex*6)"
-                  :key="index"
-                  class="col-lg-2"
-                >
-                  <MovieBox
-                    :clickedInfo="name"
-                    @clicked="infoSection"
-                    :movieName="value.name"
-                    :moviePoster="assetdomain+value.image"
-                    :movieLink="value.movieLink"
-                    :description="value.description"
-                    :length="value.length"
-                    :rate="value.rate"
-                    :year="value.year"
-                    :id="value.id"
-                  ></MovieBox>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <a
-          class="carousel-control-prev"
-          :href="['#obj-'+name]"
-          style="left: -15px!important; width: 3.7%!important"
-          role="button"
-          data-slide="prev"
+
+      <div class="prev">
+        <svg
+          @click="prev"
+          version="1.1"
+          id="nextIcon"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px"
+          y="0px"
+          width="2.5rem"
+          height="2.5rem"
+          fill="white"
+          viewBox="0 0 46.02 46.02"
+          style="enable-background:new 0 0 46.02 46.02;transform: rotate(180deg)"
+          xml:space="preserve"
         >
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a
-          class="carousel-control-next"
-          :href="['#obj-'+name]"
-          style="right: -15px!important;  width: 3.7%!important"
-          role="button"
-          data-slide="next"
-        >
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
+          <path
+            d="M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645
+			C8.46,7.37,8.54,3.76,10.816,1.582c2.277-2.178,5.886-2.097,8.063,0.179l16.505,17.253c2.104,2.2,2.108,5.665,0.013,7.872
+			L18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
+          />
+        </svg>
       </div>
-      <Information
-        style="margin-top: 5px"
-        :class="['info-'+name] + ' infoBase'"
-        :json="onlyMovieList[movieIndex]"
-        :domain="assetdomain"
-        :filmType="filmType"
-        :id="name"
-        :videoActive="videoActive"
-      ></Information>
+      <div class="next">
+        <!-- <div class="backgroundBlack"></div> -->
+        <svg
+          @click="next"
+          version="1.1"
+          id="nextIcon"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px"
+          y="0px"
+          width="2.5rem"
+          height="2.5rem"
+          fill="white"
+          viewBox="0 0 46.02 46.02"
+          style="enable-background:new 0 0 46.02 46.02;"
+          xml:space="preserve"
+        >
+          <path
+            d="M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645
+			C8.46,7.37,8.54,3.76,10.816,1.582c2.277-2.178,5.886-2.097,8.063,0.179l16.505,17.253c2.104,2.2,2.108,5.665,0.013,7.872
+			L18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
+          />
+        </svg>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-//import MovieBox from "./MovieBox.vue";
-//import Information from "./Information.vue";
-const MovieBox = () => import("./MovieBox.vue");
-const Information = () => import("./Information.vue");
-
 export default {
-  props: ["load", "type", "res", "onlyMovieList", "filmType"],
-  components: {
-    MovieBox,
-    Information
-  },
-  data: function() {
+  props: ['json'],
+  data() {
     return {
-      prevValue: null,
-      movieIndex: 0,
-      dbIndex: 0,
-      passIndex: 0,
-      prevInfo: null,
-      videoActive: false,
-      watchedMoviearray: this.filmType=="series"?this.getDb("watchedSerie") :this.getDb("watchedMovie"),
-      hasWatched: false
+      scrollWidth: 0,
+      carousel: null
     };
   },
+  mounted() {
+    this.carousel = this.$el.querySelector(".carouselContainer");
+    var item = this.$el.querySelector(".item");
+    var visibileItemNum = Math.floor(window.innerWidth / item.offsetWidth);
+    this.scrollWidth = item.offsetWidth * visibileItemNum;
+  },
   methods: {
-    getDb: function(table) {
-      // await this.$nextTick()
-      var listed = [];
-      let openRequest = indexedDB.open("movies", 1);
-      openRequest.onsuccess = () => {
-        let db = openRequest.result;
-        var tx = db.transaction(table, "readonly");
-        tx.objectStore(table).getAll().onsuccess = e => {
-          if (e.target.result.length != 0) {
-            this.hasWatched = true;
-            for (let index = 0; index < e.target.result.length; index++) {
-              listed.push(e.target.result[index]);
-            }
-            this.watchedMovieList = e.target.result;
-          }
-        };
-      };
-      return listed;
+    prev: function() {
+      this.carousel.scrollLeft -= this.scrollWidth;
     },
-    play(e) {
-      $("#videoId")
-        .get(0)
-        .play();
-    },
-    pause(e) {
-      $("#videoId")
-        .get(0)
-        .pause();
-    },
-    videoActivate() {
-      this.videoActive = !this.videoActive;
-    },
-    onClick(e) {
-      this.$emit("clicked", $(e.target).html(), $(e.target).attr("class"));
-    },
-    toggle(info, value, id, dbId, isDb) {
-      return $(info).slideToggle({
-        start: e => {
-          if(isDb){
-            this.dbIndex = dbId
-          }else{
-            this.movieIndex = id;
-          }
-        }
-      });
-    },
-    spliting: function(len) {
-      var num = len % 6 == 0 ? Math.floor(len / 6) : Math.ceil(len / 6);
-      return num;
-    },
-    slicing: function(array, index) {
-      return array.slice(index, index + 6);
-    },
-    infoSection(value, info) {
-      var isDb = false;
-      if(info != ".info-999"){
-      this.passIndex = this.onlyMovieList.findIndex(x => x.id === value);
-      }else{
-        var dbIndex = this.watchedMoviearray.findIndex(x => x.id === value);
-        isDb = true
-      }
-
-      if (this.prevValue != value && this.prevValue != null) {
-        $(".infoBase").slideUp(400);
-        this.videoActivate();
-        setTimeout(() => {
-          if (!this.videoActive) this.videoActivate();
-          this.toggle(info, value, this.passIndex, dbIndex, isDb);
-        }, 400);
-      } else {
-        this.videoActivate();
-        this.toggle(info, value, this.passIndex, dbIndex, isDb);
-      }
-
-      this.prevValue = value;
+    next: function() {
+      this.carousel.scrollLeft += this.scrollWidth;
     }
   }
 };
 </script>
+
+<style scoped>
+.rightSpace {
+  padding: 35px;
+}
+.backgroundBlack {
+  width: 100%;
+  height: 15rem;
+  top: -5rem;
+  z-index: -1;
+
+  background-color: rgba(17, 17, 17, 0.25);
+}
+#nextIcon {
+  z-index: 10;
+}
+/* .next::before {
+  content: "";
+  position: absolute;
+  top: -5rem;
+  left: 0;
+  width: 5rem;
+  z-index: -1;
+  height: 15rem;
+  background-color: rgba(17, 17, 17, 1);
+  opacity: 0.7;
+} */
+.prev {
+  position: absolute;
+  left: 2%;
+  cursor: pointer;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+}
+.next {
+  position: absolute;
+  right: 2%;
+  top: 50%;
+  z-index: 5;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: white;
+}
+.title {
+  color: white;
+  padding: 0 0 0 30px;
+  font-weight: 600;
+  font-size: 1.4rem;
+  cursor: pointer;
+  display: inline;
+}
+.item {
+  display: inline-block;
+  padding: 10px;
+  transition: all 0.5s;
+  margin: 0;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.item:hover {
+  transform: scale(1.2);
+  margin: 0 60px 0 20px;
+}
+.carouselContainer {
+  pointer-events: none;
+  transition: all 0.5s;
+}
+.carouselContainer:hover .item:not(:hover) {
+  transform: translate3d(-20px, 0, 0);
+}
+
+.carouselContainer {
+  position: relative;
+  width: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  display: flex;
+  padding: 30px 40px 40px 20px;
+}
+.carouselSection {
+  position: relative;
+  width: 100%;
+  padding: 30px 0 0 0;
+}
+</style>

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Player from '../components/Player'
 import Home from '../components/Home'
+import Mainpart from '../components/Mainpart'
 
 Vue.use(Router)
 
@@ -15,8 +16,20 @@ export default new Router({
         },
         {
             path: '/',
-            name: 'Home',
             component: Home,
-        }
+            children: [
+                {
+                    path: 'movie',
+                    name: 'Movies',
+                    component: Mainpart 
+                },
+                {
+                    path: 'tvshows',
+                    name: 'Series',
+                    component: Mainpart 
+                }
+            ]
+        },
+
     ]
 })

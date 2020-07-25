@@ -34,12 +34,9 @@
         </div>
         <br>
         <div>
-          <label>Upload Trailer: </label>
-          <div class="custom-file">
-              <input type="file" class="custom-file-input" name="trailer" required>
-              <label class="custom-file-label" for="video">Choose Trailer</label>
-            </div>
-        </div>
+          <label>Trailer Link: </label>
+          <input class="form-control" type="text" name="trailer" placeholder="Trailer Link" required> <br>
+          </div>
         <br>
         <label for="Genres">Type: </label>
         <div>
@@ -55,11 +52,10 @@
         <div class="movieType d-none">
           <label for="length">Movie Duration: </label>
           <input class="form-control" type="text" name="duration" required placeholder="Only number (as minutes)"><br>
-          <label>Upload Video: </label>
-          <div class="custom-file">
-              <input type="file" class="custom-file-input" id="video" name="video" required>
-              <label class="custom-file-label" for="video">Choose video</label>
-            </div>
+          <label>Movie Link: </label>
+          <input class="form-control" type="text" name="movie" placeholder="Movie Link"> <br>
+          <label>English Link: </label>
+          <input class="form-control" type="text" name="enmovie" placeholder="English Link"> <br>
         </div>
       </div>
 
@@ -76,17 +72,22 @@
           <label for="description">Description</label>
           <textarea id="my-textarea" class="form-control" name="description" rows="8" required></textarea>
         </div>
-        <label for="image">Cover Image: </label> <br>
+        <label for="image">Cover & Poster Image: </label> <br>
         <div>
           <img id="blah" width="150" src="https://via.placeholder.com/150" alt="Cover" />
+          <img id="blahPoster" width="350" src="https://via.placeholder.com/350x200" alt="Poster" />
         </div><br>
 
 
-        <div class="custom-file">
+        <!-- <div class="custom-file">
           <input type="file" class="custom-file-input" name="cover" id="imgInp" required>
           <label class="custom-file-label" for="imgInp">Choose cover</label>
-        </div>
-
+        </div> -->
+        <input class="form-control" type="text" name="cover" id="imageUrl" placeholder="Cover Link" required> <br>
+        <input class="form-control" type="text" name="poster" id="posterUrl" placeholder="Poster Link" required> <br>
+        <button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Open Cover Selector
+        </button>
       </div>
      
       <div class="col-12 text-center" style="margin-bottom: 20px"> <br><br>
@@ -96,10 +97,32 @@
   </div>
 
 
-</form>
 
+
+
+</form>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="max-width: 90%">
+    <div class="modal-content">
+      <div class="modal-header" style="display: inline">
+        <input type="text" placeholder="Enter Movie Name" id="searchInput">
+        <button class="btn primary-btn" id="searchBtn">Search Cover</button>
+        <button class="btn primary-btn" id="searchPosterBtn">Search Poster</button>
+      </div>
+      <div class="modal-body" id="modalbody">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
   $(document).ready(function() {
+    var type = 1;
+
     $('.js-example-basic-multiple').select2({
         placeholder: 'Select Genres',
         width: 'resolve',
@@ -120,13 +143,23 @@
 
     $(".js-example-basic-single").on('change', function(){
       if(this.value == 2){
+        type = 2
         $(".movieType").addClass("d-none")
         $(".movieType input").each(function(index){ $(this).prop('required',false) })
       }else{
+        type = 1
         $(".movieType").removeClass("d-none")
         $(".movieType input").each(function(index){ $(this).prop('required',true) })
       }
     })
+
+    $("#searchBtn").click(function(){
+      movieFun(type, true)
+    })
+    $("#searchPosterBtn").click(function(){
+      movieFun(type, false)
+    })
+
 });
 
 function readURL(input) {
@@ -144,5 +177,48 @@ function readURL(input) {
 $("#imgInp").change(function() {
   readURL(this);
 });
+
+
+function movieFun(type, isCover){
+  var urlApi;
+        console.log("type is " +type)
+        if(type == 1){
+            urlApi = 'http://api.themoviedb.org/3/search/movie?api_key=285a107f0c92cfda467db221ccc502f7&query='
+        }else{
+            urlApi = 'http://api.themoviedb.org/3/search/tv?api_key=285a107f0c92cfda467db221ccc502f7&query='
+        }
+  var query = document.querySelector("#searchInput").value
+  
+  document.querySelector("#modalbody").innerHTML = ""
+
+  fetch(urlApi+query)
+  .then(response => response.json())
+  .then(data => {
+
+    var movies = data.results;
+    movies.forEach(function(item, index){
+      if((isCover && item.poster_path != null) || (!isCover && item.backdrop_path != null) ){
+      var image = new Image()
+      image.src = 'https://image.tmdb.org/t/p/original/' + (isCover?item.poster_path:item.backdrop_path);
+      image.width = isCover?"150":"350"
+      image.style.margin = "15px 15px 0 0"
+      image.style.cursor = "pointer"
+      image.addEventListener("click", function(){
+        if(isCover){
+          document.querySelector("#imageUrl").value = image.src
+          document.querySelector("#blah").src = image.src
+        }else{
+          document.querySelector("#posterUrl").value = image.src
+          document.querySelector("#blahPoster").src = image.src
+        }
+        $('#exampleModal').modal('hide')
+      })
+      $("#modalbody")[0].append(image)
+    }
+  })
+
+  });
+}
+
 </script>
 @endsection

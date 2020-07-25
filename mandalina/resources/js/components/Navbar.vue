@@ -1,155 +1,169 @@
 <template>
-  <nav class="navBar">
-    <div class="container-fluid" style="padding-top: 8px;">
-      <div class="row">
-        <div class="col-lg-4">
-          <div class="sample seven">
-            <input type="text" v-on:input="onChange" name="search" placeholder="Arama..." />
-            <button type="submit" class="btn btn-search" style="border-radius:0;">
-              <i class="fa fa-search" style="color: white"></i>
-            </button>
-          </div>
+  <div class="navBar container-fluid">
+    <div class="row align-items-center">
+      <div class="col-12 col-md-2">
+        <div class="customDiv1">
+          <router-link to="/movie">
+            <img
+              src="http://netflix-react-clone.surge.sh/8562b6565f5ae1db5e4af40d85b4ed2d.png"
+              height="75"
+            />
+          </router-link>
         </div>
-        <div class="col-lg-4">
-          <h3 style="text-align: center;">
-            <a
-              href="/"
-              
-            ><img src="/assets/logoless.png" width="250" height="30" alt="" srcset=""></a>
-          </h3>
+      </div>
+      <div class="col-8 col-md-7">
+        <div class="customDiv">
+          <ul>
+            <li><router-link class="routeFont" to="/movie">Filmler</router-link></li>
+            <li>
+              <router-link class="routeFont" to="/tvshows">Diziler</router-link>
+            </li>
+            <li>Iletisim</li>
+          </ul>
         </div>
-        <div class="col-lg-4">
-          <div class="rightNavbar">
-            <ul>
-              <li class="movieBar" style="position: relative">
-                <a href="/" style="color:white;">Filmler</a>
-                <div class="posNav">
-                  <ul class="subMoveGenre">
-                    <li class="movies" v-for="(array, index, name) in genres" :key="name" v-on:click="onClick">{{genres[index].name}}</li>
-                  </ul>
-                </div>
-              </li>
-              <li class="movieBar" style="position: relative"><a onclick="window.location.hash = '#series'; window.location.reload()" class="hoverAdd" style="color:white;">Diziler</a>
-                 <div class="posNav">
-                  <ul class="subMoveGenre">
-                    <li class="series" v-for="(array, index, name) in genres" :key="name" v-on:click="onClick">{{genres[index].name}}</li>
-                  </ul>
-                </div> 
-              </li>
-            </ul>
+      </div>
+      <div class="col-4 col-md-3">
+        <div class="customDiv">
+          <div class="searchInput">
+            <svg
+              class="logo loopIcon"
+              width="1rem"
+              height="1rem"
+              viewBox="0 0 251 251"
+              version="1.1"
+            >
+              <title>Search Bar</title>
+              <desc>FilmDiziMob</desc>
+              <defs />
+              <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g id="musica-searcher" fill="#FFFFFF" fill-rule="nonzero">
+                  <path
+                    d="M244.186,214.604 L189.807,160.226 C189.518,159.937 189.179,159.735 188.877,159.466 C199.577,143.235 205.822,123.806 205.822,102.912 C205.822,46.075 159.747,0 102.911,0 C46.075,0 0,46.075 0,102.911 C0,159.746 46.074,205.822 102.91,205.822 C123.805,205.822 143.233,199.577 159.464,188.877 C159.733,189.178 159.934,189.517 160.223,189.806 L214.603,244.186 C222.772,252.354 236.016,252.354 244.186,244.186 C252.354,236.017 252.354,222.773 244.186,214.604 Z M102.911,170.146 C65.777,170.146 35.675,140.044 35.675,102.911 C35.675,65.777 65.778,35.675 102.911,35.675 C140.043,35.675 170.146,65.778 170.146,102.911 C170.146,140.044 140.043,170.146 102.911,170.146 Z"
+                    id="Shape"
+                  />
+                </g>
+              </g>
+            </svg>
+            <input tabindex="1" type="text" class="searchBox" placeholder="Film ve Dizi Ara..." />
           </div>
         </div>
       </div>
     </div>
-  </nav>
+  </div>
 </template>
-
 
 <script>
 export default {
-  props: ["genres"],
+  mounted() {
+    window.addEventListener("scroll", this.onScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.onScroll);
+  },
   methods: {
-    onClick(e) {
-      this.$emit("clicked", $(e.target).html(), $(e.target).attr('class'));
+    onScroll() {
+      const currentScrollPosition =
+        window.pageYOffset || document.documentElement.scrollTop;
+      if (currentScrollPosition < 0) {
+        return;
+      } else if (currentScrollPosition > 0) {
+        document.querySelector(".navBar").classList.add("hideTransparent");
+      } else {
+        document.querySelector(".navBar").classList.remove("hideTransparent");
+      }
     },
-    onChange(v) {
-      this.$emit("changed", document.getElementsByName("search")[0].value);
-    }
-  }
+  },
 };
 </script>
 
-
 <style scoped>
-input {
-  border: 0px solid #ccc;
-  font-size: 12px;
-  height: 30px;
-  padding: 4px 8px;
-  position: absolute;
-  width: 50%;
+.routeFont {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #ddd;
 }
-input:focus {
-  outline: none;
+.routeFont:hover {
+  color: #a7a7a7;
+  text-decoration: none;
 }
-
-button {
+ul {
+  margin: 0;
+  padding: 0;
+}
+ul li {
+  display: inline;
+  font-size: 1rem;
+  color: #ddd;
+  margin-right: 2rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+ul li:hover {
+  color: #a7a7a7;
+}
+img {
+  width: 75%;
+}
+.customDiv1 {
   text-align: center;
 }
-button:focus {
-  outline: none;
-}
-button.btn-search,
-button.btn-reset {
-  background: #ead044;
-  border: none;
-  height: 30px;
-  font-size: 12px;
-  padding: 4px;
-  position: absolute;
-  width: 30px;
+
+.navBar {
+  position: fixed;
+  width: 100%;
+  height: 75px;
+  background-color: transparent;
+  transition: all 0.5s;
+  z-index: 100;
 }
 
-.sample {
-  float: left;
-  height: 50px;
-  margin: 5px 0 0 28px;
+.searchBox {
+  width: 0%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background-color: #111;
+  transition: all 0.5s;
+  float: right;
+  height: 35px;
+  color: white;
+}
+
+.hideTransparent {
+  background-color: #111;
+}
+
+.searchBox:focus {
+  width: 18rem;
+  padding: 0 0 0 5px;
+  border: 2px solid white;
+  background-color: black;
+}
+
+.searchBox:hover {
+  width: 18rem;
+  padding: 0 0 0 5px;
+  border: 2px solid white;
+  background-color: black;
+}
+
+.loopIcon:hover + .searchBox {
+  width: 18rem;
+  padding: 0 0 0 5px;
+  border: 2px solid white;
+  background-color: black;
+}
+
+.searchInput {
+  float: right;
   position: relative;
-  width: 34%;
 }
 
-.sample.seven input,
-.sample.eight input {
-  border-right: none;
-  transition: all 0.3s ease-in;
-  width: 120px;
-}
-.sample.seven input:focus,
-.sample.eight input:focus {
-  width: 220px;
-}
-.sample.seven input:focus ~ button.btn-search,
-.sample.eight input:focus ~ button.btn-search {
-  background: #ead044;
-  border-radius: 0 50% 50% 0;
-  color: #fff;
-  left: 220px;
-}
-.sample.seven input:focus ~ button.btn-reset,
-.sample.eight input:focus ~ button.btn-reset {
-  animation: bounceRight 0.6s;
-  animation-delay: 0.2s;
-  animation-timing-function: cubic-bezier(0.3, 0.2, 1, 0.8);
-  border-radius: 50%;
-  color: #fff;
-  left: 254px;
-}
-.sample.seven button.btn-search,
-.sample.eight button.btn-search {
-  background: #292626;
-  left: 120px;
-  transition: all 0.3s ease-in;
-}
-.sample.seven button.btn-reset,
-.sample.eight button.btn-reset {
-  background: #000;
-  height: 20px;
-  left: 120px;
-  top: 5px;
-  transition: all 0.3s ease-in;
-  width: 20px;
-  z-index: -1;
-}
-
-@keyframes bounceRight {
-  0% {
-    transform: translateX(0px);
-  }
-  50% {
-    transform: translateX(10px);
-  }
-  100% {
-    transform: translateX(0px);
-  }
+.loopIcon {
+  cursor: pointer;
+  position: absolute;
+  right: 8px;
+  top: 8px;
 }
 </style>

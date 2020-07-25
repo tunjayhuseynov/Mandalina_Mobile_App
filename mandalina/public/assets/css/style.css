@@ -1,7 +1,10 @@
 body {
-    background-color: rgb(41, 38, 38) !important;
+    background-color: #111 !important;
     overflow-y: scroll;
+    font-family: 'Hind', sans-serif;
 }
+
+
 
 .genreTitle {
     color: white;
@@ -252,70 +255,31 @@ body {
     padding: 5px;
 }
 
-.navBar {
-    position: fixed;
-    top: 0;
-    height: 55px;
-    background-color: rgba(0, 0, 0, .6);
-    width: 100%;
-    z-index: 2;
-}
-
-.navPadding {
-    padding-top: 55px;
-}
-
-.leftNavbar {
-    margin-top: 8px;
-    float: right;
-}
-
-.rightNavbar {
-    margin-top: 3px;
-    float: right;
-    margin-right: 8px;
-}
-
-.rightNavbar ul {
-    padding: 0;
-}
-
-.navBar ul li {
-    font-weight: 400;
-    cursor: pointer;
-    display: inline;
-    margin-right: 65px;
-    list-style-type: none;
-    font-size: 20px;
-    color: white;
-}
-
-.navBar ul li:hover {
-    text-decoration-color: #ead044;
-}
 
 
-/* SCROLL */
 
-/* width */
+/* 
+
+
+
 ::-webkit-scrollbar {
     width: 10px;
 }
 
-/* Track */
+
 ::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, .6);
 }
 
-/* Handle */
+
 ::-webkit-scrollbar-thumb {
     background: rgba(121, 121, 121, 0.6);
 }
 
-/* Handle on hover */
+
 ::-webkit-scrollbar-thumb:hover {
     background: rgb(0, 0, 0);
-}
+} */
 
 
 

@@ -49,3 +49,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['validApi']], function () {
 Route::get('/player', function (Request $request) {
     return redirect('/'.$request->path());
 });
+
+Route::get('/{any}', function(Request $request){
+    return View("website/main");
+})->where('any', '.*');

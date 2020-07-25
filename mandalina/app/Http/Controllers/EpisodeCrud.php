@@ -33,13 +33,15 @@ class EpisodeCrud extends Controller
         $duration = $request->input('duration');
         $description = $request->input('description');
 
+        $link = $request->input("episodeLink");
+/*
         if($request->hasFile('video')){
             if($request->file("video")->isValid()){
                 $video = $request->file("video");
                 $videoname = time() . '.' . $video->getClientOriginalExtension();
                 Storage::disk('public_uploads')->put("series/videos/".$seriesName."/".$season."/".$number."/".$videoname, file_get_contents($video));
             }
-        }
+        }*/
 
         if($request->hasFile("cover")){
             if($request->file("cover")->isValid()){
@@ -50,7 +52,7 @@ class EpisodeCrud extends Controller
         }
 
         DB::table('episodes')->insertGetId(
-            ['name' => $name , 'url' => "/series/videos/".$seriesName."/".$season."/".$number."/".$videoname, 'season' => $season, 'number' => $number,
+            ['name' => $name , 'url' => $link, 'season' => $season, 'number' => $number,
             'summary' => $description, "movieID" => $id, 'isDeleted' => FALSE, 'addedDate' => date("Y-m-d h:i:s"),
             'image' => "/series/covers/".$seriesName."/".$season."/".$number."/".$covername, 'airtime' => $duration]
         );
@@ -85,15 +87,17 @@ class EpisodeCrud extends Controller
         $duration = $request->input('duration');
         $description = $request->input('description');
         $oldcover = $request->input("oldcover");
-        $oldvideo = $request->input("oldvideo");
+
+        $link = $request->input("episodeLink");
         
+        /*
         if($request->hasFile('video')){
             if($request->file("video")->isValid()){
                 $video = $request->file("video");
                 $videoname = time() . '.' . $video->getClientOriginalExtension();
                 Storage::disk('public_uploads')->put("series/videos/".$seriesName."/".$season."/".$number."/".$videoname, file_get_contents($video));
             }
-        }
+        }*/
 
         if($request->hasFile("cover")){
             if($request->file("cover")->isValid()){
@@ -108,7 +112,7 @@ class EpisodeCrud extends Controller
         ->update(
             ['name' => $name , 'image' => isset($cover)==1?"/series/covers/".$seriesName."/".$season."/".$number."/".$covername:$oldcover , 'season' => $season, 'summary' => trim($description),
             'number' => $number, 'airtime' => $duration,
-            'url' => isset($video)==1?"/series/videos/".$seriesName."/".$season."/".$number."/".$videoname:$oldvideo, 'isDeleted' => FALSE]
+            'url' => $link, 'isDeleted' => FALSE]
         );
 
 

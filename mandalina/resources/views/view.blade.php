@@ -9,6 +9,10 @@
                                 <label>Cover Image: </label> <br>
                                 <img style="max-width: 100%" src="{{$data[3].$data[2]['image']}}">
                         </div>
+                        <div class="box text-center" style="padding: 0!important">
+                                <label>Poster Image: </label> <br>
+                                <img style="max-width: 100%" src="{{$data[3].$data[2]['poster']}}">
+                        </div>
                 </div>
 
                 <div class="col-3">
@@ -52,16 +56,23 @@
                                 <label>Movie Link: </label>
                                 <h5 style="text-align: center">
                                         <a target="_blank"
-                                                href="{{{$data[3].$data[2]['movieLink']}}}">{{{$data[3].$data[2]['movieLink']}}}</a>
+                                                href="{{{$data[2]['movieLink']}}}">{{{$data[2]['movieLink']}}}</a>
+                                </h5>
+                        </div>
+                        <div class="box text-center" style="padding: 15px 15px;">
+                                <label>English Link: </label>
+                                <h5 style="text-align: center">
+                                        <a target="_blank"
+                                                href="{{{$data[2]['movieLink']}}}">{{{$data[2]['englishLink']}}}</a>
                                 </h5>
                         </div>
                         @endif
                         <div class="box text-center" style="padding: 15px 15px;">
                                 <label>Trailer Link: </label>
-                                @if($data[2]['trailerName'] != null)
+                                @if($data[2]['trailerLink'] != null)
                                 <h5 style="text-align: center">
                                         <a target="_blank"
-                                                href="{{{$data[3].$data[2]['trailerName']}}}">{{{$data[3].$data[2]['trailerName']}}}</a>
+                                                href="{{{$data[3].$data[2]['trailerLink']}}}">{{{$data[3].$data[2]['trailerLink']}}}</a>
                                 </h5>
 
                                 @else
