@@ -47,14 +47,14 @@ class EpisodeCrud extends Controller
             if($request->file("cover")->isValid()){
                 $cover = $request->file("cover");
                 $covername = time() . '.' . $cover->getClientOriginalExtension();
-                Storage::disk('public_uploads')->put("series/covers/".$seriesName."/".$season."/".$number."/".$covername, file_get_contents($cover));
+                Storage::disk('public_uploads')->put("series/covers/".preg_replace("/[^0-9\pL]+/", "", $seriesName)."/".$season."/".$number."/".$covername, file_get_contents($cover));
             }
         }
 
         DB::table('episodes')->insertGetId(
             ['name' => $name , 'url' => $link, 'season' => $season, 'number' => $number,
             'summary' => $description, "movieID" => $id, 'isDeleted' => FALSE, 'addedDate' => date("Y-m-d h:i:s"),
-            'image' => "/series/covers/".$seriesName."/".$season."/".$number."/".$covername, 'airtime' => $duration]
+            'image' => "/series/covers/".preg_replace("/[^0-9\pL]+/", "", $seriesName)."/".$season."/".$number."/".$covername, 'airtime' => $duration]
         );
 
 

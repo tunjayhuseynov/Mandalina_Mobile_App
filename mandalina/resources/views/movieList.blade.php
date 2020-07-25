@@ -26,8 +26,8 @@
             <td>{{$item['name']}}</td>
             <td>{{$item['id']}}</td>
             <td>{{$item['movieType']==1?"Movie":"Series"}}</td>
-            <td>{{$item['movieType']==2?count($item['episodes'])." Episodes":"X"}}</td>
-            <td>{{$item['englishLink']!=null?'Done':''}}</td>
+            <td>{{$item['movieType']==2?count($item['episodes'])." Episodes":""}}</td>
+            <td>{{$item['englishLink']!=null&&strlen($item['englishLink'])>3?'Done':'X'}}</td>
             <td>{{$item['addedDate']}}</td>
         <td><a target="_blank" href="{{url('/AdminPanelPinnme/edit/'.$item['id'])}}">Edit</a> ||
             <a onclick="return confirm('Do you really want to delete it?');" href="{{url('/AdminPanelPinnme/delete/'.$item['id'])}}">Delete</a> ||
