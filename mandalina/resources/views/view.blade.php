@@ -41,6 +41,10 @@
                                 <h4>{{$data[2]['rate']}}</h4>
                         </div>
                         <div class="box text-center">
+                                <label>IMDB: </label>
+                                <h4>{{$data[2]['imdb']}}</h4>
+                        </div>
+                        <div class="box text-center">
                                 <label>{{$data[2]['movieType']==1?"Duration: ":"# of Episodes"}} </label>
                                 <h4>{{$data[2]['movieType']==1?$data[2]['length'].' mins':count($data[2]['episodes'])}}
                                 </h4>

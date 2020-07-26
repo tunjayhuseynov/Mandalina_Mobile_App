@@ -2154,9 +2154,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {},
   data: function data() {
@@ -2800,7 +2797,7 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n.blackFade[data-v-1f42fb90] {\r\n  position: absolute;\r\n  bottom: 0;\r\n  z-index: 20;\r\n  width: 100%;\r\n  height: 25%;\r\n  background-image: -webkit-gradient(\r\n    linear,\r\n    left top, left bottom,\r\n    from(transparent),\r\n    color-stop(rgba(37, 37, 37, 0.61)),\r\n    to(#111)\r\n  );\r\n  background-image: linear-gradient(\r\n    180deg,\r\n    transparent,\r\n    rgba(37, 37, 37, 0.61),\r\n    #111\r\n  );\r\n  opacity: 1;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\n}\n.opocityZero[data-v-1f42fb90]{\r\n  opacity: 0;\n}\n.headerBar[data-v-1f42fb90] {\r\n  position: relative;\r\n  height: 88vh;\r\n  background-color: transparent;\n}\n.movieTitle[data-v-1f42fb90] {\r\n  position: absolute;\r\n  z-index: 5;\r\n  top: 33%;\r\n  left: 3.8%;\r\n  width: 50%;\n}\n.Title[data-v-1f42fb90] {\r\n  font-size: 4rem;\r\n  font-weight: bold;\r\n  color: white;\n}\n.watchBtn[data-v-1f42fb90] {\r\n  padding: 0.5rem 3rem;\r\n  border-radius: 0.2vw;\r\n  border: none;\r\n  outline: none;\r\n  background-color: rgba(51, 51, 51, 0.5);\n}\n.watchBtn[data-v-1f42fb90]:hover {\r\n  background-color: #e6e6e6;\r\n  color: black;\n}\n.watchBtn:hover .btnText[data-v-1f42fb90] {\r\n  color: black;\n}\n.watchBtn:hover svg[data-v-1f42fb90] {\r\n  fill: black;\n}\n.btnText[data-v-1f42fb90] {\r\n  color: white;\r\n  font-weight: 700;\r\n  font-size: 1rem;\r\n  font-family: \"Hind\", sans-serif;\n}\n.about[data-v-1f42fb90] {\r\n  margin-top: 20px;\n}\n.aboutText[data-v-1f42fb90] {\r\n  display: inline-block;\r\n  white-space: normal;\r\n  color: white;\r\n  overflow: hidden;\r\n  height: 120px;\n}\n.trailer[data-v-1f42fb90] {\r\n  position: relative;\r\n  width: 100%;\r\n  height: 100%;\n}\n.trailer video[data-v-1f42fb90] {\r\n  width: 100%;\r\n  height: 100%;\r\n  -o-object-fit: fill;\r\n     object-fit: fill;\n}\n.poster[data-v-1f42fb90] {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  -o-object-fit: cover;\r\n     object-fit: cover;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\n}\n.headerBar:hover .poster[data-v-1f42fb90] {\r\n  opacity: 0;\r\n  visibility: hidden;\n}\n.soundOnOf[data-v-1f42fb90] {\r\n  position: absolute;\r\n  right: 2%;\r\n  top: 15%;\r\n  cursor: pointer;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\n}\r\n", ""]);
+exports.push([module.i, "\n#vd[data-v-1f42fb90] {\r\n  background: transparent\r\n    url(\"/assets/loader.gif\") no-repeat center center;\n}\n.blackFade[data-v-1f42fb90] {\r\n  position: absolute;\r\n  bottom: 0;\r\n  z-index: 20;\r\n  width: 100%;\r\n  height: 25%;\r\n  background-image: -webkit-gradient(\r\n    linear,\r\n    left top, left bottom,\r\n    from(transparent),\r\n    color-stop(rgba(37, 37, 37, 0.61)),\r\n    to(#111)\r\n  );\r\n  background-image: linear-gradient(\r\n    180deg,\r\n    transparent,\r\n    rgba(37, 37, 37, 0.61),\r\n    #111\r\n  );\r\n  opacity: 1;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\n}\n.opocityZero[data-v-1f42fb90] {\r\n  opacity: 0;\n}\n.headerBar[data-v-1f42fb90] {\r\n  position: relative;\r\n  height: 88vh;\r\n  background-color: transparent;\n}\n.movieTitle[data-v-1f42fb90] {\r\n  position: absolute;\r\n  z-index: 5;\r\n  top: 33%;\r\n  left: 3.8%;\r\n  width: 50%;\n}\n.Title[data-v-1f42fb90] {\r\n  font-size: 4rem;\r\n  font-weight: bold;\r\n  color: white;\n}\n.watchBtn[data-v-1f42fb90] {\r\n  padding: 0.5rem 3rem;\r\n  border-radius: 0.2vw;\r\n  border: none;\r\n  outline: none;\r\n  background-color: rgba(51, 51, 51, 0.5);\n}\n.watchBtn[data-v-1f42fb90]:hover {\r\n  background-color: #e6e6e6;\r\n  color: black;\n}\n.watchBtn:hover .btnText[data-v-1f42fb90] {\r\n  color: black;\n}\n.watchBtn:hover svg[data-v-1f42fb90] {\r\n  fill: black;\n}\n.btnText[data-v-1f42fb90] {\r\n  color: white;\r\n  font-weight: 700;\r\n  font-size: 1rem;\r\n  font-family: \"Hind\", sans-serif;\n}\n.about[data-v-1f42fb90] {\r\n  margin-top: 20px;\n}\n.aboutText[data-v-1f42fb90] {\r\n  display: inline-block;\r\n  white-space: normal;\r\n  color: white;\r\n  overflow: hidden;\r\n  height: 120px;\n}\n.trailer[data-v-1f42fb90] {\r\n  position: relative;\r\n  width: 100%;\r\n  height: 100%;\n}\n.trailer video[data-v-1f42fb90] {\r\n  width: 100%;\r\n  height: 100%;\r\n  -o-object-fit: fill;\r\n     object-fit: fill;\n}\n.poster[data-v-1f42fb90] {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  -o-object-fit: cover;\r\n     object-fit: cover;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\n}\n.headerBar:hover .poster[data-v-1f42fb90] {\r\n  opacity: 0;\r\n  visibility: hidden;\n}\n.soundOnOf[data-v-1f42fb90] {\r\n  position: absolute;\r\n  right: 2%;\r\n  top: 15%;\r\n  cursor: pointer;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -4793,12 +4790,7 @@ var render = function() {
             _c(
               "video",
               {
-                attrs: {
-                  id: "vd",
-                  preload: "none",
-                  poster: "/assets/loader.gif",
-                  muted: ""
-                },
+                attrs: { id: "vd", preload: "none", muted: "" },
                 domProps: { muted: true }
               },
               [

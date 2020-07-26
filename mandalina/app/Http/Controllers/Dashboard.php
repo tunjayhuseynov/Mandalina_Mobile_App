@@ -105,6 +105,7 @@ class Dashboard extends Controller
         $enmovie = $request->input("enmovie");
         $duration = $request->input("duration");
         $poster = $request->input("poster");
+        $imdb = $request->input('imdb');
 
         $contents = file_get_contents($coverUrl);
         $covername = substr($coverUrl, strrpos($coverUrl, '/') + 1);
@@ -136,18 +137,25 @@ class Dashboard extends Controller
         $id =  DB::table('movies')->insertGetId(
             [
             'name' => $name , 
-            'image' => '/covers/'.preg_replace("/[^0-9\pL]+/", "", $name).'/'.$covername,
-            'poster' => '/covers/'.preg_replace("/[^0-9\pL]+/", "", $name).'/'.$posterCovername,
-            'year' => $year, 'description' => trim($description),
-            'movieType' => $type, 'addedDate' => date("Y-m-d h:i:s"), 
-            'rate' => $limit, 'length' => isset($duration)==1?$duration:0,
-            'movieLink' => $movie, 'isDeleted' => FALSE, 
-            'tagName' => $tag, "trailerLink" => $trailer,
-            'englishLink' => $enmovie]
+            'image' => '/covers/'.preg_replace("/[^a-zA-Z0-9\']/", "", $name).'/'.$covername,
+            'poster' => '/covers/'.preg_replace("/[^a-zA-Z0-9\']/", "", $name).'/'.$posterCovername,
+            'year' => $year, 
+            'description' => trim($description),
+            'movieType' => $type, 
+            'addedDate' => date("Y-m-d h:i:s"), 
+            'rate' => $limit, 
+            'length' => isset($duration)==1?$duration:0,
+            'movieLink' => $movie, 
+            'isDeleted' => FALSE, 
+            'tagName' => $tag, 
+            "trailerLink" => $trailer,
+            'englishLink' => $enmovie,
+            'imdb' => $imdb
+            ]
         );
         
-        Storage::disk('public_uploads')->put("covers/".preg_replace("/[^0-9\pL]+/", "", $name)."/".$covername, $contents);
-        Storage::disk('public_uploads')->put("covers/".preg_replace("/[^0-9\pL]+/", "", $name)."/".$posterCovername, $posterContents);
+        Storage::disk('public_uploads')->put("covers/".preg_replace("/[^a-zA-Z0-9\']/", "", $name)."/".$covername, $contents);
+        Storage::disk('public_uploads')->put("covers/".preg_replace("/[^a-zA-Z0-9\']/", "", $name)."/".$posterCovername, $posterContents);
 
         foreach ($genres as $key => $value) {
             DB::table('moviegenres')->insert([
@@ -199,16 +207,17 @@ class Dashboard extends Controller
         $movie = $request->input("movie");
         $enmovie = $request->input("enmovie");
         $coverUrl = $request->input('cover');
+        $imdb = $request->input('imdb');
 
         if($coverUrl != null ){
             $contents = file_get_contents($coverUrl);
             $covername = substr($coverUrl, strrpos($coverUrl, '/') + 1);    
-            Storage::disk('public_uploads')->put("covers/".preg_replace("/[^0-9\pL]+/", "", $name)."/".$covername, $contents);
+            Storage::disk('public_uploads')->put("covers/".preg_replace("/[^a-zA-Z0-9\']/", "", $name)."/".$covername, $contents);
         }
         if($poster != null ){
             $posterContents = file_get_contents($poster);
             $posterCovername = substr($poster, strrpos($poster, '/') + 1);    
-            Storage::disk('public_uploads')->put("covers/".preg_replace("/[^0-9\pL]+/", "", $name)."/".$posterCovername, $posterContents);
+            Storage::disk('public_uploads')->put("covers/".preg_replace("/[^a-zA-Z0-9\']/", "", $name)."/".$posterCovername, $posterContents);
         }
       /*  
         if($request->hasFile("video")){
@@ -239,13 +248,22 @@ class Dashboard extends Controller
         DB::table('movies')
         ->where('id', $movieid)
         ->update(
-            ['name' => $name , 'image' => $coverUrl!=null?'/covers/'.preg_replace("/[^0-9\pL]+/", "", $name)."/".$covername:$oldcover , 'year' => $year, 'description' => trim($description),
-            'movieType' => $type, 'rate' => $limit, 'length' => $oldlimit!=$duration?$duration:$oldlimit,
+            [
+            'name' => $name , 
+            'image' => $coverUrl!=null?'/covers/'.preg_replace("/[^a-zA-Z0-9\']/", "", $name)."/".$covername:$oldcover , 
+            'year' => $year, 
+            'description' => trim($description),
+            'movieType' => $type, 
+            'rate' => $limit, 
+            'length' => $oldlimit!=$duration?$duration:$oldlimit,
             'movieLink' => $movie, 
             'englishLink' => $enmovie,
-            'poster' => $poster!=null?'/covers/'.preg_replace("/[^0-9\pL]+/", "", $name)."/".$posterCovername:$oldposter,
-            'isDeleted' => FALSE, 'tagName' => $tag,
-            'trailerLink' => $trailer]
+            'poster' => $poster!=null?'/covers/'.preg_replace("/[^a-zA-Z0-9\']/", "", $name)."/".$posterCovername:$oldposter,
+            'isDeleted' => FALSE, 
+            'tagName' => $tag,
+            'trailerLink' => $trailer,
+            'imdb' => $imdb,
+            ]
         );
         
         

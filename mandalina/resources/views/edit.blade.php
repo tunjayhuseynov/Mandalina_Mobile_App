@@ -55,6 +55,9 @@ array_push($cast, $item->name);
                 <label for="rate">Age Limit</label>
                 <input class="form-control" type="text" name="limit" value="{{$data[2]['rate']}}"
                     placeholder="Age Limit" required> <br>
+                    <label for="rate">IMDB</label>
+                    <input class="form-control" type="text" name="imdb" value="{{$data[2]['imdb']}}"
+                        placeholder="IMDB" required> <br>
                 <div>
                     <label for="cast">Casts: </label>
                     <select class="form-control casting" multiple="multiple" name="cast[]" required>
