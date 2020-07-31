@@ -72,41 +72,6 @@ export default {
     };
   },
   methods: {
-    addMovieToDb(movie, type) {
-      var getMoviefromDb = this.getMoviefromDb;
-      let openRequest = indexedDB.open("movies", 1);
-      openRequest.onsuccess = () => {
-        let db = openRequest.result;
-
-        if (
-          (db
-            .transaction(type)
-            .objectStore(type)
-            .get(movie.id).onsuccess = function(event) {
-            return false;
-          })
-        ) {
-          var transaction = db.transaction([type], "readwrite");
-          transaction.oncomplete = function(event) {
-            console.log("All done!");
-          };
-
-          transaction.onerror = function(event) {
-            if (type == "watchedMovie") {
-              getMoviefromDb(movie.id, "watchedMovie");
-            } else {
-              getMoviefromDb(movie.id, "watchedSerie");
-            }
-          };
-
-          var objectStore = transaction.objectStore(type);
-          var request = objectStore.add(movie);
-          request.onsuccess = function(event) {
-            // event.target.result === customer.ssn;
-          };
-        }
-      };
-    },
     getMoviefromDb(id, type) {
       var episodeId = this.id
       let openRequest = indexedDB.open("movies", 1);

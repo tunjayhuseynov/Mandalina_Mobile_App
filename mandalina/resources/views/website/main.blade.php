@@ -23,17 +23,6 @@
     <link href="https://fonts.googleapis.com/css?family=Hind:400,500,700|Ramabhadra" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
     <style>
-        /*.fade-enter-active,
-        .fade-leave-active {
-            transition-duration: 0.2s;
-            transition-property: opacity;
-            transition-timing-function: ease;
-        }
-
-        .fade-enter,
-        .fade-leave-active {
-            opacity: 0
-        }*/
     </style>
 </head>
 
