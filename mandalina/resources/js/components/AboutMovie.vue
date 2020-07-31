@@ -195,6 +195,7 @@ export default {
 }
 .playBtn:hover {
   fill: #ddd!important;
+  
 }
 .infoTitle {
   color: #828282;
