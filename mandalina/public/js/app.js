@@ -1911,6 +1911,259 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AboutMovie.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AboutMovie.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Api */ "./resources/js/components/Api.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      movie: null
+    };
+  },
+  created: function () {
+    var _created = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return this.fetchtMovie();
+
+            case 2:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    }));
+
+    function created() {
+      return _created.apply(this, arguments);
+    }
+
+    return created;
+  }(),
+  methods: {
+    fetchtMovie: function () {
+      var _fetchtMovie = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var _this = this;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _Api__WEBPACK_IMPORTED_MODULE_1__["default"].getMovie(this.$route.params.id).then(function (response) {
+                  _this.movie = response.data;
+                });
+
+              case 1:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function fetchtMovie() {
+        return _fetchtMovie.apply(this, arguments);
+      }
+
+      return fetchtMovie;
+    }(),
+    clickTrailer: function clickTrailer() {
+      if ($(".video").get(0).paused) {
+        $(".video").get(0).play();
+        $(".playpause").fadeOut();
+      } else {
+        $(".video").get(0).pause();
+        $(".playpause").fadeIn();
+      }
+    },
+    playButtonAnimation: function playButtonAnimation() {
+      setTimeout(function () {
+        var btn = document.querySelector(".playBtn");
+        btn.style.fill = "#ddd";
+        setTimeout(function () {
+          btn.style.fill = "#111";
+        }, 1000);
+      }, 1000);
+      return true;
+    }
+  },
+  computed: {
+    getMovie: function getMovie() {
+      this.playButtonAnimation();
+      return this.movie;
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Body.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Body.vue?vue&type=script&lang=js& ***!
@@ -1944,6 +2197,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var v_lazy_image__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! v-lazy-image */ "./node_modules/v-lazy-image/dist/v-lazy-image.js");
+/* harmony import */ var v_lazy_image__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(v_lazy_image__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Functions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Functions */ "./resources/js/components/Functions.js");
 //
 //
 //
@@ -2028,8 +2284,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['json'],
+  props: ["json"],
   data: function data() {
     return {
       scrollWidth: 0,
@@ -2048,7 +2315,194 @@ __webpack_require__.r(__webpack_exports__);
     },
     next: function next() {
       this.carousel.scrollLeft += this.scrollWidth;
+    },
+    getParName: function getParName(val) {
+      return _Functions__WEBPACK_IMPORTED_MODULE_1__["default"].convertTurkish2English(val);
     }
+  },
+  components: {
+    VLazyImage: v_lazy_image__WEBPACK_IMPORTED_MODULE_0___default.a
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Category.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Category.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Api */ "./resources/js/components/Api.js");
+/* harmony import */ var v_lazy_image__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! v-lazy-image */ "./node_modules/v-lazy-image/dist/v-lazy-image.js");
+/* harmony import */ var v_lazy_image__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(v_lazy_image__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Functions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Functions */ "./resources/js/components/Functions.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      dataList: [],
+      movieIndex: 0,
+      amountFetchingMovies: 20,
+      over: false
+    };
+  },
+  created: function () {
+    var _created = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return this.getMovies();
+
+            case 2:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    }));
+
+    function created() {
+      return _created.apply(this, arguments);
+    }
+
+    return created;
+  }(),
+  mounted: function mounted() {
+    this.scrollEvent();
+  },
+  computed: {
+    getList: function getList() {
+      return this.dataList;
+    }
+  },
+  methods: {
+    getMovies: function () {
+      var _getMovies = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var _this = this;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _Api__WEBPACK_IMPORTED_MODULE_1__["default"].getCategory(this.$route.params.type.toLowerCase(), this.$route.params.category.toLowerCase(), this.movieIndex, this.amountFetchingMovies).then(function (response) {
+                  response.data.forEach(function (element) {
+                    _this.dataList.push(element);
+                  });
+                  if (response.data.length > 0 && response.data[0].movieAmountByGenre == _this.dataList.length) _this.over = true;
+                  _this.movieIndex += _this.amountFetchingMovies;
+                });
+
+              case 1:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function getMovies() {
+        return _getMovies.apply(this, arguments);
+      }
+
+      return getMovies;
+    }(),
+    scrollEvent: function scrollEvent() {
+      var _this2 = this;
+
+      window.onscroll = function () {
+        var bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
+
+        if (bottomOfWindow) {
+          _this2.getMovies();
+        }
+      };
+    },
+    getParName: function getParName(val) {
+      return _Functions__WEBPACK_IMPORTED_MODULE_3__["default"].convertTurkish2English(val);
+    },
+    backAction: function backAction() {
+      this.$router.push(this.$route.params.type == "movies" ? "/movie" : "/tvshows")["catch"](function () {});
+    }
+  },
+  components: {
+    VLazyImage: v_lazy_image__WEBPACK_IMPORTED_MODULE_2___default.a
   }
 });
 
@@ -2063,6 +2517,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Functions */ "./resources/js/components/Functions.js");
 //
 //
 //
@@ -2152,8 +2607,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {},
   data: function data() {
@@ -2174,11 +2628,13 @@ __webpack_require__.r(__webpack_exports__);
     soundOnOf: function soundOnOf() {
       document.querySelector("#vd").muted = !document.querySelector("#vd").muted;
       this.isMuted = !this.isMuted;
+    },
+    getParName: function getParName(val) {
+      return _Functions__WEBPACK_IMPORTED_MODULE_0__["default"].convertTurkish2English(val);
     }
   },
   computed: {
     getData: function getData() {
-      console.log(this.$route);
       return this.$route.name == "Movies" || this.$route.name == undefined ? this.$store.state.movieSuggested : this.$store.state.serieSuggested;
     }
   }
@@ -2212,10 +2668,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 
+var DEFAULT_TRANSITION = "fade";
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      transitionName: DEFAULT_TRANSITION
+    };
   },
   computed: {
     getMovies: function getMovies() {
@@ -2255,6 +2719,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               return this.getSerieSuggested();
 
             case 8:
+              this.dynamicTransition();
+
+            case 9:
             case "end":
               return _context.stop();
           }
@@ -2380,7 +2847,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       return getSerieSuggested;
-    }()
+    }(),
+    dynamicTransition: function dynamicTransition() {
+      var _this5 = this;
+
+      this.$router.beforeEach(function (to, from, next) {
+        var transitionName = to.meta.transitionName || from.meta.transitionName;
+
+        if (transitionName === "slide") {
+          var toDepth = to.path.split("/").length;
+          var fromDepth = from.path.split("/").length;
+          transitionName = toDepth < fromDepth ? "slide-right" : "slide-left";
+        }
+
+        _this5.transitionName = transitionName || DEFAULT_TRANSITION;
+        next();
+      });
+    }
   }
 });
 
@@ -2423,6 +2906,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
@@ -2436,6 +2920,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Api */ "./resources/js/components/Api.js");
 //
 //
 //
@@ -2490,9 +2975,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      query: null,
+      path: null
+    };
+  },
   mounted: function mounted() {
     window.addEventListener("scroll", this.onScroll);
+    this.$store.commit("setSearchBox", document.querySelector(".searchBox"));
   },
   beforeDestroy: function beforeDestroy() {
     window.removeEventListener("scroll", this.onScroll);
@@ -2507,6 +3010,34 @@ __webpack_require__.r(__webpack_exports__);
         document.querySelector(".navBar").classList.add("hideTransparent");
       } else {
         document.querySelector(".navBar").classList.remove("hideTransparent");
+      }
+    },
+    getPathByClick: function getPathByClick(e) {
+      this.path = this.$route.name == "Search" ? "/movie" : this.$route.path;
+      this.$store.commit("setSearchPath", this.path);
+      this.query = e.value;
+    }
+  },
+  watch: {
+    query: function query(val) {
+      var _this = this;
+
+      if (val) {
+        _Api__WEBPACK_IMPORTED_MODULE_0__["default"].getSearch(val).then(function (response) {
+          _this.$store.commit("setSearchResult", response.data);
+        });
+        this.$store.commit("setSearchQuery", val);
+      }
+
+      if (val != undefined && val.length > 0) {
+        this.$router.push({
+          path: "/search",
+          query: {
+            q: val
+          }
+        })["catch"](function () {});
+      } else {
+        this.$router.push(this.path)["catch"](function () {});
       }
     }
   }
@@ -2768,6 +3299,123 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Search.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Search.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var v_lazy_image__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! v-lazy-image */ "./node_modules/v-lazy-image/dist/v-lazy-image.js");
+/* harmony import */ var v_lazy_image__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(v_lazy_image__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Api */ "./resources/js/components/Api.js");
+/* harmony import */ var _Functions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Functions */ "./resources/js/components/Functions.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  computed: {
+    getQuery: function getQuery() {
+      return this.$store.state.searchQuery != null ? this.$store.state.searchQuery : this.$route.query.q;
+    },
+    getResult: function getResult() {
+      var _this = this;
+
+      return this.$store.state.searchResult != null ? this.$store.state.searchResult : _Api__WEBPACK_IMPORTED_MODULE_1__["default"].getSearch(this.getQuery).then(function (response) {
+        _this.$store.commit("setSearchResult", response.data);
+      });
+    }
+  },
+  methods: {
+    backAction: function backAction() {
+      this.$router.push(this.$store.state.searchPath || "movie");
+    },
+    getParName: function getParName(val) {
+      return _Functions__WEBPACK_IMPORTED_MODULE_2__["default"].convertTurkish2English(val);
+    }
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.$store.state.searchBox.value = "";
+  },
+  components: {
+    VLazyImage: v_lazy_image__WEBPACK_IMPORTED_MODULE_0___default.a
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AboutMovie.vue?vue&type=style&index=0&id=40e27ece&scoped=true&lang=css&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AboutMovie.vue?vue&type=style&index=0&id=40e27ece&scoped=true&lang=css& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// Imports
+var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+exports = ___CSS_LOADER_API_IMPORT___(false);
+// Module
+exports.push([module.i, "\n.playBtn[data-v-40e27ece] {\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\n}\n.playBtn[data-v-40e27ece]:hover {\r\n  fill: #ddd!important;\n}\n.infoTitle[data-v-40e27ece] {\r\n  color: #828282;\n}\n.title[data-v-40e27ece] {\r\n  position: absolute;\r\n  bottom: 2%;\r\n  left: 2%;\r\n  z-index: 2;\n}\n.txtInfo[data-v-40e27ece] {\r\n  color: #ddd;\r\n  font-size: 1.2rem;\r\n  font-weight: 600;\r\n  margin-bottom: 10px;\n}\n.TextTitle[data-v-40e27ece] {\r\n  font-size: 2.5rem;\r\n  font-weight: bold;\r\n  color: #ddd;\n}\n.poster[data-v-40e27ece] {\r\n  position: relative;\r\n  height: 80vh;\r\n  margin: 0 -15px;\n}\n.watchModal[data-v-40e27ece] {\r\n  cursor: pointer;\r\n  position: absolute;\r\n  top: 50%;\r\n  left: 50%;\r\n  -webkit-transform: translateX(-50%) translateY(-50%);\r\n          transform: translateX(-50%) translateY(-50%);\n}\n.image[data-v-40e27ece] {\r\n  width: 100%;\r\n  height: 100%;\r\n  -o-object-fit: cover;\r\n     object-fit: cover;\r\n  -o-object-position: center;\r\n     object-position: center;\n}\n.blackFade[data-v-40e27ece] {\r\n  position: absolute;\r\n  bottom: 0;\r\n  z-index: 1;\r\n  width: 100%;\r\n  height: 20%;\r\n  background-image: -webkit-gradient(\r\n    linear,\r\n    left top, left bottom,\r\n    from(transparent),\r\n    color-stop(rgba(37, 37, 37, 0.61)),\r\n    to(#111)\r\n  );\r\n  background-image: linear-gradient(\r\n    180deg,\r\n    transparent,\r\n    rgba(37, 37, 37, 0.61),\r\n    #111\r\n  );\r\n  opacity: 1;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\n}\n.video[data-v-40e27ece] {\r\n  width: 100%;\r\n  border: 1px solid black;\n}\n.wrapper[data-v-40e27ece] {\r\n  display: inline-block;\r\n  width: 100%;\r\n  position: relative;\n}\n.playpause[data-v-40e27ece] {\r\n  cursor: pointer;\r\n  background-image: url(http://www.pngmart.com/files/3/Play-Button-Transparent-Background.png);\r\n  background-repeat: no-repeat;\r\n  width: 50%;\r\n  height: 50%;\r\n  position: absolute;\r\n  left: 0%;\r\n  right: 0%;\r\n  top: 0%;\r\n  bottom: 0%;\r\n  margin: auto;\r\n  background-size: contain;\r\n  background-position: center;\n}\r\n", ""]);
+// Exports
+module.exports = exports;
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Carousel.vue?vue&type=style&index=0&id=fe98726a&scoped=true&lang=css&":
 /*!**************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Carousel.vue?vue&type=style&index=0&id=fe98726a&scoped=true&lang=css& ***!
@@ -2786,6 +3434,24 @@ module.exports = exports;
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Category.vue?vue&type=style&index=0&id=33972369&scoped=true&lang=css&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Category.vue?vue&type=style&index=0&id=33972369&scoped=true&lang=css& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// Imports
+var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+exports = ___CSS_LOADER_API_IMPORT___(false);
+// Module
+exports.push([module.i, "\n.img-wrapper[data-v-33972369] {\r\n  display: inline-block;\r\n  overflow: hidden;\r\n  width: 200px;\r\n  height: 130px;\n}\n.loader[data-v-33972369] {\r\n  -webkit-transform: translateX(-50px) translateY(-85px);\r\n          transform: translateX(-50px) translateY(-85px);\n}\n.image[data-v-33972369] {\r\n  cursor: pointer;\r\n  margin: 15px 0;\r\n  -webkit-transition: all ease 0.5s;\r\n  transition: all ease 0.5s;\n}\n.image[data-v-33972369]:hover {\r\n  -webkit-transform: scale(1.1);\r\n          transform: scale(1.1);\n}\r\n", ""]);
+// Exports
+module.exports = exports;
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Header.vue?vue&type=style&index=0&id=1f42fb90&scoped=true&lang=css&":
 /*!************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Header.vue?vue&type=style&index=0&id=1f42fb90&scoped=true&lang=css& ***!
@@ -2797,7 +3463,25 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n#vd[data-v-1f42fb90] {\r\n  background: transparent\r\n    url(\"/assets/loader.gif\") no-repeat center center;\n}\n.blackFade[data-v-1f42fb90] {\r\n  position: absolute;\r\n  bottom: 0;\r\n  z-index: 20;\r\n  width: 100%;\r\n  height: 25%;\r\n  background-image: -webkit-gradient(\r\n    linear,\r\n    left top, left bottom,\r\n    from(transparent),\r\n    color-stop(rgba(37, 37, 37, 0.61)),\r\n    to(#111)\r\n  );\r\n  background-image: linear-gradient(\r\n    180deg,\r\n    transparent,\r\n    rgba(37, 37, 37, 0.61),\r\n    #111\r\n  );\r\n  opacity: 1;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\n}\n.opocityZero[data-v-1f42fb90] {\r\n  opacity: 0;\n}\n.headerBar[data-v-1f42fb90] {\r\n  position: relative;\r\n  height: 88vh;\r\n  background-color: transparent;\n}\n.movieTitle[data-v-1f42fb90] {\r\n  position: absolute;\r\n  z-index: 5;\r\n  top: 33%;\r\n  left: 3.8%;\r\n  width: 50%;\n}\n.Title[data-v-1f42fb90] {\r\n  font-size: 4rem;\r\n  font-weight: bold;\r\n  color: white;\n}\n.watchBtn[data-v-1f42fb90] {\r\n  padding: 0.5rem 3rem;\r\n  border-radius: 0.2vw;\r\n  border: none;\r\n  outline: none;\r\n  background-color: rgba(51, 51, 51, 0.5);\n}\n.watchBtn[data-v-1f42fb90]:hover {\r\n  background-color: #e6e6e6;\r\n  color: black;\n}\n.watchBtn:hover .btnText[data-v-1f42fb90] {\r\n  color: black;\n}\n.watchBtn:hover svg[data-v-1f42fb90] {\r\n  fill: black;\n}\n.btnText[data-v-1f42fb90] {\r\n  color: white;\r\n  font-weight: 700;\r\n  font-size: 1rem;\r\n  font-family: \"Hind\", sans-serif;\n}\n.about[data-v-1f42fb90] {\r\n  margin-top: 20px;\n}\n.aboutText[data-v-1f42fb90] {\r\n  display: inline-block;\r\n  white-space: normal;\r\n  color: white;\r\n  overflow: hidden;\r\n  height: 120px;\n}\n.trailer[data-v-1f42fb90] {\r\n  position: relative;\r\n  width: 100%;\r\n  height: 100%;\n}\n.trailer video[data-v-1f42fb90] {\r\n  width: 100%;\r\n  height: 100%;\r\n  -o-object-fit: fill;\r\n     object-fit: fill;\n}\n.poster[data-v-1f42fb90] {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  -o-object-fit: cover;\r\n     object-fit: cover;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\n}\n.headerBar:hover .poster[data-v-1f42fb90] {\r\n  opacity: 0;\r\n  visibility: hidden;\n}\n.soundOnOf[data-v-1f42fb90] {\r\n  position: absolute;\r\n  right: 2%;\r\n  top: 15%;\r\n  cursor: pointer;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\n}\r\n", ""]);
+exports.push([module.i, "\n#vd[data-v-1f42fb90] {\r\n  background: transparent url(\"/assets/loader.gif\") no-repeat center center;\n}\n.blackFade[data-v-1f42fb90] {\r\n  position: absolute;\r\n  bottom: 0;\r\n  z-index: 20;\r\n  width: 100%;\r\n  height: 25%;\r\n  background-image: -webkit-gradient(\r\n    linear,\r\n    left top, left bottom,\r\n    from(transparent),\r\n    color-stop(rgba(37, 37, 37, 0.61)),\r\n    to(#111)\r\n  );\r\n  background-image: linear-gradient(\r\n    180deg,\r\n    transparent,\r\n    rgba(37, 37, 37, 0.61),\r\n    #111\r\n  );\r\n  opacity: 1;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\n}\n.opocityZero[data-v-1f42fb90] {\r\n  opacity: 0;\n}\n.headerBar[data-v-1f42fb90] {\r\n  position: relative;\r\n  height: 88vh;\r\n  background-color: transparent;\n}\n.movieTitle[data-v-1f42fb90] {\r\n  position: absolute;\r\n  z-index: 5;\r\n  top: 33%;\r\n  left: 3.8%;\r\n  width: 50%;\n}\n.Title[data-v-1f42fb90] {\r\n  font-size: 4rem;\r\n  font-weight: bold;\r\n  color: white;\n}\n.watchBtn[data-v-1f42fb90] {\r\n  padding: 0.5rem 3rem;\r\n  border-radius: 0.2vw;\r\n  border: none;\r\n  outline: none;\r\n  background-color: rgba(51, 51, 51, 0.5);\n}\n.watchBtn[data-v-1f42fb90]:hover {\r\n  background-color: #e6e6e6;\r\n  color: black;\n}\n.watchBtn:hover .btnText[data-v-1f42fb90] {\r\n  color: black;\n}\n.watchBtn:hover svg[data-v-1f42fb90] {\r\n  fill: black;\n}\n.btnText[data-v-1f42fb90] {\r\n  color: white;\r\n  font-weight: 700;\r\n  font-size: 1rem;\r\n  font-family: \"Hind\", sans-serif;\n}\n.about[data-v-1f42fb90] {\r\n  margin-top: 20px;\n}\n.aboutText[data-v-1f42fb90] {\r\n  display: inline-block;\r\n  white-space: normal;\r\n  color: white;\r\n  overflow: hidden;\r\n  height: 120px;\n}\n.trailer[data-v-1f42fb90] {\r\n  position: relative;\r\n  width: 100%;\r\n  height: 100%;\n}\n.trailer video[data-v-1f42fb90] {\r\n  width: 100%;\r\n  height: 100%;\r\n  -o-object-fit: fill;\r\n     object-fit: fill;\n}\n.poster[data-v-1f42fb90] {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  -o-object-fit: cover;\r\n     object-fit: cover;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\n}\n.headerBar:hover .poster[data-v-1f42fb90] {\r\n  opacity: 0;\r\n  visibility: hidden;\n}\n.soundOnOf[data-v-1f42fb90] {\r\n  position: absolute;\r\n  right: 2%;\r\n  top: 15%;\r\n  cursor: pointer;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\n}\r\n", ""]);
+// Exports
+module.exports = exports;
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Home.vue?vue&type=style&index=0&lang=css&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Home.vue?vue&type=style&index=0&lang=css& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// Imports
+var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+exports = ___CSS_LOADER_API_IMPORT___(false);
+// Module
+exports.push([module.i, "\n.fade-enter-active,\r\n.fade-leave-active {\r\n  -webkit-transition-duration: 0.2s;\r\n          transition-duration: 0.2s;\r\n  -webkit-transition-property: opacity;\r\n  transition-property: opacity;\r\n  -webkit-transition-timing-function: ease;\r\n          transition-timing-function: ease;\n}\n.fade-enter,\r\n.fade-leave-active {\r\n  opacity: 0;\n}\n.slide-left-enter-active,\r\n.slide-left-leave-active,\r\n.slide-right-enter-active,\r\n.slide-right-leave-active {\r\n  -webkit-transition-duration: 0.2s;\r\n          transition-duration: 0.2s;\r\n  -webkit-transition-property: height, opacity, -webkit-transform;\r\n  transition-property: height, opacity, -webkit-transform;\r\n  transition-property: height, opacity, transform;\r\n  transition-property: height, opacity, transform, -webkit-transform;\r\n  -webkit-transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);\r\n          transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);\r\n  overflow: hidden;\n}\n.slide-left-enter,\r\n.slide-right-leave-active {\r\n  opacity: 0;\r\n  -webkit-transform: translate(1em, 0);\r\n          transform: translate(1em, 0);\n}\n.slide-left-leave-active,\r\n.slide-right-enter {\r\n  opacity: 0;\r\n  -webkit-transform: translate(-1em, 0);\r\n          transform: translate(-1em, 0);\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -2836,6 +3520,24 @@ exports.push([module.i, "@import url(https://vjs.zencdn.net/7.6.6/video-js.css);
 exports.push([module.i, "@import url(/assets/css/player.css);"]);
 // Module
 exports.push([module.i, "\nbody[data-v-11281ee8] {\r\n  overflow: hidden !important;\n}\r\n", ""]);
+// Exports
+module.exports = exports;
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Search.vue?vue&type=style&index=0&id=5026ffd3&scoped=true&lang=css&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Search.vue?vue&type=style&index=0&id=5026ffd3&scoped=true&lang=css& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// Imports
+var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+exports = ___CSS_LOADER_API_IMPORT___(false);
+// Module
+exports.push([module.i, "\n.image[data-v-5026ffd3] {\r\n  cursor: pointer;\r\n  margin: 15px 0;\r\n  -webkit-transition: all ease 0.5s;\r\n  transition: all ease 0.5s;\n}\n.image[data-v-5026ffd3]:hover {\r\n  -webkit-transform: scale(1.1);\r\n          transform: scale(1.1);\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -4077,6 +4779,35 @@ try {
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AboutMovie.vue?vue&type=style&index=0&id=40e27ece&scoped=true&lang=css&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AboutMovie.vue?vue&type=style&index=0&id=40e27ece&scoped=true&lang=css& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var api = __webpack_require__(/*! ../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+            var content = __webpack_require__(/*! !../../../node_modules/css-loader/dist/cjs.js??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./AboutMovie.vue?vue&type=style&index=0&id=40e27ece&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AboutMovie.vue?vue&type=style&index=0&id=40e27ece&scoped=true&lang=css&");
+
+            content = content.__esModule ? content.default : content;
+
+            if (typeof content === 'string') {
+              content = [[module.i, content, '']];
+            }
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = api(content, options);
+
+
+
+module.exports = content.locals || {};
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Carousel.vue?vue&type=style&index=0&id=fe98726a&scoped=true&lang=css&":
 /*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Carousel.vue?vue&type=style&index=0&id=fe98726a&scoped=true&lang=css& ***!
@@ -4106,6 +4837,35 @@ module.exports = content.locals || {};
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Category.vue?vue&type=style&index=0&id=33972369&scoped=true&lang=css&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Category.vue?vue&type=style&index=0&id=33972369&scoped=true&lang=css& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var api = __webpack_require__(/*! ../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+            var content = __webpack_require__(/*! !../../../node_modules/css-loader/dist/cjs.js??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Category.vue?vue&type=style&index=0&id=33972369&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Category.vue?vue&type=style&index=0&id=33972369&scoped=true&lang=css&");
+
+            content = content.__esModule ? content.default : content;
+
+            if (typeof content === 'string') {
+              content = [[module.i, content, '']];
+            }
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = api(content, options);
+
+
+
+module.exports = content.locals || {};
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Header.vue?vue&type=style&index=0&id=1f42fb90&scoped=true&lang=css&":
 /*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Header.vue?vue&type=style&index=0&id=1f42fb90&scoped=true&lang=css& ***!
@@ -4115,6 +4875,35 @@ module.exports = content.locals || {};
 
 var api = __webpack_require__(/*! ../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
             var content = __webpack_require__(/*! !../../../node_modules/css-loader/dist/cjs.js??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Header.vue?vue&type=style&index=0&id=1f42fb90&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Header.vue?vue&type=style&index=0&id=1f42fb90&scoped=true&lang=css&");
+
+            content = content.__esModule ? content.default : content;
+
+            if (typeof content === 'string') {
+              content = [[module.i, content, '']];
+            }
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = api(content, options);
+
+
+
+module.exports = content.locals || {};
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Home.vue?vue&type=style&index=0&lang=css&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Home.vue?vue&type=style&index=0&lang=css& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var api = __webpack_require__(/*! ../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+            var content = __webpack_require__(/*! !../../../node_modules/css-loader/dist/cjs.js??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Home.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Home.vue?vue&type=style&index=0&lang=css&");
 
             content = content.__esModule ? content.default : content;
 
@@ -4173,6 +4962,35 @@ module.exports = content.locals || {};
 
 var api = __webpack_require__(/*! ../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
             var content = __webpack_require__(/*! !../../../node_modules/css-loader/dist/cjs.js??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Player.vue?vue&type=style&index=0&id=11281ee8&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Player.vue?vue&type=style&index=0&id=11281ee8&scoped=true&lang=css&");
+
+            content = content.__esModule ? content.default : content;
+
+            if (typeof content === 'string') {
+              content = [[module.i, content, '']];
+            }
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = api(content, options);
+
+
+
+module.exports = content.locals || {};
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Search.vue?vue&type=style&index=0&id=5026ffd3&scoped=true&lang=css&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Search.vue?vue&type=style&index=0&id=5026ffd3&scoped=true&lang=css& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var api = __webpack_require__(/*! ../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+            var content = __webpack_require__(/*! !../../../node_modules/css-loader/dist/cjs.js??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Search.vue?vue&type=style&index=0&id=5026ffd3&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Search.vue?vue&type=style&index=0&id=5026ffd3&scoped=true&lang=css&");
 
             content = content.__esModule ? content.default : content;
 
@@ -4548,6 +5366,370 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/v-lazy-image/dist/v-lazy-image.js":
+/*!********************************************************!*\
+  !*** ./node_modules/v-lazy-image/dist/v-lazy-image.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * v-lazy-image v1.4.0
+ * (c) 2020 Alex Jover Morales <alexjovermorales@gmail.com>
+ * @license MIT
+ */
+
+(function (global, factory) {
+	 true ? factory(exports) :
+	undefined;
+}(this, (function (exports) { 'use strict';
+
+var VLazyImageComponent = {
+  props: {
+    src: {
+      type: String,
+      required: true
+    },
+    srcPlaceholder: {
+      type: String,
+      default: "//:0"
+    },
+    srcset: {
+      type: String
+    },
+    intersectionOptions: {
+      type: Object,
+      default: function () { return ({}); }
+    },
+    usePicture: {
+      type: Boolean,
+      default: false
+    }
+  },
+  inheritAttrs: false,
+  data: function () { return ({ observer: null, intersected: false, loaded: false }); },
+  computed: {
+    srcImage: function srcImage() {
+      return this.intersected && this.src ? this.src : this.srcPlaceholder;
+    },
+    srcsetImage: function srcsetImage() {
+      return this.intersected && this.srcset ? this.srcset : false;
+    }
+  },
+  methods: {
+    load: function load() {
+      if (this.$el.getAttribute("src") !== this.srcPlaceholder) {
+        this.loaded = true;
+        this.$emit("load");
+      }
+    }
+  },
+  render: function render(h) {
+    var img = h("img", {
+      attrs: {
+        src: this.srcImage,
+        srcset: this.srcsetImage
+      },
+      domProps: this.$attrs,
+      class: {
+        "v-lazy-image": true,
+        "v-lazy-image-loaded": this.loaded
+      },
+      on: { load: this.load }
+    });
+    if (this.usePicture) {
+      return h(
+        "picture",
+        { on: { load: this.load } },
+        this.intersected ? [this.$slots.default, img] : [img]
+      );
+    } else {
+      return img;
+    }
+  },
+  mounted: function mounted() {
+    var this$1 = this;
+
+    if ("IntersectionObserver" in window) {
+      this.observer = new IntersectionObserver(function (entries) {
+        var image = entries[0];
+        if (image.isIntersecting) {
+          this$1.intersected = true;
+          this$1.observer.disconnect();
+          this$1.$emit("intersect");
+        }
+      }, this.intersectionOptions);
+      this.observer.observe(this.$el);
+    }
+  },
+  destroyed: function destroyed() {
+    if ("IntersectionObserver" in window) {
+      this.observer.disconnect();
+    }
+  }
+};
+
+var VLazyImagePlugin = {
+  install: function (Vue, opts) {
+    Vue.component("VLazyImage", VLazyImageComponent);
+  }
+};
+
+exports['default'] = VLazyImageComponent;
+exports.VLazyImagePlugin = VLazyImagePlugin;
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+})));
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AboutMovie.vue?vue&type=template&id=40e27ece&scoped=true&":
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AboutMovie.vue?vue&type=template&id=40e27ece&scoped=true& ***!
+  \*************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.getMovie != null
+    ? _c("div", [
+        _c(
+          "div",
+          {
+            staticClass: "container-fluid",
+            staticStyle: { "padding-bottom": "20px" }
+          },
+          [
+            _c("div", { staticClass: "row" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "col-md-12",
+                  staticStyle: { "margin-bottom": "15px" }
+                },
+                [
+                  _c("div", { staticClass: "poster" }, [
+                    _c("div", { staticClass: "watchModal" }, [
+                      _c(
+                        "svg",
+                        {
+                          staticClass: "playBtn",
+                          attrs: {
+                            version: "1.0",
+                            xmlns: "http://www.w3.org/2000/svg",
+                            width: "100px",
+                            height: "100px",
+                            fill: "#111",
+                            viewBox: "0 0 626.000000 626.000000",
+                            preserveAspectRatio: "xMidYMid meet"
+                          }
+                        },
+                        [
+                          _c(
+                            "g",
+                            {
+                              attrs: {
+                                transform:
+                                  "translate(0.000000,626.000000) scale(0.100000,-0.100000)",
+                                stroke: "none"
+                              }
+                            },
+                            [
+                              _c("path", {
+                                attrs: {
+                                  d:
+                                    "M2870 6249 c-763 -75 -1437 -390 -1956 -912 -169 -171 -284 -312\n-401 -492 -530 -815 -654 -1799 -343 -2724 109 -324 301 -677 506 -931 38 -47\n75 -94 84 -105 40 -52 316 -319 400 -386 763 -615 1772 -840 2715 -607 420\n103 842 308 1175 569 139 109 143 113 275 244 181 180 276 293 401 480 703\n1052 711 2398 19 3460 -195 300 -468 588 -760 805 -378 281 -874 490 -1344\n566 -257 41 -555 54 -771 33z m575 -638 c200 -26 482 -98 607 -155 18 -8 67\n-29 108 -46 169 -72 418 -228 568 -355 414 -349 694 -792 827 -1305 93 -358\n99 -798 18 -1155 -27 -121 -83 -305 -113 -375 -102 -240 -153 -336 -268 -505\n-339 -498 -858 -862 -1442 -1010 -367 -93 -798 -100 -1155 -18 -113 26 -331\n91 -388 117 -18 8 -70 31 -117 52 -293 129 -586 343 -820 600 -309 337 -526\n784 -606 1249 -52 295 -42 675 23 960 26 114 92 332 117 388 8 18 29 66 47\n107 17 41 60 127 96 190 368 662 1020 1123 1758 1245 184 30 197 31 415 33\n124 1 219 -4 325 -17z"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("path", {
+                                attrs: {
+                                  d:
+                                    "M2445 4236 c-47 -20 -83 -69 -91 -123 -4 -26 -4 -491 0 -1033 6 -794\n10 -991 21 -1015 30 -66 74 -95 145 -95 45 0 101 28 380 190 107 62 236 137\n285 165 50 29 176 101 280 162 496 286 607 350 699 402 173 97 226 170 190\n261 -27 66 -49 82 -489 335 -86 50 -340 198 -530 310 -467 275 -751 436 -785\n445 -46 13 -69 12 -105 -4z"
+                                }
+                              })
+                            ]
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("img", {
+                      staticClass: "image",
+                      attrs: { src: _vm.getMovie.poster || "", alt: "" }
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "title" }, [
+                      _c("span", { staticClass: "TextTitle" }, [
+                        _vm._v(_vm._s(_vm.getMovie.name))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { class: "blackFade" })
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("div", { staticClass: "txtInfo" }, [
+                  _c("span", { staticClass: "infoTitle" }, [_vm._v("IMDB:")]),
+                  _vm._v(
+                    "\n            " +
+                      _vm._s(_vm.getMovie.imdb) +
+                      "\n          "
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _vm.getMovie.movieType == 1
+                ? _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "txtInfo" }, [
+                      _c("span", { staticClass: "infoTitle" }, [
+                        _vm._v("Süre:")
+                      ]),
+                      _vm._v(
+                        "\n            " +
+                          _vm._s(_vm.getMovie.length) +
+                          " Dk\n          "
+                      )
+                    ])
+                  ])
+                : _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "txtInfo" }, [
+                      _c("span", { staticClass: "infoTitle" }, [
+                        _vm._v("Bölüm Sayı:")
+                      ]),
+                      _vm._v(
+                        "\n            " +
+                          _vm._s(_vm.getMovie.episodes.length) +
+                          " Bölüm\n          "
+                      )
+                    ])
+                  ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("div", { staticClass: "txtInfo" }, [
+                  _c("span", { staticClass: "infoTitle" }, [
+                    _vm._v("Yaş Sınırı:")
+                  ]),
+                  _vm._v(
+                    "\n            " +
+                      _vm._s(_vm.getMovie.rate) +
+                      "\n          "
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c(
+                  "div",
+                  { staticClass: "txtInfo" },
+                  [
+                    _c("span", { staticClass: "infoTitle" }, [
+                      _vm._v("Film Türü:")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.getMovie.genres, function(item, index) {
+                      return _c("span", { key: index }, [
+                        _vm._v(
+                          "\n              " +
+                            _vm._s(item.name) +
+                            "\n              "
+                        ),
+                        _vm.getMovie.genres.length - 1 != index
+                          ? _c("span", [_vm._v(",")])
+                          : _vm._e()
+                      ])
+                    })
+                  ],
+                  2
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("div", { staticClass: "txtInfo" }, [
+                  _c("span", { staticClass: "infoTitle" }, [_vm._v("Yıl:")]),
+                  _vm._v(
+                    "\n            " +
+                      _vm._s(_vm.getMovie.year) +
+                      "\n          "
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c(
+                  "div",
+                  { staticClass: "txtInfo" },
+                  [
+                    _c("span", { staticClass: "infoTitle" }, [
+                      _vm._v("Oyuncular:")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.getMovie.casts, function(item, index) {
+                      return _c("span", { key: index }, [
+                        _vm._v(
+                          "\n              " +
+                            _vm._s(item.name) +
+                            "\n              "
+                        ),
+                        _vm.getMovie.genres.length - 1 != index
+                          ? _c("span", [_vm._v(",")])
+                          : _vm._e()
+                      ])
+                    })
+                  ],
+                  2
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "col-md-6",
+                  staticStyle: {
+                    "font-weight": "500",
+                    "margin-top": "10px",
+                    "text-align": "justify"
+                  }
+                },
+                [
+                  _c("div", { staticClass: "txtInfo" }, [
+                    _c("span", { staticClass: "infoTitle" }, [
+                      _vm._v("Hakkında:")
+                    ]),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(_vm.getMovie.description) +
+                        "\n          "
+                    )
+                  ])
+                ]
+              )
+            ])
+          ]
+        )
+      ])
+    : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Body.vue?vue&type=template&id=091c0f8d&scoped=true&":
 /*!*******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Body.vue?vue&type=template&id=091c0f8d&scoped=true& ***!
@@ -4597,45 +5779,88 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "carouselSection" }, [
-      _c("div", { staticClass: "title" }, [
-        _vm._v("\n        " + _vm._s(_vm.json.title) + "\n        "),
-        _c(
-          "svg",
-          {
-            staticStyle: { "enable-background": "new 0 0 46.02 46.02" },
-            attrs: {
-              version: "1.1",
-              id: "nextIcon",
-              xmlns: "http://www.w3.org/2000/svg",
-              "xmlns:xlink": "http://www.w3.org/1999/xlink",
-              x: "0px",
-              y: "0px",
-              width: "1.4rem",
-              height: "1.4rem",
-              fill: "white",
-              viewBox: "0 0 46.02 46.02",
-              "xml:space": "preserve"
-            }
-          },
-          [
-            _c("path", {
+      _c(
+        "div",
+        { staticClass: "title" },
+        [
+          _c(
+            "router-link",
+            {
+              staticStyle: { color: "#ddd" },
               attrs: {
-                d:
-                  "M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645\n\t\t\tC8.46,7.37,8.54,3.76,10.816,1.582c2.277-2.178,5.886-2.097,8.063,0.179l16.505,17.253c2.104,2.2,2.108,5.665,0.013,7.872\n\t\t\tL18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
+                to:
+                  "category/" +
+                  (this.$route.name == "Movies" ? "movies" : "series") +
+                  "/" +
+                  _vm.json.title
               }
-            })
-          ]
-        )
-      ]),
+            },
+            [
+              _vm._v("\n        " + _vm._s(_vm.json.title) + "\n        "),
+              _c(
+                "svg",
+                {
+                  staticStyle: { "enable-background": "new 0 0 46.02 46.02" },
+                  attrs: {
+                    version: "1.1",
+                    id: "nextIcon",
+                    xmlns: "http://www.w3.org/2000/svg",
+                    "xmlns:xlink": "http://www.w3.org/1999/xlink",
+                    x: "0px",
+                    y: "0px",
+                    width: "1.4rem",
+                    height: "1.4rem",
+                    fill: "white",
+                    viewBox: "0 0 46.02 46.02",
+                    "xml:space": "preserve"
+                  }
+                },
+                [
+                  _c("path", {
+                    attrs: {
+                      d:
+                        "M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645\n\t\t\tC8.46,7.37,8.54,3.76,10.816,1.582c2.277-2.178,5.886-2.097,8.063,0.179l16.505,17.253c2.104,2.2,2.108,5.665,0.013,7.872\n\t\t\tL18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
+                    }
+                  })
+                ]
+              )
+            ]
+          )
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "div",
         { staticClass: "carouselContainer" },
         [
-          _vm._l(20, function(item, index) {
-            return _c("div", { key: index, staticClass: "item" }, [
-              _c("img", { attrs: { height: "350", src: "/examplePoster.jpg" } })
-            ])
+          _vm._l(_vm.json.items, function(item, index) {
+            return _c(
+              "div",
+              { key: index, staticClass: "item" },
+              [
+                _c(
+                  "router-link",
+                  {
+                    attrs: {
+                      to: "/about/" + item.id + "/" + _vm.getParName(item.name)
+                    }
+                  },
+                  [
+                    _c("v-lazy-image", {
+                      attrs: {
+                        height: "350",
+                        width: "235",
+                        "src-placeholder": "/assets/loader.gif",
+                        src: item.image
+                      }
+                    })
+                  ],
+                  1
+                )
+              ],
+              1
+            )
           }),
           _vm._v(" "),
           _c("div", { staticClass: "rightSpace" })
@@ -4717,6 +5942,176 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Category.vue?vue&type=template&id=33972369&scoped=true&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Category.vue?vue&type=template&id=33972369&scoped=true& ***!
+  \***********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.getList.length > 0
+      ? _c(
+          "div",
+          {
+            staticClass: "container-fluid",
+            staticStyle: { "padding-top": "75px" }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "row" },
+              [
+                _c("div", { staticClass: "col-md-12" }, [
+                  _c(
+                    "h2",
+                    {
+                      staticStyle: {
+                        color: "white",
+                        height: "100%",
+                        "margin-left": "3%"
+                      }
+                    },
+                    [
+                      _c(
+                        "span",
+                        {
+                          staticStyle: { cursor: "pointer" },
+                          attrs: { id: "searchBack" },
+                          on: { click: _vm.backAction }
+                        },
+                        [
+                          _c(
+                            "svg",
+                            {
+                              staticStyle: {
+                                "enable-background": "new 0 0 46.02 46.02",
+                                transform: "rotate(180deg)",
+                                height: "100%",
+                                "margin-bottom": "3px"
+                              },
+                              attrs: {
+                                version: "1.1",
+                                xmlns: "http://www.w3.org/2000/svg",
+                                "xmlns:xlink": "http://www.w3.org/1999/xlink",
+                                x: "0px",
+                                y: "0px",
+                                width: "1.4rem",
+                                height: "1.4rem",
+                                fill: "white",
+                                viewBox: "0 0 46.02 46.02",
+                                "xml:space": "preserve"
+                              }
+                            },
+                            [
+                              _c("path", {
+                                attrs: {
+                                  d:
+                                    "M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645\n\t\t\tC8.46,7.37,8.54,3.76,10.816,1.582c2.277-2.178,5.886-2.097,8.063,0.179l16.505,17.253c2.104,2.2,2.108,5.665,0.013,7.872\n\t\t\tL18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
+                                }
+                              })
+                            ]
+                          )
+                        ]
+                      ),
+                      _vm._v(
+                        "\n            " +
+                          _vm._s(this.$route.params.category) +
+                          "\n          "
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.getList, function(item, index) {
+                  return _c(
+                    "div",
+                    {
+                      key: index,
+                      staticClass: "col-md-3",
+                      staticStyle: { "text-align": "center" }
+                    },
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          attrs: {
+                            to:
+                              "/about/" +
+                              item.id +
+                              "/" +
+                              _vm.getParName(item.name)
+                          }
+                        },
+                        [
+                          _c("v-lazy-image", {
+                            staticClass: "image",
+                            attrs: {
+                              height: "350",
+                              width: "235",
+                              "src-placeholder": "/assets/loader.gif",
+                              src: item.image
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                }),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.over,
+                        expression: "!over"
+                      }
+                    ],
+                    staticClass: "col-md-12",
+                    staticStyle: { "text-align": "center" }
+                  },
+                  [_vm._m(0)]
+                )
+              ],
+              2
+            )
+          ]
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "img-wrapper" }, [
+      _c("img", {
+        staticClass: "loader",
+        attrs: { src: "/assets/loader.gif", width: "300", alt: "" }
+      })
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Header.vue?vue&type=template&id=1f42fb90&scoped=true&":
 /*!*********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Header.vue?vue&type=template&id=1f42fb90&scoped=true& ***!
@@ -4747,37 +6142,56 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "btns" }, [
-              _c("button", { staticClass: "watchBtn" }, [
+            _c(
+              "div",
+              { staticClass: "btns" },
+              [
                 _c(
-                  "svg",
+                  "router-link",
                   {
-                    staticClass: "header__container-btnMyList-play",
                     attrs: {
-                      width: "1rem",
-                      height: "1rem",
-                      fill: "white",
-                      version: "1.1",
-                      id: "Capa_1",
-                      x: "0px",
-                      y: "0px",
-                      viewBox: "0 0 41.999 41.999",
-                      "xml:space": "preserve"
+                      to:
+                        "/about/" +
+                        _vm.getData.id +
+                        "/" +
+                        _vm.getParName(_vm.getData.name)
                     }
                   },
                   [
-                    _c("path", {
-                      attrs: {
-                        d:
-                          "M36.068,20.176l-29-20C6.761-0.035,6.363-0.057,6.035,0.114C5.706,0.287,5.5,0.627,5.5,0.999v40\n\t            c0,0.372,0.206,0.713,0.535,0.886c0.146,0.076,0.306,0.114,0.465,0.114c0.199,0,0.397-0.06,0.568-0.177l29-20\n\t             c0.271-0.187,0.432-0.494,0.432-0.823S36.338,20.363,36.068,20.176z"
-                      }
-                    })
+                    _c("button", { staticClass: "watchBtn" }, [
+                      _c(
+                        "svg",
+                        {
+                          staticClass: "header__container-btnMyList-play",
+                          attrs: {
+                            width: "1rem",
+                            height: "1rem",
+                            fill: "white",
+                            version: "1.1",
+                            id: "Capa_1",
+                            x: "0px",
+                            y: "0px",
+                            viewBox: "0 0 41.999 41.999",
+                            "xml:space": "preserve"
+                          }
+                        },
+                        [
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M36.068,20.176l-29-20C6.761-0.035,6.363-0.057,6.035,0.114C5.706,0.287,5.5,0.627,5.5,0.999v40\n\t            c0,0.372,0.206,0.713,0.535,0.886c0.146,0.076,0.306,0.114,0.465,0.114c0.199,0,0.397-0.06,0.568-0.177l29-20\n\t             c0.271-0.187,0.432-0.494,0.432-0.823S36.338,20.363,36.068,20.176z"
+                            }
+                          })
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "btnText" }, [_vm._v("Izle")])
+                    ])
                   ]
-                ),
-                _vm._v(" "),
-                _c("span", { staticClass: "btnText" }, [_vm._v("Izle")])
-              ])
-            ]),
+                )
+              ],
+              1
+            ),
             _vm._v(" "),
             _c("div", { staticClass: "about" }, [
               _c("span", { staticClass: "aboutText" }, [
@@ -4802,12 +6216,7 @@ var render = function() {
             _vm._v(" "),
             _c("img", {
               staticClass: "poster",
-              attrs: {
-                src:
-                  "https://image.tmdb.org/t/p/original//yJPI9e3H5fGNTWNzW2p4iSG5qdc.jpg",
-                alt: "",
-                srcset: ""
-              }
+              attrs: { src: _vm.getData.poster, alt: "", srcset: "" }
             }),
             _vm._v(" "),
             _c(
@@ -4969,7 +6378,12 @@ var render = function() {
       _vm._v(" "),
       _c("navbar"),
       _vm._v(" "),
-      _c("mainpart")
+      _c(
+        "transition",
+        { attrs: { name: _vm.transitionName, mode: "out-in" } },
+        [_c("router-view")],
+        1
+      )
     ],
     1
   )
@@ -5028,10 +6442,7 @@ var staticRenderFns = [
                 top: "50%",
                 transform: "translateY(-50%)"
               },
-              attrs: {
-                src:
-                  "data:image/gif;base64,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"
-              }
+              attrs: { src: "/assets/loader.gif" }
             })
           ]
         )
@@ -5069,6 +6480,30 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Movies.vue?vue&type=template&id=0e7ffbee&":
+/*!*********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Movies.vue?vue&type=template&id=0e7ffbee& ***!
+  \*********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [_c("mainpart")], 1)
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Navbar.vue?vue&type=template&id=6dde423b&scoped=true&":
 /*!*********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Navbar.vue?vue&type=template&id=6dde423b&scoped=true& ***!
@@ -5093,9 +6528,10 @@ var render = function() {
           [
             _c("router-link", { attrs: { to: "/movie" } }, [
               _c("img", {
+                staticStyle: { padding: "15px 10px" },
                 attrs: {
                   src:
-                    "http://netflix-react-clone.surge.sh/8562b6565f5ae1db5e4af40d85b4ed2d.png",
+                    "https://1000logos.net/wp-content/uploads/2017/05/Netflix-Logo.png",
                   height: "75"
                 }
               })
@@ -5195,11 +6631,29 @@ var render = function() {
             ),
             _vm._v(" "),
             _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.query,
+                  expression: "query"
+                }
+              ],
               staticClass: "searchBox",
               attrs: {
                 tabindex: "1",
                 type: "text",
                 placeholder: "Film ve Dizi Ara..."
+              },
+              domProps: { value: _vm.query },
+              on: {
+                click: _vm.getPathByClick,
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.query = $event.target.value
+                }
               }
             })
           ])
@@ -5269,6 +6723,165 @@ var render = function() {
       )
     ])
   ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Search.vue?vue&type=template&id=5026ffd3&scoped=true&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Search.vue?vue&type=template&id=5026ffd3&scoped=true& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      {
+        staticClass: "container-fluid",
+        staticStyle: { "padding-top": "75px" }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "row" },
+          [
+            _c("div", { staticClass: "col-md-12" }, [
+              _c(
+                "h2",
+                {
+                  staticStyle: {
+                    color: "white",
+                    height: "100%",
+                    "margin-left": "3%"
+                  }
+                },
+                [
+                  _c(
+                    "span",
+                    {
+                      staticStyle: { cursor: "pointer" },
+                      attrs: { id: "searchBack" },
+                      on: { click: _vm.backAction }
+                    },
+                    [
+                      _c(
+                        "svg",
+                        {
+                          staticStyle: {
+                            "enable-background": "new 0 0 46.02 46.02",
+                            transform: "rotate(180deg)",
+                            height: "100%"
+                          },
+                          attrs: {
+                            version: "1.1",
+                            xmlns: "http://www.w3.org/2000/svg",
+                            "xmlns:xlink": "http://www.w3.org/1999/xlink",
+                            x: "0px",
+                            y: "0px",
+                            width: "1.4rem",
+                            height: "1.4rem",
+                            fill: "white",
+                            viewBox: "0 0 46.02 46.02",
+                            "xml:space": "preserve"
+                          }
+                        },
+                        [
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645\n\t\t\tC8.46,7.37,8.54,3.76,10.816,1.582c2.277-2.178,5.886-2.097,8.063,0.179l16.505,17.253c2.104,2.2,2.108,5.665,0.013,7.872\n\t\t\tL18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
+                            }
+                          })
+                        ]
+                      )
+                    ]
+                  ),
+                  _vm._v(
+                    "\n            Arama: " +
+                      _vm._s(_vm.getQuery) +
+                      "\n          "
+                  )
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.getResult, function(item, index) {
+              return _c(
+                "div",
+                {
+                  key: index,
+                  staticClass: "col-md-3",
+                  staticStyle: { "text-align": "center" }
+                },
+                [
+                  _c(
+                    "router-link",
+                    {
+                      attrs: {
+                        to:
+                          "/about/" + item.id + "/" + _vm.getParName(item.name)
+                      }
+                    },
+                    [
+                      _c("v-lazy-image", {
+                        staticClass: "image",
+                        attrs: {
+                          height: "350",
+                          width: "235",
+                          "src-placeholder": "/assets/loader.gif",
+                          src: item.image
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            })
+          ],
+          2
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Series.vue?vue&type=template&id=5e079922&":
+/*!*********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Series.vue?vue&type=template&id=5e079922& ***!
+  \*********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [_c("mainpart")], 1)
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -21729,6 +23342,11 @@ Vue.component('bodybar', __webpack_require__(/*! ./components/Body.vue */ "./res
 Vue.component('carousel', __webpack_require__(/*! ./components/Carousel.vue */ "./resources/js/components/Carousel.vue")["default"]);
 Vue.component('loading', __webpack_require__(/*! ./components/Loading.vue */ "./resources/js/components/Loading.vue")["default"]);
 Vue.component('mainpart', __webpack_require__(/*! ./components/Mainpart.vue */ "./resources/js/components/Mainpart.vue")["default"]);
+Vue.component('movies', __webpack_require__(/*! ./components/Movies.vue */ "./resources/js/components/Movies.vue")["default"]);
+Vue.component('search', __webpack_require__(/*! ./components/Search.vue */ "./resources/js/components/Search.vue")["default"]);
+Vue.component('series', __webpack_require__(/*! ./components/Series.vue */ "./resources/js/components/Series.vue")["default"]);
+Vue.component('aboutmovie', __webpack_require__(/*! ./components/AboutMovie.vue */ "./resources/js/components/AboutMovie.vue")["default"]);
+Vue.component('category', __webpack_require__(/*! ./components/Category.vue */ "./resources/js/components/Category.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -21740,7 +23358,11 @@ var store = new Vuex.Store({
     homeMovies: null,
     homeSeries: null,
     movieSuggested: null,
-    serieSuggested: null
+    serieSuggested: null,
+    searchQuery: null,
+    searchResult: null,
+    searchPath: null,
+    searchBox: null
   },
   mutations: {
     setHomeMovies: function setHomeMovies(state, data) {
@@ -21754,6 +23376,18 @@ var store = new Vuex.Store({
     },
     setSerieSuggested: function setSerieSuggested(state, data) {
       state.serieSuggested = data;
+    },
+    setSearchQuery: function setSearchQuery(state, data) {
+      state.searchQuery = data;
+    },
+    setSearchResult: function setSearchResult(state, data) {
+      state.searchResult = data;
+    },
+    setSearchPath: function setSearchPath(state, data) {
+      state.searchPath = data;
+    },
+    setSearchBox: function setSearchBox(state, data) {
+      state.searchBox = data;
     }
   }
 });
@@ -21807,6 +23441,93 @@ try {//window.Popper = require('popper.js').default;
 
 /***/ }),
 
+/***/ "./resources/js/components/AboutMovie.vue":
+/*!************************************************!*\
+  !*** ./resources/js/components/AboutMovie.vue ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AboutMovie_vue_vue_type_template_id_40e27ece_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AboutMovie.vue?vue&type=template&id=40e27ece&scoped=true& */ "./resources/js/components/AboutMovie.vue?vue&type=template&id=40e27ece&scoped=true&");
+/* harmony import */ var _AboutMovie_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AboutMovie.vue?vue&type=script&lang=js& */ "./resources/js/components/AboutMovie.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _AboutMovie_vue_vue_type_style_index_0_id_40e27ece_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AboutMovie.vue?vue&type=style&index=0&id=40e27ece&scoped=true&lang=css& */ "./resources/js/components/AboutMovie.vue?vue&type=style&index=0&id=40e27ece&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _AboutMovie_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AboutMovie_vue_vue_type_template_id_40e27ece_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AboutMovie_vue_vue_type_template_id_40e27ece_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "40e27ece",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/AboutMovie.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/AboutMovie.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/components/AboutMovie.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AboutMovie_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./AboutMovie.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AboutMovie.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AboutMovie_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/AboutMovie.vue?vue&type=style&index=0&id=40e27ece&scoped=true&lang=css&":
+/*!*********************************************************************************************************!*\
+  !*** ./resources/js/components/AboutMovie.vue?vue&type=style&index=0&id=40e27ece&scoped=true&lang=css& ***!
+  \*********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AboutMovie_vue_vue_type_style_index_0_id_40e27ece_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./AboutMovie.vue?vue&type=style&index=0&id=40e27ece&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AboutMovie.vue?vue&type=style&index=0&id=40e27ece&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AboutMovie_vue_vue_type_style_index_0_id_40e27ece_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AboutMovie_vue_vue_type_style_index_0_id_40e27ece_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AboutMovie_vue_vue_type_style_index_0_id_40e27ece_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AboutMovie_vue_vue_type_style_index_0_id_40e27ece_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AboutMovie_vue_vue_type_style_index_0_id_40e27ece_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/AboutMovie.vue?vue&type=template&id=40e27ece&scoped=true&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/AboutMovie.vue?vue&type=template&id=40e27ece&scoped=true& ***!
+  \*******************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AboutMovie_vue_vue_type_template_id_40e27ece_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./AboutMovie.vue?vue&type=template&id=40e27ece&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AboutMovie.vue?vue&type=template&id=40e27ece&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AboutMovie_vue_vue_type_template_id_40e27ece_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AboutMovie_vue_vue_type_template_id_40e27ece_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Api.js":
 /*!****************************************!*\
   !*** ./resources/js/components/Api.js ***!
@@ -21840,6 +23561,15 @@ var api = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
   },
   getSerieSuggested: function getSerieSuggested() {
     return api.get('/suggestedSeries');
+  },
+  getSearch: function getSearch(val) {
+    return api.get("/search/".concat(val));
+  },
+  getMovie: function getMovie(val) {
+    return api.get("/movie/".concat(val));
+  },
+  getCategory: function getCategory(type, genre, start, end) {
+    return api.get("/".concat(type, "/").concat(genre, "/").concat(start, "/").concat(end));
   }
 });
 
@@ -22001,6 +23731,129 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Category.vue":
+/*!**********************************************!*\
+  !*** ./resources/js/components/Category.vue ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Category_vue_vue_type_template_id_33972369_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Category.vue?vue&type=template&id=33972369&scoped=true& */ "./resources/js/components/Category.vue?vue&type=template&id=33972369&scoped=true&");
+/* harmony import */ var _Category_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Category.vue?vue&type=script&lang=js& */ "./resources/js/components/Category.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _Category_vue_vue_type_style_index_0_id_33972369_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Category.vue?vue&type=style&index=0&id=33972369&scoped=true&lang=css& */ "./resources/js/components/Category.vue?vue&type=style&index=0&id=33972369&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _Category_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Category_vue_vue_type_template_id_33972369_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Category_vue_vue_type_template_id_33972369_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "33972369",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Category.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Category.vue?vue&type=script&lang=js&":
+/*!***********************************************************************!*\
+  !*** ./resources/js/components/Category.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Category_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Category.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Category.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Category_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Category.vue?vue&type=style&index=0&id=33972369&scoped=true&lang=css&":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/js/components/Category.vue?vue&type=style&index=0&id=33972369&scoped=true&lang=css& ***!
+  \*******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Category_vue_vue_type_style_index_0_id_33972369_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Category.vue?vue&type=style&index=0&id=33972369&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Category.vue?vue&type=style&index=0&id=33972369&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Category_vue_vue_type_style_index_0_id_33972369_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Category_vue_vue_type_style_index_0_id_33972369_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Category_vue_vue_type_style_index_0_id_33972369_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Category_vue_vue_type_style_index_0_id_33972369_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Category_vue_vue_type_style_index_0_id_33972369_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Category.vue?vue&type=template&id=33972369&scoped=true&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/Category.vue?vue&type=template&id=33972369&scoped=true& ***!
+  \*****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Category_vue_vue_type_template_id_33972369_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Category.vue?vue&type=template&id=33972369&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Category.vue?vue&type=template&id=33972369&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Category_vue_vue_type_template_id_33972369_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Category_vue_vue_type_template_id_33972369_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Functions.js":
+/*!**********************************************!*\
+  !*** ./resources/js/components/Functions.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  convertTurkish2English: function convertTurkish2English(phrase) {
+    var maxLength = 100;
+    var returnString = phrase.toLowerCase(); //Convert Characters
+
+    returnString = returnString.replace(/ö/g, 'o');
+    returnString = returnString.replace(/ç/g, 'c');
+    returnString = returnString.replace(/ş/g, 's');
+    returnString = returnString.replace(/ı/g, 'i');
+    returnString = returnString.replace(/ğ/g, 'g');
+    returnString = returnString.replace(/ü/g, 'u'); // if there are other invalid chars, convert them into blank spaces
+
+    returnString = returnString.replace(/[^a-z0-9\s-]/g, ""); // convert multiple spaces and hyphens into one space       
+
+    returnString = returnString.replace(/[\s-]+/g, " "); // trims current string
+
+    returnString = returnString.replace(/^\s+|\s+$/g, ""); // cuts string (if too long)
+
+    if (returnString.length > maxLength) returnString = returnString.substring(0, maxLength); // add hyphens
+
+    returnString = returnString.replace(/\s/g, "-");
+    return returnString;
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/components/Header.vue":
 /*!********************************************!*\
   !*** ./resources/js/components/Header.vue ***!
@@ -22099,7 +23952,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Home_vue_vue_type_template_id_f2b6376c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Home.vue?vue&type=template&id=f2b6376c& */ "./resources/js/components/Home.vue?vue&type=template&id=f2b6376c&");
 /* harmony import */ var _Home_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Home.vue?vue&type=script&lang=js& */ "./resources/js/components/Home.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _Home_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Home.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/Home.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -22107,7 +23962,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _Home_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _Home_vue_vue_type_template_id_f2b6376c___WEBPACK_IMPORTED_MODULE_0__["render"],
   _Home_vue_vue_type_template_id_f2b6376c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -22136,6 +23991,22 @@ component.options.__file = "resources/js/components/Home.vue"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Home.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Home.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Home.vue?vue&type=style&index=0&lang=css&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/Home.vue?vue&type=style&index=0&lang=css& ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Home.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Home.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -22290,6 +24161,59 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Mainpart_vue_vue_type_template_id_0c56f6d2___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Mainpart_vue_vue_type_template_id_0c56f6d2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Movies.vue":
+/*!********************************************!*\
+  !*** ./resources/js/components/Movies.vue ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Movies_vue_vue_type_template_id_0e7ffbee___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Movies.vue?vue&type=template&id=0e7ffbee& */ "./resources/js/components/Movies.vue?vue&type=template&id=0e7ffbee&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+var script = {}
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
+  script,
+  _Movies_vue_vue_type_template_id_0e7ffbee___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Movies_vue_vue_type_template_id_0e7ffbee___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Movies.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Movies.vue?vue&type=template&id=0e7ffbee&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/Movies.vue?vue&type=template&id=0e7ffbee& ***!
+  \***************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Movies_vue_vue_type_template_id_0e7ffbee___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Movies.vue?vue&type=template&id=0e7ffbee& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Movies.vue?vue&type=template&id=0e7ffbee&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Movies_vue_vue_type_template_id_0e7ffbee___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Movies_vue_vue_type_template_id_0e7ffbee___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -22469,6 +24393,146 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Search.vue":
+/*!********************************************!*\
+  !*** ./resources/js/components/Search.vue ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Search_vue_vue_type_template_id_5026ffd3_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Search.vue?vue&type=template&id=5026ffd3&scoped=true& */ "./resources/js/components/Search.vue?vue&type=template&id=5026ffd3&scoped=true&");
+/* harmony import */ var _Search_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Search.vue?vue&type=script&lang=js& */ "./resources/js/components/Search.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _Search_vue_vue_type_style_index_0_id_5026ffd3_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Search.vue?vue&type=style&index=0&id=5026ffd3&scoped=true&lang=css& */ "./resources/js/components/Search.vue?vue&type=style&index=0&id=5026ffd3&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _Search_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Search_vue_vue_type_template_id_5026ffd3_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Search_vue_vue_type_template_id_5026ffd3_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "5026ffd3",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Search.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Search.vue?vue&type=script&lang=js&":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/Search.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Search_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Search.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Search.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Search_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Search.vue?vue&type=style&index=0&id=5026ffd3&scoped=true&lang=css&":
+/*!*****************************************************************************************************!*\
+  !*** ./resources/js/components/Search.vue?vue&type=style&index=0&id=5026ffd3&scoped=true&lang=css& ***!
+  \*****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Search_vue_vue_type_style_index_0_id_5026ffd3_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Search.vue?vue&type=style&index=0&id=5026ffd3&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Search.vue?vue&type=style&index=0&id=5026ffd3&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Search_vue_vue_type_style_index_0_id_5026ffd3_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Search_vue_vue_type_style_index_0_id_5026ffd3_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Search_vue_vue_type_style_index_0_id_5026ffd3_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Search_vue_vue_type_style_index_0_id_5026ffd3_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Search_vue_vue_type_style_index_0_id_5026ffd3_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Search.vue?vue&type=template&id=5026ffd3&scoped=true&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/Search.vue?vue&type=template&id=5026ffd3&scoped=true& ***!
+  \***************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Search_vue_vue_type_template_id_5026ffd3_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Search.vue?vue&type=template&id=5026ffd3&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Search.vue?vue&type=template&id=5026ffd3&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Search_vue_vue_type_template_id_5026ffd3_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Search_vue_vue_type_template_id_5026ffd3_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Series.vue":
+/*!********************************************!*\
+  !*** ./resources/js/components/Series.vue ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Series_vue_vue_type_template_id_5e079922___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Series.vue?vue&type=template&id=5e079922& */ "./resources/js/components/Series.vue?vue&type=template&id=5e079922&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+var script = {}
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
+  script,
+  _Series_vue_vue_type_template_id_5e079922___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Series_vue_vue_type_template_id_5e079922___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Series.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Series.vue?vue&type=template&id=5e079922&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/Series.vue?vue&type=template&id=5e079922& ***!
+  \***************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Series_vue_vue_type_template_id_5e079922___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Series.vue?vue&type=template&id=5e079922& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Series.vue?vue&type=template&id=5e079922&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Series_vue_vue_type_template_id_5e079922___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Series_vue_vue_type_template_id_5e079922___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/router/index.js":
 /*!**************************************!*\
   !*** ./resources/js/router/index.js ***!
@@ -22483,7 +24547,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _components_Player__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Player */ "./resources/js/components/Player.vue");
 /* harmony import */ var _components_Home__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/Home */ "./resources/js/components/Home.vue");
-/* harmony import */ var _components_Mainpart__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/Mainpart */ "./resources/js/components/Mainpart.vue");
+/* harmony import */ var _components_Movies__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/Movies */ "./resources/js/components/Movies.vue");
+/* harmony import */ var _components_Series__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/Series */ "./resources/js/components/Series.vue");
+/* harmony import */ var _components_Search__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/Search */ "./resources/js/components/Search.vue");
+/* harmony import */ var _components_AboutMovie__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/AboutMovie */ "./resources/js/components/AboutMovie.vue");
+/* harmony import */ var _components_Category__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/Category */ "./resources/js/components/Category.vue");
+
+
+
+
 
 
 
@@ -22500,13 +24572,32 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
     path: '/',
     component: _components_Home__WEBPACK_IMPORTED_MODULE_3__["default"],
     children: [{
+      path: '',
+      name: 'Movies',
+      component: _components_Movies__WEBPACK_IMPORTED_MODULE_4__["default"]
+    }, {
       path: 'movie',
       name: 'Movies',
-      component: _components_Mainpart__WEBPACK_IMPORTED_MODULE_4__["default"]
+      component: _components_Movies__WEBPACK_IMPORTED_MODULE_4__["default"]
+    }, {
+      path: 'category/:type/:category',
+      name: 'Category',
+      component: _components_Category__WEBPACK_IMPORTED_MODULE_8__["default"]
     }, {
       path: 'tvshows',
       name: 'Series',
-      component: _components_Mainpart__WEBPACK_IMPORTED_MODULE_4__["default"]
+      component: _components_Series__WEBPACK_IMPORTED_MODULE_5__["default"]
+    }, {
+      path: 'search',
+      name: 'Search',
+      component: _components_Search__WEBPACK_IMPORTED_MODULE_6__["default"]
+    }, {
+      path: 'about/:id/:moviename',
+      name: 'MovieInfo',
+      component: _components_AboutMovie__WEBPACK_IMPORTED_MODULE_7__["default"],
+      meta: {
+        transitionName: 'slide'
+      }
     }]
   }]
 }));

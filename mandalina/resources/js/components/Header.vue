@@ -5,27 +5,30 @@
         <h1 class="Title">{{getData.name}}</h1>
       </div>
       <div class="btns">
-        <button class="watchBtn">
-          <svg
-            class="header__container-btnMyList-play"
-            width="1rem"
-            height="1rem"
-            fill="white"
-            version="1.1"
-            id="Capa_1"
-            x="0px"
-            y="0px"
-            viewBox="0 0 41.999 41.999"
-            xml:space="preserve"
-          >
-            <path
-              d="M36.068,20.176l-29-20C6.761-0.035,6.363-0.057,6.035,0.114C5.706,0.287,5.5,0.627,5.5,0.999v40
+        <router-link :to="`/about/${getData.id}/${getParName(getData.name)}`">
+          <button class="watchBtn">
+            <svg
+              class="header__container-btnMyList-play"
+              width="1rem"
+              height="1rem"
+              fill="white"
+              version="1.1"
+              id="Capa_1"
+              x="0px"
+              y="0px"
+              viewBox="0 0 41.999 41.999"
+              xml:space="preserve"
+            >
+              <path
+                d="M36.068,20.176l-29-20C6.761-0.035,6.363-0.057,6.035,0.114C5.706,0.287,5.5,0.627,5.5,0.999v40
 	            c0,0.372,0.206,0.713,0.535,0.886c0.146,0.076,0.306,0.114,0.465,0.114c0.199,0,0.397-0.06,0.568-0.177l29-20
 	             c0.271-0.187,0.432-0.494,0.432-0.823S36.338,20.363,36.068,20.176z"
-            />
-          </svg>
-          <span class="btnText">Izle</span>
-        </button>
+              />
+            </svg>
+
+            <span class="btnText">Izle</span>
+          </button>
+        </router-link>
       </div>
       <div class="about">
         <span class="aboutText">{{getData.description}}</span>
@@ -35,12 +38,7 @@
       <video id="vd" preload="none" muted>
         <source src="/assets/sampleTrailer.mp4" type="video/mp4" />
       </video>
-      <img
-        class="poster"
-        src="https://image.tmdb.org/t/p/original//yJPI9e3H5fGNTWNzW2p4iSG5qdc.jpg"
-        alt
-        srcset
-      />
+      <img class="poster" :src="getData.poster" alt srcset />
       <div v-show="isPlaying" class="soundOnOf" @click="soundOnOf">
         <svg
           v-show="!isMuted"
@@ -90,6 +88,7 @@
 </template>
 
 <script>
+import fun from "./Functions";
 export default {
   created() {},
   data: function () {
@@ -112,10 +111,12 @@ export default {
         .muted;
       this.isMuted = !this.isMuted;
     },
+    getParName(val) {
+      return fun.convertTurkish2English(val);
+    },
   },
   computed: {
     getData() {
-      console.log(this.$route);
       return this.$route.name == "Movies" || this.$route.name == undefined
         ? this.$store.state.movieSuggested
         : this.$store.state.serieSuggested;
@@ -126,8 +127,7 @@ export default {
 
 <style scoped>
 #vd {
-  background: transparent
-    url("/assets/loader.gif") no-repeat center center;
+  background: transparent url("/assets/loader.gif") no-repeat center center;
 }
 .blackFade {
   position: absolute;

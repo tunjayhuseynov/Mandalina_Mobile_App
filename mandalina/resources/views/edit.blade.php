@@ -166,7 +166,7 @@ array_push($cast, $item->name);
 <script>
 $(document).ready(function() {
 
-    var type = 1;
+    var type = document.querySelector(".js-example-basic-single").value==1?1:2;
     $('.js-example-basic-multiple').select2({
         placeholder: 'Select Genres',
         width: 'resolve',
@@ -230,9 +230,9 @@ function movieFun(type, isCover){
   var urlApi;
         console.log("type is " +type)
         if(type == 1){
-            urlApi = 'http://api.themoviedb.org/3/search/movie?api_key=285a107f0c92cfda467db221ccc502f7&query='
+            urlApi = 'https://api.themoviedb.org/3/search/movie?api_key=285a107f0c92cfda467db221ccc502f7&query='
         }else{
-            urlApi = 'http://api.themoviedb.org/3/search/tv?api_key=285a107f0c92cfda467db221ccc502f7&query='
+            urlApi = 'https://api.themoviedb.org/3/search/tv?api_key=285a107f0c92cfda467db221ccc502f7&query='
         }
   var query = document.querySelector("#searchInput").value
   

@@ -185,9 +185,9 @@ function movieFun(type, isCover){
   var urlApi;
         console.log("type is " +type)
         if(type == 1){
-            urlApi = 'http://api.themoviedb.org/3/search/movie?api_key=285a107f0c92cfda467db221ccc502f7&query='
+            urlApi = 'https://api.themoviedb.org/3/search/movie?api_key=285a107f0c92cfda467db221ccc502f7&query='
         }else{
-            urlApi = 'http://api.themoviedb.org/3/search/tv?api_key=285a107f0c92cfda467db221ccc502f7&query='
+            urlApi = 'https://api.themoviedb.org/3/search/tv?api_key=285a107f0c92cfda467db221ccc502f7&query='
         }
   var query = document.querySelector("#searchInput").value
   

@@ -30,6 +30,11 @@ Vue.component('bodybar', require('./components/Body.vue').default);
 Vue.component('carousel', require('./components/Carousel.vue').default);
 Vue.component('loading', require('./components/Loading.vue').default);
 Vue.component('mainpart', require('./components/Mainpart.vue').default);
+Vue.component('movies', require('./components/Movies.vue').default);
+Vue.component('search', require('./components/Search.vue').default);
+Vue.component('series', require('./components/Series.vue').default);
+Vue.component('aboutmovie', require('./components/AboutMovie.vue').default);
+Vue.component('category', require('./components/Category.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -42,6 +47,10 @@ const store = new Vuex.Store({
     homeSeries: null,
     movieSuggested: null,
     serieSuggested: null,
+    searchQuery: null,
+    searchResult: null,
+    searchPath: null,
+    searchBox: null,
   },
   mutations: {
     setHomeMovies(state, data) {
@@ -55,7 +64,19 @@ const store = new Vuex.Store({
     },
     setSerieSuggested(state, data) {
       state.serieSuggested = data
-    }
+    },
+    setSearchQuery(state, data){
+      state.searchQuery = data
+    },
+    setSearchResult(state, data){
+      state.searchResult = data
+    },
+    setSearchPath(state, data){
+      state.searchPath = data
+    },
+    setSearchBox(state, data){
+      state.searchBox = data
+    },
   },
 })
 

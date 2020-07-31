@@ -5,8 +5,9 @@
         <div class="customDiv1">
           <router-link to="/movie">
             <img
-              src="http://netflix-react-clone.surge.sh/8562b6565f5ae1db5e4af40d85b4ed2d.png"
+              src="https://1000logos.net/wp-content/uploads/2017/05/Netflix-Logo.png"
               height="75"
+              style="padding: 15px 10px;"
             />
           </router-link>
         </div>
@@ -14,7 +15,9 @@
       <div class="col-8 col-md-7">
         <div class="customDiv">
           <ul>
-            <li><router-link class="routeFont" to="/movie">Filmler</router-link></li>
+            <li>
+              <router-link class="routeFont" to="/movie">Filmler</router-link>
+            </li>
             <li>
               <router-link class="routeFont" to="/tvshows">Diziler</router-link>
             </li>
@@ -44,7 +47,14 @@
                 </g>
               </g>
             </svg>
-            <input tabindex="1" type="text" class="searchBox" placeholder="Film ve Dizi Ara..." />
+            <input
+              v-model="query"
+              @click="getPathByClick"
+              tabindex="1"
+              type="text"
+              class="searchBox"
+              placeholder="Film ve Dizi Ara..."
+            />
           </div>
         </div>
       </div>
@@ -53,9 +63,17 @@
 </template>
 
 <script>
+import api from "./Api";
 export default {
+  data() {
+    return {
+      query: null,
+      path: null,
+    };
+  },
   mounted() {
     window.addEventListener("scroll", this.onScroll);
+    this.$store.commit("setSearchBox", document.querySelector(".searchBox"));
   },
   beforeDestroy() {
     window.removeEventListener("scroll", this.onScroll);
@@ -70,6 +88,26 @@ export default {
         document.querySelector(".navBar").classList.add("hideTransparent");
       } else {
         document.querySelector(".navBar").classList.remove("hideTransparent");
+      }
+    },
+    getPathByClick(e) {
+      this.path = this.$route.name=="Search"?"/movie":this.$route.path;
+      this.$store.commit("setSearchPath", this.path);
+      this.query = e.value
+    },
+  },
+  watch: {
+    query(val) {
+      if (val) {
+        api.getSearch(val).then((response) => {
+          this.$store.commit("setSearchResult", response.data);
+        });
+        this.$store.commit("setSearchQuery", val);
+      }
+      if (val != undefined && val.length > 0) {
+        this.$router.push({ path: "/search", query: { q: val } }).catch(()=>{});
+      } else {
+        this.$router.push(this.path).catch(()=>{});
       }
     },
   },

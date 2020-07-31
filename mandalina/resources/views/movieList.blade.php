@@ -1,6 +1,29 @@
 @extends('layout.home')
 @section('content')
 
+<?php 
+function checkRemoteFile($url)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL,$url);
+    // don't download content
+    curl_setopt($ch, CURLOPT_NOBODY, 1);
+    curl_setopt($ch, CURLOPT_FAILONERROR, 1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+    $result = curl_exec($ch);
+    curl_close($ch);
+    if($result !== FALSE)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+?>
+
 @if(session()->has('message'))
 <div class="alert alert-success">
     {{ session()->get('message') }}
@@ -13,8 +36,10 @@
             <th>Name</th>
             <th style="width: 60px">Id</th>
             <th style="width: 100px">Type</th>
+            <th style="width: 40px">English</th>
             <th style="width: 100px">Episodes</th>
-            <th style="width: 60px">English</th>
+            <th style="width: 40px">Cover</th>
+            <th style="width: 40px">Poster</th>
             <th style="width: 200px">Addition Date</th>
             <th style="width: 150px">Actions</th>
         </tr>
@@ -26,8 +51,10 @@
             <td>{{$item['name']}}</td>
             <td>{{$item['id']}}</td>
             <td>{{$item['movieType']==1?"Movie":"Series"}}</td>
+            <td>{!!$item['englishLink']!=null&&strlen($item['englishLink'])>3?"&#9989;":"&#10060;"!!}</td>
             <td>{{$item['movieType']==2?count($item['episodes'])." Episodes":""}}</td>
-            <td>{{$item['englishLink']!=null&&strlen($item['englishLink'])>3?'Done':'X'}}</td>
+         <td>{!!$item['image']!=null&&file_exists(public_path().$item['image'])?"&#9989;":"&#10060;"!!}</td>
+         <td>{!!$item['poster']!=null&&file_exists(public_path().$item['poster'])?"&#9989;":"&#10060;"!!}</td>
             <td>{{$item['addedDate']}}</td>
         <td><a target="_blank" href="{{url('/AdminPanelPinnme/edit/'.$item['id'])}}">Edit</a> ||
             <a onclick="return confirm('Do you really want to delete it?');" href="{{url('/AdminPanelPinnme/delete/'.$item['id'])}}">Delete</a> ||

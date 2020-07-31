@@ -1,12 +1,17 @@
 <template>
-  <div>
-    <headerbar></headerbar>
-    <bodybar></bodybar>
-  </div>
+
+    <div>
+      <headerbar></headerbar>
+      <bodybar></bodybar>
+    </div>
 </template>
 
 <script>
 export default {
-    
-}
+
+};
 </script>
+
+<style>
+
+</style>

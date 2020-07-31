@@ -2,6 +2,7 @@
   <div>
     <div class="carouselSection">
       <div class="title">
+        <router-link style="color: #ddd" :to="`category/${this.$route.name=='Movies'?'movies':'series'}/${json.title}`">
         {{json.title}}
         <svg
           version="1.1"
@@ -23,10 +24,18 @@
 			L18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
           />
         </svg>
+        </router-link>
       </div>
       <div class="carouselContainer">
-        <div class="item" v-for="(item, index) in 20" :key="index">
-          <img height="350" src="/examplePoster.jpg" />
+        <div class="item" v-for="(item, index) in json.items" :key="index">
+          <router-link :to="`/about/${item.id}/${getParName(item.name)}`">
+            <v-lazy-image
+              height="350"
+              width="235"
+              src-placeholder="/assets/loader.gif"
+              :src="item.image"
+            />
+          </router-link>
         </div>
         <div class="rightSpace"></div>
       </div>
@@ -83,12 +92,14 @@
 </template>
 
 <script>
+import VLazyImage from "v-lazy-image";
+import fun from "./Functions";
 export default {
-  props: ['json'],
+  props: ["json"],
   data() {
     return {
       scrollWidth: 0,
-      carousel: null
+      carousel: null,
     };
   },
   mounted() {
@@ -98,13 +109,19 @@ export default {
     this.scrollWidth = item.offsetWidth * visibileItemNum;
   },
   methods: {
-    prev: function() {
+    prev: function () {
       this.carousel.scrollLeft -= this.scrollWidth;
     },
-    next: function() {
+    next: function () {
       this.carousel.scrollLeft += this.scrollWidth;
-    }
-  }
+    },
+    getParName(val) {
+      return fun.convertTurkish2English(val);
+    },
+  },
+  components: {
+    VLazyImage,
+  },
 };
 </script>
 

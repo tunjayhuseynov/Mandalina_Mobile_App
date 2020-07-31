@@ -23,5 +23,14 @@ export default {
     },
     getSerieSuggested(){
         return api.get('/suggestedSeries')
+    },
+    getSearch(val){
+        return api.get(`/search/${val}`)
+    },
+    getMovie(val){
+        return api.get(`/movie/${val}`)
+    },
+    getCategory(type, genre, start, end){
+        return api.get(`/${type}/${genre}/${start}/${end}`)
     }
 }
