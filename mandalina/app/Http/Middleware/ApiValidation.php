@@ -15,6 +15,12 @@ class ApiValidation
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        if($request->header("auth") == "5591980supertun"){
+            return $next($request);
+        }
+
+        abort(404);
+
+        
     }
 }

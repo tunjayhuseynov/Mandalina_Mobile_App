@@ -32,5 +32,8 @@ export default {
     },
     getCategory(type, genre, start, end){
         return api.get(`/${type}/${genre}/${start}/${end}`)
+    },
+    downloadVtt(link){
+        return axios.get(link)
     }
 }

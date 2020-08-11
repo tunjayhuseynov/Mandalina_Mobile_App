@@ -35,6 +35,7 @@ Vue.component('search', require('./components/Search.vue').default);
 Vue.component('series', require('./components/Series.vue').default);
 Vue.component('aboutmovie', require('./components/AboutMovie.vue').default);
 Vue.component('category', require('./components/Category.vue').default);
+Vue.component('playerbtn', require('./components/subcomponents/Playerbtn.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

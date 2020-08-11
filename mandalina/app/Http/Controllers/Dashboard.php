@@ -103,9 +103,11 @@ class Dashboard extends Controller
         $trailer = $request->input("trailer");
         $movie = $request->input("movie");
         $enmovie = $request->input("enmovie");
+        $subtitle = $request->input("subtitle");
         $duration = $request->input("duration");
         $poster = $request->input("poster");
         $imdb = $request->input('imdb');
+        
 
         $contents = file_get_contents($coverUrl);
         $covername = substr($coverUrl, strrpos($coverUrl, '/') + 1);
@@ -113,6 +115,15 @@ class Dashboard extends Controller
         $posterContents = file_get_contents($poster);
         $posterCovername = substr($poster, strrpos($poster, '/') + 1);
 
+
+        if($subtitle != null && str_contains($subtitle, "https://uptobox.com/")){
+            $array = preg_split('/\//',$subtitle);
+            $url = "https://uptobox.com/api/link?token=690844a0fb2459a1433697be102e16617ojhx&file_code=".end($array);
+            $return = file_get_contents($url);
+            $vttFile = file_get_contents(json_decode($return, true)["data"]["dlLink"]);
+            $subtitle = "subtitles/".preg_replace("/[^a-zA-Z0-9\']/", "", $name)."/".end($array).".vtt";
+            Storage::disk('public_uploads')->put($subtitle, $vttFile);
+        }
        /* if($request->hasFile("video")){
             if($request->file("video")->isValid()){
                 $video = $request->file("video");
@@ -150,6 +161,7 @@ class Dashboard extends Controller
             'tagName' => $tag, 
             "trailerLink" => $trailer,
             'englishLink' => $enmovie,
+            'subtitleLink' => "/".$subtitle,
             'imdb' => $imdb
             ]
         );
@@ -197,9 +209,11 @@ class Dashboard extends Controller
         $description = $request->input("description");
         $limit = $request->input("limit");
         $type = $request->input("type");
+
         $oldcover = $request->input("oldcover");
         $oldposter = $request->input("oldposter");
         $oldlimit = $request->input("oldlimit");
+
         $duration = $request->input("duration");
 
         $trailer = $request->input("trailer");
@@ -208,11 +222,20 @@ class Dashboard extends Controller
         $enmovie = $request->input("enmovie");
         $coverUrl = $request->input('cover');
         $imdb = $request->input('imdb');
+        $subtitle = $request->input("subtitle");
 
         if($coverUrl != null ){
             $contents = file_get_contents($coverUrl);
             $covername = substr($coverUrl, strrpos($coverUrl, '/') + 1);    
             Storage::disk('public_uploads')->put("covers/".preg_replace("/[^a-zA-Z0-9\']/", "", $name)."/".$covername, $contents);
+        }
+        if($subtitle != null && str_contains($subtitle, "https://uptobox.com/")){
+            $array = preg_split('/\//',$subtitle);
+            $url = "https://uptobox.com/api/link?token=690844a0fb2459a1433697be102e16617ojhx&file_code=".end($array);
+            $return = file_get_contents($url);
+            $vttFile = file_get_contents(json_decode($return, true)["data"]["dlLink"]);
+            $subtitle = "subtitles/".preg_replace("/[^a-zA-Z0-9\']/", "", $name)."/".end($array).".vtt";
+            Storage::disk('public_uploads')->put($subtitle, $vttFile);
         }
         if($poster != null ){
             $posterContents = file_get_contents($poster);
@@ -262,6 +285,7 @@ class Dashboard extends Controller
             'isDeleted' => FALSE, 
             'tagName' => $tag,
             'trailerLink' => $trailer,
+            'subtitleLink' => "/".$subtitle,
             'imdb' => $imdb,
             ]
         );

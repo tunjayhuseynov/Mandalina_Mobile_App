@@ -1,62 +1,39 @@
 <template>
-  <div>
+  <div v-if="getMovie!=null">
     <div class="backgroundBlack"></div>
     <video
       id="my_video_1"
       class="video-js vjs-default-skin"
       :data-setup="setup"
       controls
-      preload="none"
+      preload="metadata"
     >
-      <source :src="assetdomain + target" type="video/mp4" />
-      <source :src="assetdomain + target" type="video/webm" />
+      <source :src="getKind()" type="video/mp4" />
+      <source :src="getKind()" type="video/webm" />
+      <track v-if="this.$route.params.type == 'ta'" id="trackId" kind="subtitles" :src="getMovie.subtitleLink" srclang="en" label="English" default /> 
     </video>
-    <div id="backButton">
-      <a @click="$router.push({ name: 'Home', hash: route})">
+    <div id="backButton" v-show="playerProgrammingDesign()">
+      <a
+        @click="$router.push({ name: 'MovieInfo', params: {id: `${$route.params.id}`, moviename: `${getParName($route.params.movieName)}`}})"
+      >
         <i class="fas fa-arrow-left"></i>
       </a>
     </div>
   </div>
 </template>
 
-<style scoped>
-@import url("https://vjs.zencdn.net/7.6.6/video-js.css");
-@import "/assets/css/player.css";
-body {
-  overflow: hidden !important;
-}
-</style>
 
 <script>
+import api from "./Api";
+import fun from "./Functions";
+
 export default {
-  created() {
-    $("body").css("overflow-y", "hidden");
-
-    if (
-      window.location.hash.split("&movie=")[0].split("link=")[1] == "series"
-    ) {
-      fetch(this.domainlink + "/api/serie/" + this.id).then(res => {
-        return res.json().then(e => {
-          console.log(e.url);
-          this.target = e.url;
-          fetch(this.domainlink + "/api/movie/" + e.movieID).then(res => {
-            return res.json().then(e => {
-              this.addMovieToDb(e, "watchedSerie");
-            });
-          });
-
-          this.obj = e;
-        });
-      });
-    } else {
-      fetch(this.domainlink + "/api/movie/" + this.id).then(res => {
-        return res.json().then(e => {
-          this.target = e.movieLink;
-          this.addMovieToDb(e, "watchedMovie");
-          this.obj = e;
-        });
-      });
+  async created() {
+    $("body").css({"overflow-y": "hidden", "padding-right": "0"});
+    if(document.querySelector(".modal-backdrop").isConnected){
+    document.querySelector(".modal-backdrop").remove()
     }
+    await this.fetchtMovie();
   },
   data() {
     return {
@@ -65,171 +42,82 @@ export default {
       setup: '{ "aspectRatio":"16:8", "playbackRates": [1, 1.5, 2] }',
       target: null,
       obj: null,
-      route:
-        window.location.hash.split("&movie=")[0].split("link=")[1] == "series"
-          ? "#series"
-          : "#"
+      movie: null,
     };
   },
   methods: {
-    getMoviefromDb(id, type) {
-      var episodeId = this.id
-      let openRequest = indexedDB.open("movies", 1);
-      openRequest.onsuccess = () => {
-        let db = openRequest.result;
-        var objectStore = db
-          .transaction([type], "readonly")
-          .objectStore(type);
-        var request = objectStore.get(id);
-        request.onerror = function(event) {
-          console.log(event);
-        };
-        request.onsuccess = function(event) {
-          // Get the old value that we want to update
-          var data = event.target.result;
-          if(type == "watchedSerie"){
-            data = data.episodes.find(x=> x.id == episodeId);
-          }
-          console.log("Data: " + data.stoppedTime);
-          if (data.stoppedTime != null) {
-            document.getElementById("my_video_1_html5_api").currentTime =
-              data.stoppedTime;
-          }
-        };
-      };
+    async fetchtMovie() {
+      api.getMovie(this.$route.params.id).then((response) => {
+        this.movie = response.data;
+      });
     },
-    deteleMovieFromDB(id, type) {
-      let openRequest = indexedDB.open("movies", 1);
-      openRequest.onsuccess = () => {
-        var request = db
-          .transaction([type], "readwrite")
-          .objectStore(type)
-          .delete(id);
-        request.onsuccess = function(event) {
-          console.log("Deleted!");
-        };
-      };
+    getParName(val) {
+      return fun.convertTurkish2English(val);
     },
-    updateMovieFromDb(id, time, type) {
-      var episodeId = this.id
-      let openRequest = indexedDB.open("movies", 1);
-      openRequest.onsuccess = () => {
-        let db = openRequest.result;
-        var objectStore = db.transaction([type], "readwrite").objectStore(type);
-        var request = objectStore.get(id);
-        request.onerror = function(event) {
-          // Handle errors!
-        };
-        request.onsuccess = function(event) {
-          // Get the old value that we want to update
-          var data = event.target.result;
+    getKind() {
+      if (this.$route.params.type == "td") return this.getMovie.movieLink;
+      else if (this.$route.params.type == "ta")
+        return this.getMovie.englishLink;
+      else return this.getMovie.trailerLink;
+    },
+    playerProgrammingDesign() {
+      var $refreshButton = $("#refresh");
+      var $results = $("#css_result");
 
-          // update the value(s) in the object that you want to change
-          if (type == "watchedMovie") {
-            data.stoppedTime = time;
-          } else {
-            data.episodes.find(x => x.id == episodeId).stoppedTime = time
-          }
-          // Put this updated object back into the database.
-          var requestUpdate = objectStore.put(data);
-          requestUpdate.onerror = function(event) {
-            // Do something with the error
-          };
-          requestUpdate.onsuccess = function(event) {
-            // Success - the data is updated!
-          };
-        };
-      };
-    }
-  },
-  destroyed() {
-    clearInterval(this.interval);
-  },
-  mounted() {
-    var isPlayed = false;
-
-    document.getElementById("my_video_1").addEventListener("play", () => {
-      if (!isPlayed) {
-        var obj = this.obj;
-        var length = this.route.includes("series")
-          ? parseInt(obj.airtime)
-          : obj.length;
-        var route = this.route;
-        var deteleMovieFromDB = this.deteleMovieFromDB;
-        var updateMovieFromDb = this.updateMovieFromDb;
-        isPlayed = true;
-
-        function Timer() {
-          if (
-            (Math.floor(
-              document.getElementById("my_video_1_html5_api").currentTime
-            ) /
-              (length * 60)) *
-              100 <
-            97
-          ) {
-            updateMovieFromDb(
-              route.includes("series")?obj.movieID:obj.id,
-              Math.floor(
-                document.getElementById("my_video_1_html5_api").currentTime
-              ),
-              route.includes("series") ? "watchedSerie" : "watchedMovie"
-            );
-          } else {
-            deteleMovieFromDB(
-              obj.id,
-              route.includes("series") ? "watchedSerie" : "watchedMovie"
-            );
-          }
-        }
-        this.interval = setInterval(() => {
-          Timer();
-        }, 2000);
+      function refresh() {
+        var css = $("style.cp-pen-styles").text();
+        $results.html(css);
       }
-    });
 
-    var $refreshButton = $("#refresh");
-    var $results = $("#css_result");
+      refresh();
+      $refreshButton.click(refresh);
 
-    function refresh() {
-      var css = $("style.cp-pen-styles").text();
-      $results.html(css);
-    }
+      // Select all the contents when clicked
+      $results.click(function () {
+        $(this).select();
+      });
 
-    refresh();
-    $refreshButton.click(refresh);
+      const plugin = document.createElement("script");
+      plugin.setAttribute("src", "https://vjs.zencdn.net/7.6.6/video.js");
+      plugin.async = true;
+      document.head.appendChild(plugin);
 
-    // Select all the contents when clicked
-    $results.click(function() {
-      $(this).select();
-    });
 
-    const plugin = document.createElement("script");
-    plugin.setAttribute("src", "https://vjs.zencdn.net/7.6.6/video.js");
-    plugin.async = true;
-    document.head.appendChild(plugin);
+      $("#my_video_1").ready(function () {
+        $("#my_video_1")
+          .on("pause", function () {
+            if ($(".vjs-scrubbing")[0]) {
+            } else {
+              $(".backgroundBlack, .vjs-big-play-button").fadeIn(500);
+              $("#backButton").stop();
+            }
+          })
+          .on("play", function () {
+            $(".vjs-big-play-button, .backgroundBlack").fadeOut(500);
+          });
+      });
 
-    $("#my_video_1").ready(function() {
-      $("#my_video_1")
-        .on("pause", function() {
-          if ($(".vjs-scrubbing")[0]) {
-          } else {
-            $(".backgroundBlack").fadeIn(1500);
-            $(".vjs-big-play-button").fadeIn(1500);
-            $("#backButton").stop();
-          }
-        })
-        .on("play", function() {
-          $(".vjs-big-play-button").fadeOut(500);
-          $(".backgroundBlack").fadeOut(500);
-          $(".vjs-big-play-button").fadeOut(500);
-        });
-    });
+      return true;
+    },
+  },
+  computed: {
+    getMovie() {
+      return this.movie;
+    },
+  },
+  mounted() {},
+  beforeDestroy(){
+    document.body.style = "overflow-y: none"
+    document.body.classList.remove("modal-open")
   }
 };
 </script>
 
+<style>
+@import url("https://vjs.zencdn.net/7.6.6/video-js.css");
+@import "/assets/css/player.css";
+.vjs-subs-caps-button  {
+  display: none!important;
+}
 
-
-
-
+</style>

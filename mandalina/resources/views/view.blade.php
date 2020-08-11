@@ -70,13 +70,20 @@
                                                 href="{{{$data[2]['movieLink']}}}">{{{$data[2]['englishLink']}}}</a>
                                 </h5>
                         </div>
+                        <div class="box text-center" style="padding: 15px 15px;">
+                                <label>Subtitle Link: </label>
+                                <h5 style="text-align: center">
+                                        <a target="_blank"
+                                                href="{{{$data[2]['subtitleLink']}}}">{{{$data[2]['subtitleLink']}}}</a>
+                                </h5>
+                        </div>
                         @endif
                         <div class="box text-center" style="padding: 15px 15px;">
                                 <label>Trailer Link: </label>
                                 @if($data[2]['trailerLink'] != null)
                                 <h5 style="text-align: center">
                                         <a target="_blank"
-                                                href="{{{$data[3].$data[2]['trailerLink']}}}">{{{$data[3].$data[2]['trailerLink']}}}</a>
+                                                href="{{{$data[2]['trailerLink']}}}">{{{$data[2]['trailerLink']}}}</a>
                                 </h5>
 
                                 @else

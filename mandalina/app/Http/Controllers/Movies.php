@@ -33,7 +33,7 @@ class Movies extends Controller
         $result = substr($result ,0, -1);
         $result .= ']';
 
-         return response()->json(json_decode($result, true), 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'], JSON_UNESCAPED_UNICODE)->header('Access-Control-Allow-Origin', '*')->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+         return response()->json(json_decode($result, true), 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'], JSON_UNESCAPED_UNICODE);
     }
     
     public function MainSeries(Request $request)
@@ -61,7 +61,7 @@ class Movies extends Controller
         $result = substr($result ,0, -1);
         $result .= ']';
 
-         return response()->json(json_decode($result, true), 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'], JSON_UNESCAPED_UNICODE)->header('Access-Control-Allow-Origin', '*')->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+         return response()->json(json_decode($result, true), 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'], JSON_UNESCAPED_UNICODE);
     }
 
     public function MoviesByOneGenre(Request $request)

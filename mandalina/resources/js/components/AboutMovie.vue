@@ -27,7 +27,7 @@
         </div>-->
         <div class="col-md-12" style="margin-bottom: 15px">
           <div class="poster">
-            <div class="watchModal">
+            <div class="watchModal dynTr" onclick="$('#playModal').modal('show')">
               <svg
                 class="playBtn"
                 version="1.0"
@@ -67,11 +67,28 @@
                 </g>
               </svg>
             </div>
-            <img class="image" :src="getMovie.poster||''" alt />
+            <video id="vd" class="dynTr goUnvisible" preload="metadata">
+              <source src="/assets/sampleTrailer.mp4" type="video/mp4" />
+            </video>
+            <img class="image dynTr" :src="getMovie.poster||''" alt />
             <div class="title">
               <span class="TextTitle">{{getMovie.name}}</span>
+              <div class="onoffswitch">
+                <input
+                  type="checkbox"
+                  name="onoffswitch"
+                  class="onoffswitch-checkbox"
+                  id="myonoffswitch"
+                  @change="switchClicked()"
+                  tabindex="0"
+                />
+                <label class="onoffswitch-label" for="myonoffswitch">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+                </label>
+              </div>
             </div>
-            <div v-bind:class="'blackFade'"></div>
+            <div v-bind:class="'blackFade dynTr'"></div>
           </div>
         </div>
         <div class="col-md-6">
@@ -113,7 +130,7 @@
             {{getMovie.year}}
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6" v-show="playButtonAnimation()">
           <div class="txtInfo">
             <span class="infoTitle">Oyuncular:</span>
             <span v-for="(item,index) in getMovie.casts" :key="index">
@@ -129,14 +146,45 @@
             {{getMovie.description}}
           </div>
         </div>
-        <!-- <div class="col-md-6">
-          <div class="wrapper" @click="clickTrailer">
-            <video class="video">
-              <source src="/assets/sampleTrailer.mp4" type="video/mp4" />
-            </video>
-            <div class="playpause"></div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="playModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="playModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document" style="max-width: 90%; margin: 0 auto">
+        <div class="modal-content">
+          <div class="modal-body" style="background-color: #111; border-radius: 20px">
+            <div class="row" style="height: 40vh">
+              <div class="col-md" v-if="getMovie.movieLink">
+                <router-link :to="`/izle/td/${getMovie.id}/${getParName(getMovie.name)}`">
+                  <playerbtn
+                    imageSrc="https://cdn.webshopapp.com/shops/94414/files/54949672/turkey-flag-icon-free-download.jpg"
+                    title="Türkçe Dublaj"
+                  ></playerbtn>
+                </router-link>
+              </div>
+              <div class="col-md" v-if="getMovie.englishLink">
+                <router-link :to="`/izle/ta/${getMovie.id}/${getParName(getMovie.name)}`">
+                  <playerbtn
+                    imageSrc="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/1200px-Flag_of_the_United_States.svg.png"
+                    title="Türkçe Altyazı"
+                  ></playerbtn>
+                </router-link>
+              </div>
+              <!-- <div class="col-md" >
+                <router-link :to="`/izle/fragman/${getMovie.id}/${getParName(getMovie.name)}`">
+                  <playerbtn imageSrc="/assets/trailerCover.png" title="Fragman"></playerbtn>
+                </router-link>
+              </div>-->
+            </div>
           </div>
-        </div>-->
+        </div>
       </div>
     </div>
   </div>
@@ -144,11 +192,12 @@
 
 <script>
 import api from "./Api";
-
+import fun from "./Functions";
 export default {
   data() {
     return {
       movie: null,
+      isPlaying: false,
     };
   },
   async created() {
@@ -160,14 +209,25 @@ export default {
         this.movie = response.data;
       });
     },
-    clickTrailer() {
-      if ($(".video").get(0).paused) {
-        $(".video").get(0).play();
-        $(".playpause").fadeOut();
-      } else {
-        $(".video").get(0).pause();
-        $(".playpause").fadeIn();
-      }
+    switchClicked() {
+      this.isPlaying = !this.isPlaying;
+      document.querySelectorAll(".dynTr").forEach((e) => {
+        this.isPlaying
+          ? e.classList.add("goUnvisible")
+          : e.classList.remove("goUnvisible");
+      });
+      this.isPlaying
+        ? document.querySelector("#vd").classList.remove("goUnvisible")
+        : document.querySelector("#vd").classList.add("goUnvisible");
+      this.isPlaying?this.playVideo():this.pauseVideo()
+    },
+    playVideo() {
+      document.querySelector("#vd").play();
+      this.isPlaying = true;
+    },
+    pauseVideo() {
+      document.querySelector("#vd").pause();
+      this.isPlaying = false;
     },
     playButtonAnimation() {
       setTimeout(() => {
@@ -177,25 +237,40 @@ export default {
           btn.style.fill = "#111";
         }, 1000);
       }, 1000);
-      return true
+      return true;
+    },
+    getParName(val) {
+      return fun.convertTurkish2English(val);
     },
   },
   computed: {
     getMovie() {
-      this.playButtonAnimation()
       return this.movie;
     },
+  },
+  beforeRouteLeave(to, from, next) {
+    $("#playModal").modal("hide");
+    next();
   },
 };
 </script>
 
 <style scoped>
+.modal-dialog {
+  height: 100vh !important;
+  display: flex;
+}
+
+.modal-content {
+  background-color: transparent;
+  margin: auto !important;
+  height: fit-content !important;
+}
 .playBtn {
   transition: all 0.5s;
 }
 .playBtn:hover {
-  fill: #ddd!important;
-  
+  fill: #ddd !important;
 }
 .infoTitle {
   color: #828282;
@@ -209,7 +284,7 @@ export default {
 .txtInfo {
   color: #ddd;
   font-size: 1.2rem;
-  font-weight: 600;
+  font-weight: 400;
   margin-bottom: 10px;
 }
 .TextTitle {
@@ -219,7 +294,7 @@ export default {
 }
 .poster {
   position: relative;
-  height: 80vh;
+  height: 85vh;
   margin: 0 -15px;
 }
 .watchModal {
@@ -229,12 +304,29 @@ export default {
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
 }
+#vd {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
 .image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
+.dynTr {
+  transition: all 0.5s;
+}
+.goUnvisible {
+  opacity: 0;
+  visibility: hidden;
+}
+
 .blackFade {
   position: absolute;
   bottom: 0;
@@ -247,14 +339,9 @@ export default {
     rgba(37, 37, 37, 0.61),
     #111
   );
-  opacity: 1;
-  transition: all 0.5s;
+  
 }
 
-.video {
-  width: 100%;
-  border: 1px solid black;
-}
 .wrapper {
   display: inline-block;
   width: 100%;
@@ -274,5 +361,86 @@ export default {
   margin: auto;
   background-size: contain;
   background-position: center;
+}
+
+/*Toggle Button*/
+
+.onoffswitch {
+  margin-left: 15px;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  width: 113px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.onoffswitch-label {
+  display: block;
+  overflow: hidden;
+  cursor: pointer;
+  /*border: 2px solid #999999;*/
+  border-radius: 20px;
+}
+.onoffswitch-inner {
+  display: block;
+  width: 200%;
+  margin-left: -100%;
+  transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before,
+.onoffswitch-inner:after {
+  display: block;
+  float: left;
+  width: 50%;
+  height: 30px;
+  padding: 0;
+  line-height: 30px;
+  font-size: 14px;
+  color: white;
+  font-family: Trebuchet, Arial, sans-serif;
+  font-weight: bold;
+  box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+  content: "Fragman";
+  padding-left: 10px;
+  background-color: #111;
+  color: #ffffff;
+}
+.onoffswitch-inner:after {
+  content: "Poster";
+  padding-right: 10px;
+  background-color: #eeeeee;
+  color: #999999;
+  text-align: right;
+}
+.onoffswitch-switch {
+  display: block;
+  width: 18px;
+  margin: 6px;
+  height: 18px;
+  background: #ffffff;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 79px;
+  border: 2px solid #999999;
+  border-radius: 20px;
+  transition: all 0.3s ease-in 0s;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+  margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+  right: 0px;
+}
+label {
+  margin-bottom: 1rem;
 }
 </style>

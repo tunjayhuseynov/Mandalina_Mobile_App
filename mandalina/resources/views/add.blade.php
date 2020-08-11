@@ -58,6 +58,8 @@
           <input class="form-control" type="text" name="movie" placeholder="Movie Link"> <br>
           <label>English Link: </label>
           <input class="form-control" type="text" name="enmovie" placeholder="English Link"> <br>
+          <label>Subtitle Link: </label>
+          <input class="form-control" type="text" name="subtitle" placeholder="Subtitle Link"> <br>
         </div>
       </div>
 
@@ -201,7 +203,7 @@ function movieFun(type, isCover){
     movies.forEach(function(item, index){
       if((isCover && item.poster_path != null) || (!isCover && item.backdrop_path != null) ){
       var image = new Image()
-      image.src = 'https://image.tmdb.org/t/p/original/' + (isCover?item.poster_path:item.backdrop_path);
+      image.src = 'https://image.tmdb.org/t/p/' + (isCover?'w780/'+item.poster_path:'original/'+item.backdrop_path);
       image.width = isCover?"150":"350"
       image.style.margin = "15px 15px 0 0"
       image.style.cursor = "pointer"

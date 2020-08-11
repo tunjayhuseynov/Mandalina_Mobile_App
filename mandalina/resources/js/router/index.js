@@ -14,7 +14,7 @@ export default new Router({
     mode: 'history',
     routes: [
         {
-            path: '/#player?link=:link&movie=:id',
+            path: '/izle/:type/:id/:movieName',
             name: 'Player',
             component: Player,
         },
