@@ -1,6 +1,7 @@
 @extends('layout.index')
 
 @section('home')
+
 <!-- Page Wrapper -->
 <div id="wrapper">
 
@@ -75,7 +76,10 @@
         </button>
 
 
-
+          <!-- Live Counter -->
+          <div id="counter" style="align-self: center">
+            Live Visitors: 0 
+          </div>
         <!-- Topbar Navbar -->
         <ul class="navbar-nav ml-auto">
 
@@ -101,7 +105,6 @@
               </form>
             </div>
           </li>
-
 
 
           <!-- Nav Item - User Information -->
@@ -168,5 +171,19 @@
     </div>
   </div>
 </div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<script>
+  var lv = document.querySelector("#counter");
+  let oldVal = 0;
+  lv.style.transition = "all 0.5s"
+  let socket = io(":3000");
+  socket.on("userCount", (val)=>{
+    lv.innerText = ` Live Visitors: ${val}`
+    lv.style.color = val>oldVal?"green":"red";
+    oldVal = val;
+    setTimeout(() => {
+      lv.style.color = "black";
+    }, 1000);
+  })
+</script>
 @endsection
