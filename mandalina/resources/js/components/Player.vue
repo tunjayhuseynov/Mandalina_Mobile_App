@@ -30,7 +30,7 @@ import fun from "./Functions";
 export default {
   async created() {
     $("body").css({"overflow-y": "hidden", "padding-right": "0"});
-    if(document.querySelector(".modal-backdrop").isConnected){
+    if(document.querySelector(".modal-backdrop")!= null){
     document.querySelector(".modal-backdrop").remove()
     }
     await this.fetchtMovie();
@@ -39,7 +39,7 @@ export default {
     return {
       id: window.location.hash.split("movie=")[1],
       interval: null,
-      setup: '{ "aspectRatio":"16:8", "playbackRates": [1, 1.5, 2] }',
+      setup: '{ "aspectRatio":"16:9", "playbackRates": [1, 1.5, 2] }',
       target: null,
       obj: null,
       movie: null,
@@ -55,10 +55,10 @@ export default {
       return fun.convertTurkish2English(val);
     },
     getKind() {
-      if (this.$route.params.type == "td") return this.getMovie.movieLink;
+      if (this.$route.params.type == "td") 
+      return '/getMovie/'+this.getMovie.movieLink.split('/').pop();
       else if (this.$route.params.type == "ta")
-        return this.getMovie.englishLink;
-      else return this.getMovie.trailerLink;
+      return '/getMovie/'+this.getMovie.englishLink.split('/').pop();
     },
     playerProgrammingDesign() {
       var $refreshButton = $("#refresh");

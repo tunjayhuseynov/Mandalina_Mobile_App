@@ -27,7 +27,7 @@
         </div>-->
         <div class="col-md-12" style="margin-bottom: 15px">
           <div class="poster">
-            <div class="watchModal dynTr" onclick="$('#playModal').modal('show')">
+            <div class="watchModal dynTr" @click="showModal()">
               <svg
                 class="playBtn"
                 version="1.0"
@@ -67,7 +67,7 @@
                 </g>
               </svg>
             </div>
-            <video id="vd" class="dynTr goUnvisible" preload="metadata">
+            <video id="vd" class="dynTr goUnvisible" preload="none">
               <source src="/assets/sampleTrailer.mp4" type="video/mp4" />
             </video>
             <img class="image dynTr" :src="getMovie.poster||''" alt />
@@ -105,8 +105,8 @@
         </div>
         <div v-else class="col-md-6">
           <div class="txtInfo">
-            <span class="infoTitle">Bölüm Sayı:</span>
-            {{getMovie.episodes.length}} Bölüm
+            <span class="infoTitle">Sezon Sayısı:</span>
+            {{getAllSeason}} Sezon
           </div>
         </div>
         <div class="col-md-6">
@@ -151,6 +151,7 @@
 
     <div
       class="modal fade"
+      @mouseenter="activeCarousel()"
       id="playModal"
       tabindex="-1"
       role="dialog"
@@ -161,7 +162,7 @@
         <div class="modal-content">
           <div class="modal-body" style="background-color: #111; border-radius: 20px">
             <div class="row" style="height: 40vh">
-              <div class="col-md" v-if="getMovie.movieLink">
+              <div class="col-md" v-if="getMovie.movieType != 2 && getMovie.movieLink">
                 <router-link :to="`/izle/td/${getMovie.id}/${getParName(getMovie.name)}`">
                   <playerbtn
                     imageSrc="https://cdn.webshopapp.com/shops/94414/files/54949672/turkey-flag-icon-free-download.jpg"
@@ -169,7 +170,7 @@
                   ></playerbtn>
                 </router-link>
               </div>
-              <div class="col-md" v-if="getMovie.englishLink">
+              <div class="col-md" v-if="getMovie.movieType != 2 && getMovie.englishLink">
                 <router-link :to="`/izle/ta/${getMovie.id}/${getParName(getMovie.name)}`">
                   <playerbtn
                     imageSrc="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/1200px-Flag_of_the_United_States.svg.png"
@@ -177,11 +178,102 @@
                   ></playerbtn>
                 </router-link>
               </div>
-              <!-- <div class="col-md" >
-                <router-link :to="`/izle/fragman/${getMovie.id}/${getParName(getMovie.name)}`">
-                  <playerbtn imageSrc="/assets/trailerCover.png" title="Fragman"></playerbtn>
-                </router-link>
-              </div>-->
+              <div class="col-md" v-if="getMovie.movieType == 2" style="align-self: center">
+                <div class="seasonBox">
+                  <div class="containerBox">
+                    <div class="seasonText">
+                      <span id="seasonNumber">{{getCurrentSeason}}</span>. Sezon
+                      <svg
+                        style="float: right"
+                        width="1em"
+                        height="1.5em"
+                        viewBox="0 0 16 16"
+                        class="bi bi-caret-down-fill"
+                        fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
+                        />
+                      </svg>
+                    </div>
+                    <ul id="seasonList" v-if="getMovie.movieType == 2">
+                      <li
+                        v-for="(item, index) in getAllSeason"
+                        :key="index"
+                        @click="changeSeason(index+1)"
+                      >{{index+1}}.Sezon</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="carouselBox">
+                  <div class="carouselContainer">
+                    <div
+                      class="item"
+                      v-for="(item, index) in getSeasonEpisodes"
+                      :key="index"
+                      :data-content="index+1"
+                    >
+                      <router-link :to="`/dizi/${item.id}/${getParName(getMovie.name)}-${getParName(item.name)}`">
+                        <v-lazy-image
+                          class="episodePoster"
+                          height="150"
+                          width="250"
+                          src-placeholder="/assets/loader.gif"
+                          :src="'/assets/episodePlaceholder.jpg'"
+                        />
+                        <div class="epDes">{{item.summary}}</div>
+                      </router-link>
+                    </div>
+                  </div>
+                  <div class="prev">
+                    <svg
+                      @click="prev"
+                      version="1.1"
+                      id="nextIcon"
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink"
+                      x="0px"
+                      y="0px"
+                      width="2.5rem"
+                      height="2.5rem"
+                      fill="white"
+                      viewBox="0 0 46.02 46.02"
+                      style="enable-background:new 0 0 46.02 46.02;transform: rotate(180deg)"
+                      xml:space="preserve"
+                    >
+                      <path
+                        d="M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645
+			C8.46,7.37,8.54,3.76,10.816,1.582c2.277-2.178,5.886-2.097,8.063,0.179l16.505,17.253c2.104,2.2,2.108,5.665,0.013,7.872
+			L18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
+                      />
+                    </svg>
+                  </div>
+                  <div class="next">
+                    <svg
+                      @click="next"
+                      version="1.1"
+                      id="nextIcon"
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink"
+                      x="0px"
+                      y="0px"
+                      width="2.5rem"
+                      height="2.5rem"
+                      fill="white"
+                      viewBox="0 0 46.02 46.02"
+                      style="enable-background:new 0 0 46.02 46.02;"
+                      xml:space="preserve"
+                    >
+                      <path
+                        d="M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645
+			C8.46,7.37,8.54,3.76,10.816,1.582c2.277-2.178,5.886-2.097,8.063,0.179l16.505,17.253c2.104,2.2,2.108,5.665,0.013,7.872
+			L18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -193,11 +285,16 @@
 <script>
 import api from "./Api";
 import fun from "./Functions";
+import VLazyImage from "v-lazy-image";
 export default {
   data() {
     return {
       movie: null,
       isPlaying: false,
+      carousel: null,
+      scrollWidth: 0,
+      allSeason: 5,
+      currentSeason: 1,
     };
   },
   async created() {
@@ -219,7 +316,7 @@ export default {
       this.isPlaying
         ? document.querySelector("#vd").classList.remove("goUnvisible")
         : document.querySelector("#vd").classList.add("goUnvisible");
-      this.isPlaying?this.playVideo():this.pauseVideo()
+      this.isPlaying ? this.playVideo() : this.pauseVideo();
     },
     playVideo() {
       document.querySelector("#vd").play();
@@ -228,6 +325,15 @@ export default {
     pauseVideo() {
       document.querySelector("#vd").pause();
       this.isPlaying = false;
+    },
+    next() {
+      this.carousel.scrollLeft += this.scrollWidth;
+    },
+    prev() {
+      this.carousel.scrollLeft -= this.scrollWidth;
+    },
+    changeSeason(val) {
+      this.currentSeason = val;
     },
     playButtonAnimation() {
       setTimeout(() => {
@@ -239,23 +345,145 @@ export default {
       }, 1000);
       return true;
     },
+    showModal() {
+      $("#playModal").modal("show");
+    },
+    activeCarousel() {
+      if (this.getMovie.movieType == 2) {
+        this.carousel = document.querySelector(".carouselContainer");
+        var item = document.querySelector(".item");
+
+        var visibileItemNum = Math.floor(
+          this.carousel.offsetWidth / item.offsetWidth
+        );
+        this.scrollWidth = item.offsetWidth * visibileItemNum;
+      }
+    },
     getParName(val) {
       return fun.convertTurkish2English(val);
     },
   },
   computed: {
     getMovie() {
+      if (this.movie != null && this.movie.movieType == 2) {
+        this.allSeason = [
+          ...new Set(this.movie.episodes.map((item) => item.season)),
+        ].length;
+      }
       return this.movie;
+    },
+    getCurrentSeason() {
+      return this.currentSeason;
+    },
+    getAllSeason() {
+      return this.allSeason;
+    },
+    getSeasonEpisodes() {
+      return this.movie.episodes.filter(
+        (item) => item.season == this.currentSeason
+      );
     },
   },
   beforeRouteLeave(to, from, next) {
     $("#playModal").modal("hide");
     next();
   },
+  components: {
+    VLazyImage,
+  },
 };
 </script>
 
 <style scoped>
+.containerBox {
+  position: relative;
+  width: 9rem;
+  margin: 1rem 3rem;
+  border: 1px solid white;
+  background-color: #111;
+}
+
+.seasonText {
+  padding: 5px 10px;
+  color: white;
+  font-weight: 500;
+}
+
+#seasonList {
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.5s;
+  position: absolute;
+  z-index: -10;
+  padding: 0;
+  width: 9rem;
+  left: -1px;
+  margin-top: 1px;
+  background-color: #111111d9;
+}
+.containerBox:hover #seasonList {
+  visibility: visible;
+  z-index: 6;
+  opacity: 1;
+}
+
+#seasonList > li {
+  color: white;
+  padding: 10px 10px;
+  cursor: pointer;
+}
+#seasonList > li:hover {
+  background-color: #111111a3;
+  text-decoration: underline;
+}
+
+.epDes {
+  margin-top: 10px;
+  text-align: left;
+  color: white;
+  font-size: 0.8rem;
+}
+.item::after {
+  content: attr(data-content);
+  display: block;
+  position: absolute;
+  margin-left: 5px;
+  font-size: 1.5rem;
+  top: 115px;
+  color: rgb(231, 231, 231);
+}
+
+.item {
+  height: 100%;
+  position: relative;
+  padding: 0 20px 0 0;
+  flex-basis: 0;
+}
+.carouselContainer {
+  display: flex;
+  overflow: hidden;
+  /*gap: 20px;*/
+  margin: 0 3rem;
+  position: relative;
+  scroll-behavior: smooth;
+}
+
+.next {
+  cursor: pointer;
+  position: absolute;
+  right: 5px;
+  top: calc(50%);
+  transform: translateY(-50%);
+}
+
+.prev {
+  cursor: pointer;
+  position: absolute;
+  left: 5px;
+  top: calc(50%);
+  transform: translateY(-50%);
+}
+
 .modal-dialog {
   height: 100vh !important;
   display: flex;
@@ -313,7 +541,7 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: top;
   position: absolute;
   top: 0;
   left: 0;
@@ -339,7 +567,6 @@ export default {
     rgba(37, 37, 37, 0.61),
     #111
   );
-  
 }
 
 .wrapper {

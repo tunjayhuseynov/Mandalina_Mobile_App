@@ -104,7 +104,7 @@ class Movies extends Controller
         }
     }
     
-        public function SeriesByOneGenre(Request $request)
+    public function SeriesByOneGenre(Request $request)
     {
         $genre = $request->route("genre");
         $start = $request->route("start");
@@ -178,10 +178,16 @@ class Movies extends Controller
        $db = DB::table('movies')->whereRaw('LOWER(`name`) LIKE ? AND movies.isDeleted = 0', '%'.strtolower($request->route("movie")).'%' )->take(15)->get();
 
        $tagname = DB::table('movies')->whereRaw('LOWER(`tagName`) LIKE ? AND movies.isDeleted = 0', '%'.strtolower($request->route("movie")).'%' )->take(15)->get();
+       
+       $actors = DB::table('movies')
+       ->join('moviecasts', 'movies.id', '=', 'moviecasts.movieID')
+       ->select('movies.*')
+       ->whereRaw('LOWER(`moviecasts`.name) LIKE ?', '%'.strtolower($request->route("movie")).'%' )
+       ->get();
 
-       $db = $db->merge($tagname);
+       $db = $db->merge($tagname)->merge($actors);
        $db = $db->unique();
-        $data = json_decode($db, true);
+       $data = json_decode($db, true);
 
         foreach ($data as $key => $value) {
 
@@ -202,5 +208,13 @@ class Movies extends Controller
     public function all(Request $request)
     {
         return response()->json(array_values(DataManupilation::AllMovies()),200);
+    }
+
+    public function searchActors(Request $request, $name)
+    {
+        $data = DB::table('moviecasts')->whereRaw('LOWER(`moviecasts`.name) LIKE ?', '%'.strtolower($name).'%')
+        ->get()
+        ->unique('name');
+        return response()->json(array_values($data->toArray()), 200);
     }
 }

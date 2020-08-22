@@ -176,7 +176,7 @@
   var lv = document.querySelector("#counter");
   let oldVal = 0;
   lv.style.transition = "all 0.5s"
-  let socket = io(":3000");
+  let socket = io("https://nodejs.filmdizimob.com");
   socket.on("userCount", (val)=>{
     lv.innerText = ` Live Visitors: ${val}`
     lv.style.color = val>oldVal?"green":"red";

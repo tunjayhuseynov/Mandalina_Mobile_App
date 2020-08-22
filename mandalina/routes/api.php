@@ -17,5 +17,5 @@ Route::group(['middleware' => ['validApi']], function () {
     Route::get('/search/{movie}', 'Movies@search');
     Route::get('/like/{id}', 'Movies@like');
     Route::get('/all', "Movies@all"); //new
+    Route::get('/searchActor/{name}', 'Movies@searchActors');
 });
-

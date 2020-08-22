@@ -7,7 +7,7 @@
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <title>Document</title>
     <link rel="stylesheet" href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
@@ -25,10 +25,7 @@
     </style>
 </head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
-<script>
-  let socket = io(":3000");
-  socket.emit("user")
-</script>
+
 <body>
     <div id="app">
         <div>
@@ -36,6 +33,10 @@
         </div>
     </div>
     <script src="{{URL::asset('/js/app.js')}}"></script>
+    <script>
+        let socket = io("https://nodejs.filmdizimob.com");
+        socket.emit("user")
+      </script>
     <script src="https://use.fontawesome.com/17cb93764d.js"></script>
 </body>
 

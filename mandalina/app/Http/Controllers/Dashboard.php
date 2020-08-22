@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Providers\DataManupilation;
 use Storage;
+use Illuminate\Support\Facades\Redirect;
 
 class Dashboard extends Controller
 {
@@ -121,29 +122,10 @@ class Dashboard extends Controller
             $url = "https://uptobox.com/api/link?token=690844a0fb2459a1433697be102e16617ojhx&file_code=".end($array);
             $return = file_get_contents($url);
             $vttFile = file_get_contents(json_decode($return, true)["data"]["dlLink"]);
-            $subtitle = "subtitles/".preg_replace("/[^a-zA-Z0-9\']/", "", $name)."/".end($array).".vtt";
+            $subtitle = "/subtitles/".preg_replace("/[^a-zA-Z0-9\']/", "", $name)."/".end($array).".vtt";
             Storage::disk('public_uploads')->put($subtitle, $vttFile);
         }
-       /* if($request->hasFile("video")){
-            if($request->file("video")->isValid()){
-                $video = $request->file("video");
-                $duration = $request->input("duration");
 
-                $videoname = time() . '.' . $video->getClientOriginalExtension();
-                Storage::disk('public_uploads')->put("movies/".$name."/".$videoname, file_get_contents($video));
-            }
-        }*/
-
-       /* if($request->hasFile("trailer")){
-            if($request->file("trailer")->isValid()){
-                $trailer = $request->file("trailer");
-
-                $trailername = time() . '.' . $trailer->getClientOriginalExtension();
-                Storage::disk('public_uploads')->put("movies/".$name."/".$trailername, file_get_contents($trailer));
-            }
-        }*/
-
-        //$covername = time() . '.' . $cover->getClientOriginalExtension();
         
         $id =  DB::table('movies')->insertGetId(
             [
@@ -161,7 +143,7 @@ class Dashboard extends Controller
             'tagName' => $tag, 
             "trailerLink" => $trailer,
             'englishLink' => $enmovie,
-            'subtitleLink' => "/".$subtitle,
+            'subtitleLink' => $subtitle,
             'imdb' => $imdb
             ]
         );
@@ -234,7 +216,7 @@ class Dashboard extends Controller
             $url = "https://uptobox.com/api/link?token=690844a0fb2459a1433697be102e16617ojhx&file_code=".end($array);
             $return = file_get_contents($url);
             $vttFile = file_get_contents(json_decode($return, true)["data"]["dlLink"]);
-            $subtitle = "subtitles/".preg_replace("/[^a-zA-Z0-9\']/", "", $name)."/".end($array).".vtt";
+            $subtitle = "/subtitles/".preg_replace("/[^a-zA-Z0-9\']/", "", $name)."/".end($array).".vtt";
             Storage::disk('public_uploads')->put($subtitle, $vttFile);
         }
         if($poster != null ){
@@ -242,31 +224,6 @@ class Dashboard extends Controller
             $posterCovername = substr($poster, strrpos($poster, '/') + 1);    
             Storage::disk('public_uploads')->put("covers/".preg_replace("/[^a-zA-Z0-9\']/", "", $name)."/".$posterCovername, $posterContents);
         }
-      /*  
-        if($request->hasFile("video")){
-            if($request->file("video")->isValid()){
-                $video = $request->file("video");
-                $videoname = time() . '.' . $video->getClientOriginalExtension();
-                Storage::disk('public_uploads')->put("movies/".$name."/".$videoname, file_get_contents($video));
-            }
-        }
-
-        if($request->hasFile("trailer")){
-            if($request->file("trailer")->isValid()){
-                $trailer = $request->file("trailer");
-
-                $trailername = time() . '.' . $trailer->getClientOriginalExtension();
-                Storage::disk('public_uploads')->put("movies/".$name."/".$trailername, file_get_contents($trailer));
-            }
-        }*/
-        /*
-        if($request->hasFile("cover")){
-            if($request->file("cover")->isValid()){
-                $cover = $request->file("cover");
-                $covername = time() . '.' . $cover->getClientOriginalExtension();
-                Storage::disk('public_uploads')->put("covers/".$name."/".$covername, file_get_contents($cover));
-            }
-        }*/
 
         DB::table('movies')
         ->where('id', $movieid)
@@ -285,7 +242,7 @@ class Dashboard extends Controller
             'isDeleted' => FALSE, 
             'tagName' => $tag,
             'trailerLink' => $trailer,
-            'subtitleLink' => "/".$subtitle,
+            'subtitleLink' => $subtitle,
             'imdb' => $imdb,
             ]
         );
@@ -328,6 +285,23 @@ class Dashboard extends Controller
         return redirect()->back()->with("message", "Update Saved!");
     }
 
+    public function getLink($movie)
+    {
+        $url = "https://uptobox.com/api/link?token=690844a0fb2459a1433697be102e16617ojhx&file_code=".$movie;
+        $return = file_get_contents($url);
+        $movie = json_decode($return, true)["data"]["dlLink"];
 
+        return $movie;
+    }
+
+    public function movieBox(Request $request, $link)
+    {
+        $prevPath = $_SERVER['HTTP_REFERER'] ?? null;
+        error_log($prevPath);
+        if ($prevPath != null && $request->session()->has('srox') && $request->session()->get('srox', '0') == "5591980") {
+            return Redirect::to($this->getLink($link));
+        }
+        return "Restricted. API system is coming. You can access it by becoming our member in the future!";
+    }
 
 }

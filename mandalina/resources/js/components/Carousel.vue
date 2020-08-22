@@ -95,7 +95,9 @@
 import VLazyImage from "v-lazy-image";
 import fun from "./Functions";
 export default {
-  props: ["json"],
+  props: {
+    json: Object,
+  },
   data() {
     return {
       scrollWidth: 0,

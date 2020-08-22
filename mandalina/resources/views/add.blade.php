@@ -17,7 +17,7 @@
         <input class="form-control" type="text" name="name" placeholder="Name" required> <br>
         <div>
             <label for="name">Tag Name: </label>
-            <input class="form-control" type="text" name="tag" placeholder="Tag Name" required> <br>
+            <input class="form-control" type="text" onchange="getInput(this)" name="tag" placeholder="Tag Name" required> <br>
           <label for="Genres">Genres: </label>
           <select class="js-example-basic-multiple" style="width: 100%" name="genres[]" multiple="multiple" required>
             @foreach ($data[0] as $item)
@@ -63,12 +63,6 @@
         </div>
       </div>
 
-
-
-
-
-
-
       <div class="col-6">
         <label for="year">Release Year: </label>
         <input class="form-control" type="text" name="year" placeholder="Year" required> <br>
@@ -100,10 +94,6 @@
     </div>
   </div>
 
-
-
-
-
 </form>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -124,8 +114,8 @@
   </div>
 </div>
 <script>
+  var type = 1;
   $(document).ready(function() {
-    var type = 1;
 
     $('.js-example-basic-multiple').select2({
         placeholder: 'Select Genres',
@@ -222,6 +212,47 @@ function movieFun(type, isCover){
   })
 
   });
+}
+let casts = new Array()
+function getInput(val) {
+  ele = val;
+  val = val.value
+  var urlApi;
+  let movie;
+  var movieUrlApi;
+ 
+        console.log("type is " +type)
+        if(type == 1){
+            urlApi = 'https://api.themoviedb.org/3/search/movie?api_key=285a107f0c92cfda467db221ccc502f7&query='
+        }else{
+            urlApi = 'https://api.themoviedb.org/3/search/tv?api_key=285a107f0c92cfda467db221ccc502f7&query='
+        }
+   fetch(urlApi+val)
+  .then(response => response.json())
+  .then(data=>{
+    movie = data.results;
+  })
+  .then(e=>{
+    movie.forEach(e=>{
+      fetch(type==1?'https://api.themoviedb.org/3/movie/'+e.id+'/credits?api_key=285a107f0c92cfda467db221ccc502f7':
+      'https://api.themoviedb.org/3/tv/'+e.id+'/credits?api_key=285a107f0c92cfda467db221ccc502f7')
+      .then(response=>response.json())
+      .then(data=>{
+        data.cast.forEach(e=>{
+          if(!casts.includes(e.name)){
+            casts.push(e.name)
+            document.querySelector(".casting").innerHTML += `<option value="${e.name}">${e.name}</option>`
+          }
+        })
+      })
+    });
+    
+  })
+  
+
+  
+   
+  
 }
 
 </script>

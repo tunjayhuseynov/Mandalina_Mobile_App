@@ -1,6 +1,7 @@
 <?php
-
-Route::get('/', function () {
+use Illuminate\Http\Request;
+Route::get('/', function (Request $request) {
+    $request->session()->put('srox', '5591980');
     return View("website/main");
 });
 
@@ -30,10 +31,9 @@ Route::group(['prefix' => 'AdminPanelPinnme','middleware' => ['checkAdmin']], fu
     Route::get('/episodeEdit/{id}', 'EpisodeCrud@edit');
 });
 
-Route::get('/player', function (Request $request) {
-    return redirect('/'.$request->path());
-});
+Route::get('/getMovie/{link}', "Dashboard@movieBox");
 
 Route::get('/{any}', function(Request $request){
+    $request->session()->put('srox', '5591980');
     return View("website/main");
 })->where('any', '.*');
