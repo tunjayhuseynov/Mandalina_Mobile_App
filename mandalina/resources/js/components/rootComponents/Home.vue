@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import api from "./Api";
+import api from "../Api";
 const DEFAULT_TRANSITION = "fade";
 export default {
   data() {
@@ -39,7 +39,8 @@ export default {
     await this.getHomeSeries();
     await this.getMovieSuggested();
     await this.getSerieSuggested();
-    this.dynamicTransition()
+    await this.getGenres();
+    this.dynamicTransition();
   },
   methods: {
     async getHomeMovies() {
@@ -60,6 +61,11 @@ export default {
     async getSerieSuggested() {
       api.getSerieSuggested().then((response) => {
         this.$store.commit("setSerieSuggested", response.data);
+      });
+    },
+    async getGenres() {
+      api.getAllCategories().then((response) => {
+        this.$store.commit("setAllGenres", response.data);
       });
     },
     dynamicTransition() {

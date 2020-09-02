@@ -6,63 +6,35 @@ use Illuminate\Support\Facades\DB;
 
 
 class DataManupilation {
-
+    
     const Movie = 1;
-    const Series = 2;
+    const Serie = 2;
 
     public static function MovieIdAlgorithm($id)
     {   
-        $db = DB::table('movies')->where("id", $id)->get();
+        $db = DB::table('movies')->where("id", $id)->first();
 
-        if(count($db) == 0)
+        if(is_null($db))
             return response()->json(json_decode('{"response": "404"}', true), 200);
         
-        $data = json_decode($db, true);
+        $data = json_decode(json_encode($db,true), true);
 
-        $data[0]["episodes"] = DB::table('episodes')->where([["movieID", $data[0]["id"]],["isDeleted", 0]])
+        $data["episodes"] = DB::table('episodes')->where([["movieID", $data["id"]],["isDeleted", 0]])
         ->orderBy("season", "ASC")
         ->orderBy("number", "ASC")
         ->get();
                 
-        $genres = DB::table('moviegenres')->where("movieID", $data[0]['id'])
+        $genres = DB::table('moviegenres')->where("movieID", $data['id'])
         ->join('genres', 'genres.id', '=', 'moviegenres.genreID')
         ->get();
-        $data[0]["genres"] = $genres;
-        $data[0]["casts"] = DB::table('moviecasts')->where("movieID", $data[0]["id"])->get();
-        $data[0]["kind"] = DB::table('movietypes')->where("id", $data[0]["movieType"])->pluck("name")->first();
-        return $data[0];
+        $data["genres"] = $genres;
+        $data["casts"] = DB::table('moviecasts')->where("movieID", $data["id"])->get();
+        $data["kind"] = DB::table('movietypes')->where("id", $data["movieType"])->pluck("name")->first();
+        return $data;
     }
 
-    public static function GenreMovies($genre, int $start, int $end, int $type)
+    public static function GenreMovies($genre, $start, int $end, int $type)
     {
-        if($type == 0){
-                 
-        $db = DB::table('moviegenres')
-        ->join('genres', 'genres.id', '=', 'moviegenres.genreID')
-        ->join('movies', 'movies.id', '=', 'moviegenres.movieID')
-        ->select('movies.*')
-        ->orderBy("addedDate", "desc")
-        ->where([
-            ["genres.name", $genre],
-            ["movies.isDeleted", 0],
-        ])
-        ->skip($start)
-        ->take($end)
-        ->get();
-
-        $dbCount = DB::table('moviegenres')
-        ->join('genres', 'genres.id', '=', 'moviegenres.genreID')
-        ->join('movies', 'movies.id', '=', 'moviegenres.movieID')
-        ->select('movies.*')
-        ->where([
-            ["genres.name", $genre],
-            ["movies.isDeleted", 0],
-        ])
-        ->count();
-        
-            
-        }else{
-                    
         $db = DB::table('moviegenres')
         ->join('genres', 'genres.id', '=', 'moviegenres.genreID')
         ->join('movies', 'movies.id', '=', 'moviegenres.movieID')
@@ -73,26 +45,16 @@ class DataManupilation {
             ["movies.isDeleted", 0],
             ["movieType", $type]
         ])
-        ->skip($start)
+        ->skip(!is_null($start)?$start:rand(0,DataManupilation::getCountByMovieGenre($type,$genre)-$end))
         ->take($end)
         ->get();
 
-        $dbCount = DB::table('moviegenres')
-        ->join('genres', 'genres.id', '=', 'moviegenres.genreID')
-        ->join('movies', 'movies.id', '=', 'moviegenres.movieID')
-        ->select('movies.*')
-        ->where([
-            ["genres.name", $genre],
-            ["movies.isDeleted", 0],
-            ["movies.movieType", $type]
-        ])
-        ->count();
-        }
-
-
+        
         $data = json_decode($db, true);
         foreach ($data as $key => $entry) {
-               $data[$key]["episodes"] = DB::table('episodes')->where([["movieID", $data[$key]["id"]],["isDeleted", 0]])
+               $data[$key]["movieAmountByGenre"] = DataManupilation::getCountByMovieGenre($type,$genre);
+               $data[$key]["description"] = ""; // set Description Null
+               /*$data[$key]["episodes"] = DB::table('episodes')->where([["movieID", $data[$key]["id"]],["isDeleted", 0]])
                ->orderBy("season", "ASC")
                ->orderBy("number", "ASC")
                ->get();
@@ -101,12 +63,12 @@ class DataManupilation {
                ->join('genres', 'genres.id', '=', 'moviegenres.genreID')
                ->get();
                $data[$key]["genres"] = $genres;
-               $data[$key]["movieAmountByGenre"] = $dbCount;
+               
                $data[$key]["casts"] = DB::table('moviecasts')->where("movieID", $data[$key]["id"])->get();
                
                $data[$key]["kind"] = DB::table('movietypes')->where("id", $data[$key]["movieType"])->pluck("name")->first();
                
-       }
+        */}
        return $data;
     }
 
@@ -142,31 +104,23 @@ class DataManupilation {
 
     public static function LastUploaded(int $start, int $end, int $type)
     {
-        if($type == 0){
-        $db = DB::table('movies')
-        ->orderBy("addedDate", "desc")
-        ->where([["movies.isDeleted", 0]])
-        ->skip($start)
-        ->take($end)
-        ->get();
 
-        }
-        else{
         $db = DB::table('movies')
-        ->orderBy("addedDate", "desc")
+        ->orderBy("id", "desc")
         ->where([["movies.isDeleted", 0], ["movies.movieType", $type]])
         ->skip($start)
         ->take($end)
         ->get();
 
-        }
+        
         $dbCount = DB::table('movies')->where([["movies.isDeleted", 0], ["movies.movieType", $type]])
         ->count();
 
 
         $data = json_decode($db, true);
         foreach ($data as $key => $entry) {
-               $data[$key]["episodes"] = DB::table('episodes')->where([["movieID", $data[$key]["id"]], ["episodes.isDeleted", 0]])
+               $data[$key]["description"] = ""; // set Description Null
+               /*$data[$key]["episodes"] = DB::table('episodes')->where([["movieID", $data[$key]["id"]], ["episodes.isDeleted", 0]])
                ->orderBy("season", "ASC")
                ->orderBy("number", "ASC")
                ->get();
@@ -182,15 +136,30 @@ class DataManupilation {
                
                $data[$key]["kind"] = DB::table('movietypes')->where("id", $data[$key]["movieType"])->pluck("name")->first();
                
-       }
+        */}
        return $data;
     }
 
     public static function MovieByType(int $type)
     {
-        $data = DB::table('movies')->where('movieType', $type)->get();
+        $data = DB::table('movies')->where([['movieType', $type],["movies.isDeleted", 0]])->get();
 
         return $data;
+    }
+
+    private static function getCountByMovieGenre(int $type, $genre){
+        return DB::table('moviegenres')
+        ->join('genres', 'genres.id', '=', 'moviegenres.genreID')
+        ->join('movies', 'movies.id', '=', 'moviegenres.movieID')
+        ->select('movies.*')
+        ->where([['movies.movieType', $type],["genres.name", $genre],["movies.isDeleted", 0],])
+        ->get()
+        ->unique()
+        ->count();
+    }
+
+    public static function getObjectJson($title , $object){
+        return array("title" => $title, "items" => $object);
     }
 
 }

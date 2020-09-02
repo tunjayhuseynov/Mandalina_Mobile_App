@@ -38,7 +38,7 @@ array_push($cast, $item->name);
                     required> <br>
                 <div>
                     <label for="name">Tag Name: </label>
-                    <input class="form-control" type="text" name="tag" value="{{$data[2]['tagName']}}"
+                    <input class="form-control" type="text" onchange="getinput(this)" name="tag" id="tagName" value="{{$data[2]['tagName']}}"
                         placeholder="Tag Name" required> <br>
                     <label for="Genres">Genres: </label>
                     <select class="js-example-basic-multiple" style="width: 100%" name="genres[]" multiple="multiple"
@@ -61,9 +61,9 @@ array_push($cast, $item->name);
                 <div>
                     <label for="cast">Casts: </label>
                     <select class="form-control casting" multiple="multiple" name="cast[]" required>
-                        @foreach ($cast as $item)
+                        <!--@foreach ($cast as $item)
                         <option selected value="{{$item}}">{{$item}}</option>
-                        @endforeach
+                        @endforeach-->
                     </select>
                 </div>
                 <br>
@@ -94,13 +94,15 @@ array_push($cast, $item->name);
                         <label for="length">Movie Duration: </label>
                         <input class="form-control" type="text" name="duration" value="{{$data[2]['length']}}" required
                             placeholder="Only number (as minutes)"><br>
-                        <label>Movie Link: </label>
+                        <label>Turkish Link: </label>
                         <input class="form-control" value="{{$data[2]['movieLink']}}" type="text" name="movie"
-                            placeholder="Movie Link" > <br>
+                            placeholder="Only ID from Link" > <br>
                         <label>English Link: </label>
-                        <input class="form-control" value="{{$data[2]['englishLink']}}" type="text" name="enmovie" placeholder="English Link" > <br>
-                        <label>Subtitle Link: </label>
-                        <input class="form-control" type="text" value="{{$data[2]['subtitleLink']}}" name="subtitle" placeholder="Subtitle Link"> <br>
+                        <input class="form-control" value="{{$data[2]['englishLink']}}" type="text" name="enmovie" placeholder="Only ID from Link" > <br>
+                        <label>Turkish Subtitle Link: </label>
+                        <input class="form-control" type="text" value="{{$data[2]['subtitleLink']}}" name="subtitle" placeholder="Full link"> <br>
+                        <label>English Subtitle Link: </label>
+                    <input class="form-control" type="text" value="{{$data[2]['enSubtitleLink']}}" name="enSubtitle" placeholder="Full Link"> <br>
                     </div>
                 </div>
 
@@ -166,9 +168,10 @@ array_push($cast, $item->name);
     </div>
   </div>
 <script>
+        var type = document.querySelector(".js-example-basic-single").value==1?1:2;
 $(document).ready(function() {
 
-    var type = document.querySelector(".js-example-basic-single").value==1?1:2;
+
     $('.js-example-basic-multiple').select2({
         placeholder: 'Select Genres',
         width: 'resolve',
@@ -210,6 +213,8 @@ $(document).ready(function() {
     $("#searchPosterBtn").click(function(){
       movieFun(type, false)
     })
+
+    getInput(document.querySelector("#tagName"))
 });
 
 function readURL(input) {
@@ -228,7 +233,7 @@ $("#imgInp").change(function() {
     readURL(this);
 });
 
-function movieFun(type, isCover){
+async function movieFun(type, isCover){
   var urlApi;
         console.log("type is " +type)
         if(type == 1){
@@ -240,11 +245,10 @@ function movieFun(type, isCover){
   
   document.querySelector("#modalbody").innerHTML = ""
 
-  fetch(urlApi+query)
-  .then(response => response.json())
-  .then(data => {
+  let firstFetch = await fetch(urlApi+query);
+  let firstJson = await firstFetch.json()
 
-    var movies = data.results;
+    var movies = firstJson.results;
     movies.forEach(function(item, index){
       if((isCover && item.poster_path != null) || (!isCover && item.backdrop_path != null) ){
       var image = new Image()
@@ -266,7 +270,46 @@ function movieFun(type, isCover){
     }
   })
 
-  });
+
+}
+
+
+async function getInput(val) {
+    let casts = new Array()
+    let exsistCasts = []
+    @foreach ($cast as $item)
+    exsistCasts.push("{{$item}}")
+@endforeach
+    console.log(exsistCasts)
+  ele = val;
+  val = val.value
+  var urlApi;   
+ 
+        if(type == 1)
+            urlApi = 'https://api.themoviedb.org/3/search/movie?api_key=285a107f0c92cfda467db221ccc502f7&query='
+        else
+            urlApi = 'https://api.themoviedb.org/3/search/tv?api_key=285a107f0c92cfda467db221ccc502f7&query='
+        
+        const firstFetch = await fetch(urlApi+val);
+        let movie = await firstFetch.json()
+    
+        movie.results.forEach(async e=>{
+            const seconFetch = await fetch(type==1?
+          `https://api.themoviedb.org/3/movie/${e.id}/credits?api_key=285a107f0c92cfda467db221ccc502f7`:
+          `https://api.themoviedb.org/3/tv/${e.id}/credits?api_key=285a107f0c92cfda467db221ccc502f7`);
+
+          const secondJson = await seconFetch.json();
+
+          secondJson.cast.forEach(e=>{
+          if(!casts.includes(e.name)){
+            casts.push(e.name)
+            exsistCasts.includes(e.name)?
+            $(".casting").append(`<option selected value="${e.name}">${e.name}</option>`).trigger("change"):
+            $(".casting").append(`<option value="${e.name}">${e.name}</option>`).trigger("change")
+          }
+        })
+    });
+     
 }
 </script>
 @endsection

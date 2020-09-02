@@ -54,12 +54,14 @@
         <div class="movieType d-none">
           <label for="length">Movie Duration: </label>
           <input class="form-control" type="text" name="duration" required placeholder="Only number (as minutes)"><br>
-          <label>Movie Link: </label>
-          <input class="form-control" type="text" name="movie" placeholder="Movie Link"> <br>
+          <label>Turkish Link: </label>
+          <input class="form-control" type="text" name="movie" placeholder="Only ID from Link"> <br>
           <label>English Link: </label>
-          <input class="form-control" type="text" name="enmovie" placeholder="English Link"> <br>
-          <label>Subtitle Link: </label>
-          <input class="form-control" type="text" name="subtitle" placeholder="Subtitle Link"> <br>
+          <input class="form-control" type="text" name="enmovie" placeholder="Only ID from Link"> <br>
+          <label>Turkish Subtitle Link: </label>
+          <input class="form-control" type="text" name="subtitle" placeholder="Full Link"> <br>
+          <label>English Subtitle Link: </label>
+          <input class="form-control" type="text" name="enSubtitle" placeholder="Full Link"> <br>
         </div>
       </div>
 
@@ -173,7 +175,7 @@ $("#imgInp").change(function() {
 });
 
 
-function movieFun(type, isCover){
+async function movieFun(type, isCover){
   var urlApi;
         console.log("type is " +type)
         if(type == 1){
@@ -185,11 +187,11 @@ function movieFun(type, isCover){
   
   document.querySelector("#modalbody").innerHTML = ""
 
-  fetch(urlApi+query)
-  .then(response => response.json())
-  .then(data => {
+  let firstFetch = await fetch(urlApi+query);
+  let firstJson = await firstFetch.json()
 
-    var movies = data.results;
+  let movies = firstJson.results;
+
     movies.forEach(function(item, index){
       if((isCover && item.poster_path != null) || (!isCover && item.backdrop_path != null) ){
       var image = new Image()
@@ -211,15 +213,12 @@ function movieFun(type, isCover){
     }
   })
 
-  });
 }
-let casts = new Array()
-function getInput(val) {
-  ele = val;
+
+async function getInput(val) {
+  let casts = new Array()
   val = val.value
-  var urlApi;
-  let movie;
-  var movieUrlApi;
+  let urlApi;
  
         console.log("type is " +type)
         if(type == 1){
@@ -227,32 +226,24 @@ function getInput(val) {
         }else{
             urlApi = 'https://api.themoviedb.org/3/search/tv?api_key=285a107f0c92cfda467db221ccc502f7&query='
         }
-   fetch(urlApi+val)
-  .then(response => response.json())
-  .then(data=>{
-    movie = data.results;
-  })
-  .then(e=>{
-    movie.forEach(e=>{
-      fetch(type==1?'https://api.themoviedb.org/3/movie/'+e.id+'/credits?api_key=285a107f0c92cfda467db221ccc502f7':
-      'https://api.themoviedb.org/3/tv/'+e.id+'/credits?api_key=285a107f0c92cfda467db221ccc502f7')
-      .then(response=>response.json())
-      .then(data=>{
-        data.cast.forEach(e=>{
-          if(!casts.includes(e.name)){
+  
+        const firstFetch = await fetch(urlApi+val);
+        let movie = await firstFetch.json()
+
+        movie.results.forEach(async e=>{
+          const seconFetch = await fetch(type==1?
+          `https://api.themoviedb.org/3/movie/${e.id}/credits?api_key=285a107f0c92cfda467db221ccc502f7`:
+          `https://api.themoviedb.org/3/tv/${e.id}/credits?api_key=285a107f0c92cfda467db221ccc502f7`);
+
+          const secondJson = await seconFetch.json();
+
+          secondJson.cast.forEach(e=>{
+            if(!casts.includes(e.name)){
             casts.push(e.name)
             document.querySelector(".casting").innerHTML += `<option value="${e.name}">${e.name}</option>`
-          }
-        })
-      })
-    });
-    
-  })
-  
-
-  
-   
-  
+            }
+          })
+        })  
 }
 
 </script>

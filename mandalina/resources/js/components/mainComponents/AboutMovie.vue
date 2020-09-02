@@ -67,8 +67,8 @@
                 </g>
               </svg>
             </div>
-            <video id="vd" class="dynTr goUnvisible" preload="none">
-              <source src="/assets/sampleTrailer.mp4" type="video/mp4" />
+            <video id="vd" class="dynTr goUnvisible" preload="metadata">
+              <source :src="getTrailer" type="video/mp4" />
             </video>
             <img class="image dynTr" :src="getMovie.poster||''" alt />
             <div class="title">
@@ -135,7 +135,7 @@
             <span class="infoTitle">Oyuncular:</span>
             <span v-for="(item,index) in getMovie.casts" :key="index">
               {{item.name}}
-              <span v-if="getMovie.genres.length-1!=index">,</span>
+              <span v-if="getMovie.casts.length-1!=index">,</span>
             </span>
           </div>
         </div>
@@ -154,7 +154,7 @@
       @mouseenter="activeCarousel()"
       id="playModal"
       tabindex="-1"
-      role="dialog"
+      role="dialog" 
       aria-labelledby="playModalLabel"
       aria-hidden="true"
     >
@@ -220,7 +220,7 @@
                           height="150"
                           width="250"
                           src-placeholder="/assets/loader.gif"
-                          :src="'/assets/episodePlaceholder.jpg'"
+                          :src="item.image"
                         />
                         <div class="epDes">{{item.summary}}</div>
                       </router-link>
@@ -283,8 +283,8 @@
 </template>
 
 <script>
-import api from "./Api";
-import fun from "./Functions";
+import api from "../Api";
+import fun from "../Functions";
 import VLazyImage from "v-lazy-image";
 export default {
   data() {
@@ -371,6 +371,9 @@ export default {
         ].length;
       }
       return this.movie;
+    },
+    getTrailer(){
+      return this.movie.trailerLink ? '/getMovie/'+ this.getMovie.trailerLink+"#t=5" : '/assets/sampleTrailer.mp4'
     },
     getCurrentSeason() {
       return this.currentSeason;
@@ -635,13 +638,13 @@ export default {
   box-sizing: border-box;
 }
 .onoffswitch-inner:before {
-  content: "Fragman";
+  content: "Poster";
   padding-left: 10px;
   background-color: #111;
   color: #ffffff;
 }
 .onoffswitch-inner:after {
-  content: "Poster";
+  content: "Fragman";
   padding-right: 10px;
   background-color: #eeeeee;
   color: #999999;

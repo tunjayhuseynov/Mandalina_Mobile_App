@@ -26,7 +26,7 @@ class EpisodeCrud extends Controller
     public function postAdd(Request $request)
     {
         $id = $request->route('id');
-        $seriesName = DB::table('movies')->where('id', $id)->pluck('name')->first();
+        $seriesName = DB::table('movies')->where('id', DB::table('episodes')->where('id', $id)->pluck('movieID')->first())->pluck('name')->first();
         $name = $request->input('name');
         $season = $request->input('season');
         $number = $request->input('number');
@@ -80,7 +80,7 @@ class EpisodeCrud extends Controller
     public function postEdit(Request $request)
     {
         $id = $request->route('id');
-        $seriesName = DB::table('movies')->where('id', $id)->pluck('name')->first();
+        $seriesName = DB::table('movies')->where('id', DB::table('episodes')->where('id', $id)->pluck('movieID')->first())->pluck('name')->first();
         $name = $request->input('name');
         $season = $request->input('season');
         $number = $request->input('number');

@@ -5,9 +5,8 @@
         <div class="customDiv1">
           <router-link to="/movie">
             <img
-              src="https://1000logos.net/wp-content/uploads/2017/05/Netflix-Logo.png"
+              src="/assets/Filmdizimob-logo.svg"
               height="75"
-              style="padding: 15px 10px;"
             />
           </router-link>
         </div>
@@ -63,7 +62,7 @@
 </template>
 
 <script>
-import api from "./Api";
+import api from "../../Api";
 export default {
   data() {
     return {
@@ -93,11 +92,12 @@ export default {
     getPathByClick(e) {
       this.path = this.$route.name=="Search"?"/movie":this.$route.path;
       this.$store.commit("setSearchPath", this.path);
-      this.query = e.value
+      //this.query = e.value
     },
   },
   watch: {
     query(val) {
+      this.$store.commit("setSearchResult", 0);
       if (val) {
         api.getSearch(val).then((response) => {
           this.$store.commit("setSearchResult", response.data);

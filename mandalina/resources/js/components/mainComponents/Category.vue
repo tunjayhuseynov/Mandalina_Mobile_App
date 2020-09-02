@@ -42,6 +42,7 @@
               width="235"
               src-placeholder="/assets/loader.gif"
               :src="item.image"
+              :alt="item.name"
             />
           </router-link>
         </div>
@@ -52,13 +53,14 @@
         </div>
       </div>
     </div>
+    <div v-else-if="getChecker" style="padding-top: 75px; margin-left: 3%"><h1 style="color: white">Maalesef Bu Kategoride Henuz İlaveler Edilmedi</h1></div>
   </div>
 </template>
 
 <script>
-import api from "./Api";
+import api from "../Api";
 import VLazyImage from "v-lazy-image";
-import fun from "./Functions"
+import fun from "../Functions"
 export default {
   data() {
     return {
@@ -66,6 +68,7 @@ export default {
       movieIndex: 0,
       amountFetchingMovies: 20,
       over: false,
+      emptyGenre: false
     };
   },
   async created() {
@@ -78,6 +81,9 @@ export default {
     getList() {
       return this.dataList;
     },
+    getChecker(){
+      return this.emptyGenre
+    }
   },
   methods: {
     async getMovies() {
@@ -89,6 +95,7 @@ export default {
           this.amountFetchingMovies
         )
         .then((response) => {
+          if(response.data.length==0) this.emptyGenre = true
           response.data.forEach((element) => {
             this.dataList.push(element);
           });
@@ -96,7 +103,7 @@ export default {
             response.data.length > 0 &&
             response.data[0].movieAmountByGenre == this.dataList.length
           )
-            this.over = true;
+          this.over = true;
           this.movieIndex += this.amountFetchingMovies;
         });
     },

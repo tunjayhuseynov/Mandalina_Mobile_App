@@ -2,28 +2,31 @@
   <div>
     <div class="carouselSection">
       <div class="title">
-        <router-link style="color: #ddd" :to="`category/${this.$route.name=='Movies'?'movies':'series'}/${json.title}`">
-        {{json.title}}
-        <svg
-          version="1.1"
-          id="nextIcon"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          x="0px"
-          y="0px"
-          width="1.4rem"
-          height="1.4rem"
-          fill="white"
-          viewBox="0 0 46.02 46.02"
-          style="enable-background:new 0 0 46.02 46.02;"
-          xml:space="preserve"
+        <router-link
+          style="color: #ddd"
+          :to="`category/${this.$route.name=='Movies'?'movies':'series'}/${json.title}`"
         >
-          <path
-            d="M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645
+          {{json.title}}
+          <svg
+            version="1.1"
+            id="nextIcon"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            x="0px"
+            y="0px"
+            width="1.4rem"
+            height="1.4rem"
+            fill="white"
+            viewBox="0 0 46.02 46.02"
+            style="enable-background:new 0 0 46.02 46.02;"
+            xml:space="preserve"
+          >
+            <path
+              d="M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645
 			C8.46,7.37,8.54,3.76,10.816,1.582c2.277-2.178,5.886-2.097,8.063,0.179l16.505,17.253c2.104,2.2,2.108,5.665,0.013,7.872
 			L18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
-          />
-        </svg>
+            />
+          </svg>
         </router-link>
       </div>
       <div class="carouselContainer">
@@ -34,8 +37,13 @@
               width="235"
               src-placeholder="/assets/loader.gif"
               :src="item.image"
+              :alt="item.name"
             />
           </router-link>
+          <div class="imdb">
+            <span style="font-family: fantasy; font-weight: 400">IMDb:</span>
+             {{item.imdb}}
+          </div>
         </div>
         <div class="rightSpace"></div>
       </div>
@@ -93,7 +101,7 @@
 
 <script>
 import VLazyImage from "v-lazy-image";
-import fun from "./Functions";
+import fun from "../../Functions";
 export default {
   props: {
     json: Object,
@@ -185,20 +193,30 @@ export default {
   margin: 0;
   pointer-events: auto;
   cursor: pointer;
+  position: relative;
 }
 .item:hover {
   transform: scale(1.2);
   margin: 0 60px 0 20px;
 }
+
+.imdb {
+  position: absolute;
+  left: 9px;
+  bottom: 10px;
+  padding: 0 5px;
+  height: 25px;
+  border-bottom-right-radius: 15px;
+  background-color: #e2b616;
+  color: #111;
+  border-bottom: 2px solid #111;
+  border-right: 2px solid #111;
+  font-weight: bold;
+  font-family: sans-serif;
+}
 .carouselContainer {
   pointer-events: none;
   transition: all 0.5s;
-}
-.carouselContainer:hover .item:not(:hover) {
-  transform: translate3d(-20px, 0, 0);
-}
-
-.carouselContainer {
   position: relative;
   width: 100%;
   overflow-x: hidden;
@@ -206,9 +224,13 @@ export default {
   display: flex;
   padding: 30px 40px 40px 20px;
 }
+.carouselContainer:hover .item:not(:hover) {
+  transform: translate3d(-20px, 0, 0);
+}
+
 .carouselSection {
   position: relative;
   width: 100%;
-  padding: 30px 0 0 0;
+  padding: 15px 0 0 0;
 }
 </style>

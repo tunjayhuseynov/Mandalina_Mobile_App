@@ -7,6 +7,7 @@
 require('./bootstrap');
 import router from './router'
 
+
 window.Vue = require('vue');
 window.Vuex = require('vuex');
 
@@ -22,19 +23,20 @@ window.Vuex = require('vuex');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 
-Vue.component('player', require('./components/Player.vue').default);
-Vue.component('home', require('./components/Home.vue').default);
-Vue.component('navbar', require('./components/Navbar.vue').default);
-Vue.component('headerbar', require('./components/Header.vue').default);
-Vue.component('bodybar', require('./components/Body.vue').default);
-Vue.component('carousel', require('./components/Carousel.vue').default);
-Vue.component('loading', require('./components/Loading.vue').default);
-Vue.component('mainpart', require('./components/Mainpart.vue').default);
-Vue.component('movies', require('./components/Movies.vue').default);
-Vue.component('search', require('./components/Search.vue').default);
-Vue.component('series', require('./components/Series.vue').default);
-Vue.component('aboutmovie', require('./components/AboutMovie.vue').default);
-Vue.component('category', require('./components/Category.vue').default);
+Vue.component('player', require('./components/mainComponents/Player.vue').default);
+Vue.component('home', require('./components/rootComponents/Home.vue').default);
+Vue.component('navbar', require('./components/mainComponents/homeComponents/Navbar.vue').default);
+Vue.component('headerbar', require('./components/mainComponents/homeComponents/Header.vue').default);
+Vue.component('bodybar', require('./components/mainComponents/homeComponents/Body.vue').default);
+Vue.component('genrebar', require('./components/mainComponents/homeComponents/GenreBar.vue').default);
+Vue.component('carousel', require('./components/mainComponents/homeComponents/Carousel.vue').default);
+Vue.component('loading', require('./components/subcomponents/Loading.vue').default);
+Vue.component('mainpart', require('./components/sideComponents/Mainpart.vue').default);
+Vue.component('movies', require('./components/sideComponents/Movies.vue').default);
+Vue.component('search', require('./components/mainComponents/homeComponents/Search.vue').default);
+Vue.component('series', require('./components/sideComponents/Series.vue').default);
+Vue.component('aboutmovie', require('./components/mainComponents/AboutMovie.vue').default);
+Vue.component('category', require('./components/mainComponents/Category.vue').default);
 Vue.component('playerbtn', require('./components/subcomponents/Playerbtn.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -52,6 +54,24 @@ const store = new Vuex.Store({
     searchResult: null,
     searchPath: null,
     searchBox: null,
+    allGenres: null,
+    metaTag(title, description, keywords){
+      document.title = title || this.metaTitle;
+      
+      let metaDes  = document.createElement("meta")
+      document.head.appendChild(metaDes)
+      metaDes.setAttribute("name", "description")
+      metaDes.setAttribute("content", description || this.metaDescription)
+
+      let metaKey  = document.createElement("meta")
+      document.head.appendChild(metaKey)
+      metaKey.setAttribute("name", "keywords")
+      metaKey.setAttribute("content", keywords || this.metaKey)
+      
+    },
+    metaTitle: "FilmDiziMob.Com - Yeni Nesil Film Sitesi",
+    metaDescription: "",
+    metaKey: ""
   },
   mutations: {
     setHomeMovies(state, data) {
@@ -78,6 +98,9 @@ const store = new Vuex.Store({
     setSearchBox(state, data){
       state.searchBox = data
     },
+    setAllGenres(state, data){
+      state.allGenres = data
+    }
   },
 })
 

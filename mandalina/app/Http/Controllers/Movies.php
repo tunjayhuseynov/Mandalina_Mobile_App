@@ -8,60 +8,59 @@ use App\Providers\DataManupilation;
 
 class Movies extends Controller
 {
+    private const Movie = 1;
+    private const Serie = 2;
+
     public function MainMovies(Request $request)
     {
-        $start = 0;
         $end = 18; 
-        $result = '[';
-        $allGenres = DB::table('genres')->get();
-        $lastUploaded = DataManupilation::LastUploaded($start,$end, 1);
-        if(count($lastUploaded) == 0){
-            return response()->json('Empty', 205);
-        }
-        $getLastUploaded = json_encode($lastUploaded, true);
-        $result .= '{"title": "En son eklenenler", "items": '.$getLastUploaded.'},';
-        foreach ($allGenres as $key => $value) {
-            $data = DataManupilation::GenreMovies($value->name, $start , $end, 1);
-            if(empty($data) != 1){
-                $rawdata = json_encode($data, true);
-                $decode = '{"title": "'.$value->name.'", "items": '.$rawdata.'}';
-                $result .= $decode;
-                $result .= ",";
+        $start = null;
                 
+        $json = array();
+
+        $lastUploaded = DataManupilation::LastUploaded(0,$end, self::Movie);
+        $subJson = DataManupilation::getObjectJson("En son eklenenler", $lastUploaded); 
+
+        array_push($json, $subJson);
+
+        foreach (DB::table('genres')->get() as $key => $value) {
+           
+            $data = DataManupilation::GenreMovies($value->name, $start , $end, self::Movie);
+            if(empty($data) != 1){
+
+                $subGenreJson = DataManupilation::getObjectJson($value->name, $data);
+
+                array_push($json, $subGenreJson);       
             }
         }
-        $result = substr($result ,0, -1);
-        $result .= ']';
 
-         return response()->json(json_decode($result, true), 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'], JSON_UNESCAPED_UNICODE);
+         return response()->json($json, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'], JSON_UNESCAPED_UNICODE);
     }
     
     public function MainSeries(Request $request)
     {
-        $start = 0;
-        $end = 10; 
-        $result = '[';
-        $allGenres = DB::table('genres')->get();
-        $lastUploaded = DataManupilation::LastUploaded($start,$end, 2);
-        if(count($lastUploaded) == 0){
-            return response()->json('Empty', 205);
-        }
-        $getLastUploaded = json_encode($lastUploaded, true);
-        $result .= '{"title": "En son eklenenler", "items": '.$getLastUploaded.'},';
-        foreach ($allGenres as $key => $value) {
-            $data = DataManupilation::GenreMovies($value->name, $start , $end, 2);
-            if(empty($data) != 1){
-                $rawdata = json_encode($data, true);
-                $decode = '{"title": "'.$value->name.'", "items": '.$rawdata.'}';
-                $result .= $decode;
-                $result .= ",";
+        $end = 18; 
+        $start = null;
                 
+        $json = array();
+
+        $lastUploaded = DataManupilation::LastUploaded(0,$end, self::Serie);
+        $subJson = DataManupilation::getObjectJson("En son eklenenler", $lastUploaded); 
+
+        array_push($json, $subJson);
+
+        foreach (DB::table('genres')->get() as $key => $value) {
+           
+            $data = DataManupilation::GenreMovies($value->name, $start , $end, self::Serie);
+            if(empty($data) != 1){
+
+                $subGenreJson = DataManupilation::getObjectJson($value->name, $data);
+
+                array_push($json, $subGenreJson);       
             }
         }
-        $result = substr($result ,0, -1);
-        $result .= ']';
 
-         return response()->json(json_decode($result, true), 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'], JSON_UNESCAPED_UNICODE);
+         return response()->json($json, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'], JSON_UNESCAPED_UNICODE);
     }
 
     public function MoviesByOneGenre(Request $request)
@@ -73,18 +72,15 @@ class Movies extends Controller
         $genre = str_replace("_"," ",$genre);
 
         if($genre == "en son eklenenler"){
-            $lastUploaded = DataManupilation::LastUploaded($start,$end, 1);
-            $getLastUploaded = json_encode($lastUploaded, true);
-            return response()->json(json_decode($getLastUploaded, true), 200); 
+            $lastUploaded = DataManupilation::LastUploaded($start,$end, self::Movie);
+            return response()->json($lastUploaded, 200); 
         }else{
-            $data = DataManupilation::GenreMovies($genre, $start, $end, 1);
-            $rawdata = json_encode($data, true);
-            $decode = $rawdata;
-            return response()->json(json_decode($decode, true), 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'], JSON_UNESCAPED_UNICODE); 
+            $data = DataManupilation::GenreMovies($genre, $start, $end, self::Movie);
+            return response()->json($data, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'], JSON_UNESCAPED_UNICODE); 
         }
     }
     
-        public function AllByOneGenre(Request $request)
+    public function AllByOneGenre(Request $request)
     {
         $genre = $request->route("genre");
         $start = $request->route("start");
@@ -94,13 +90,10 @@ class Movies extends Controller
         
         if($genre == "en son eklenenler"){
             $lastUploaded = DataManupilation::LastUploaded($start,$end, 0);
-            $getLastUploaded = json_encode($lastUploaded, true);
-            return response()->json(json_decode($getLastUploaded, true), 200); 
+            return response()->json($lastUploaded, 200); 
         }else{
             $data = DataManupilation::GenreMovies($genre, $start, $end, 0);
-            $rawdata = json_encode($data, true);
-            $decode = $rawdata;
-            return response()->json(json_decode($decode, true), 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'], JSON_UNESCAPED_UNICODE); 
+            return response()->json($data, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'], JSON_UNESCAPED_UNICODE); 
         }
     }
     
@@ -113,14 +106,11 @@ class Movies extends Controller
         $genre = str_replace("_"," ",$genre);
 
         if($genre == "en son eklenenler"){
-            $lastUploaded = DataManupilation::LastUploaded($start,$end, 2);
-            $getLastUploaded = json_encode($lastUploaded, true);
-            return response()->json(json_decode($getLastUploaded, true), 200); 
+            $lastUploaded = DataManupilation::LastUploaded($start,$end, self::Serie);
+            return response()->json($lastUploaded, 200); 
         }else{
-            $data = DataManupilation::GenreMovies($genre, $start, $end, 2);
-            $rawdata = json_encode($data, true);
-            $decode = $rawdata;
-            return response()->json(json_decode($decode, true), 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'], JSON_UNESCAPED_UNICODE); 
+            $data = DataManupilation::GenreMovies($genre, $start, $end, self::Serie);
+            return response()->json($data, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'], JSON_UNESCAPED_UNICODE); 
         }
     }
 
@@ -173,7 +163,6 @@ class Movies extends Controller
 
     public function search(Request $request)
     {
-        //$db = DB::table('movies')->where([ ["'name", "LIKE", '%'.$request->route("movie").'%'], ["movies.isDeleted", 0] ])->take(15)->get();
 
        $db = DB::table('movies')->whereRaw('LOWER(`name`) LIKE ? AND movies.isDeleted = 0', '%'.strtolower($request->route("movie")).'%' )->take(15)->get();
 

@@ -105,7 +105,7 @@
     left: 0em;
     outline: none;
     right: 0em;
-    bottom: 1em;
+    top: calc( 100vh - 3em);
     border-radius: 0.5em;
     z-index: 10;
 }
@@ -198,8 +198,16 @@
     background: #cacaca;
 }
 
-/*
-.video-js .vjs-progress-control .vjs-mouse-display:before {
+.video-js .vjs-slider-bar .vjs-time-tooltip {
+    display:none!important;
+}
+
+.video-js .vjs-time-tooltip {
+    background: #cacaca !important;
+    color: #b7090b;
+}
+
+/*.video-js .vjs-time-tooltip:before {
     top: 100%;
     border: solid transparent;
     content: " ";
@@ -212,31 +220,13 @@
     margin-left: -.8em;
 }*/
 
-.video-js .vjs-time-tooltip {
-    background: #cacaca !important;
-    color: #b7090b;
-}
-
-.video-js .vjs-time-tooltip:before {
-    top: 100%;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    border-top-color: #262626;
-    border-width: .8em;
-    right: 25%;
-    margin-left: -.8em;
-}
-
 .video-js .vjs-play-progress,
 .video-js .vjs-load-progress {
-    height: 0.7em !important;
+    height: 0.5em !important;
 }
 
 .video-js .vjs-progress-holder {
-    height: 0.9em;
+    height: 0.5em;
 }
 
 /* The main progress bar also has a bar that shows how much has been loaded. */
@@ -246,7 +236,7 @@
     /* Otherwise we'll rely on stacked opacities */
     background: rgba(46, 46, 46, 0.5);
     border-radius: 1em;
-    height: 0.9em !important;
+    height: 0.6em !important;
 }
 
 /* The load progress bar also has internal divs that represent
@@ -257,7 +247,7 @@
     /* Otherwise we'll rely on stacked opacities */
     background: rgba(46, 46, 46, 0.75);
     border-radius: 1em;
-    height: 0.9em !important;
+    height: 0.6em !important;
 }
 
 .vjs-loading-spinner {

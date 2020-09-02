@@ -31,7 +31,7 @@
 
         <div
           class="col-md-3"
-          style="text-align: center"
+          style="text-align: center;"
           v-for="(item, index) in getResult"
           :key="index"
         >
@@ -41,7 +41,8 @@
               height="350"
               width="235"
               src-placeholder="/assets/loader.gif"
-              :src="item.image"
+              :src="item.image || 'placeHolder.jpg'"
+              :alt="item.name"
             />
           </router-link>
         </div>
@@ -52,8 +53,8 @@
 
 <script>
 import VLazyImage from "v-lazy-image";
-import api from "./Api";
-import fun from "./Functions"
+import api from "../../Api";
+import fun from "../../Functions"
 export default {
   computed: {
     getQuery() {
@@ -94,5 +95,12 @@ export default {
 }
 .image:hover {
   transform: scale(1.1);
+}
+.v-lazy-image {
+  opacity: 0;
+  transition:  all ease 0.5s,opacity 1.5s;
+}
+.v-lazy-image-loaded {
+  opacity: 1;
 }
 </style>

@@ -57,7 +57,7 @@ class Dashboard extends Controller
 
     public function episodes(Request $request)
     {
-        $movies = DataManupilation::MovieByType(DataManupilation::Series);
+        $movies = DataManupilation::MovieByType(DataManupilation::Serie);
         $data = array($movies,  $request->root());
         return view('episodes')->with("data", $data);
     }
@@ -105,6 +105,7 @@ class Dashboard extends Controller
         $movie = $request->input("movie");
         $enmovie = $request->input("enmovie");
         $subtitle = $request->input("subtitle");
+        $enSubtitle = $request->input("enSubtitle");
         $duration = $request->input("duration");
         $poster = $request->input("poster");
         $imdb = $request->input('imdb');
@@ -126,6 +127,15 @@ class Dashboard extends Controller
             Storage::disk('public_uploads')->put($subtitle, $vttFile);
         }
 
+        if($enSubtitle != null && str_contains($enSubtitle, "https://uptobox.com/")){
+            $array = preg_split('/\//',$enSubtitle);
+            $url = "https://uptobox.com/api/link?token=690844a0fb2459a1433697be102e16617ojhx&file_code=".end($array);
+            $return = file_get_contents($url);
+            $vttFile = file_get_contents(json_decode($return, true)["data"]["dlLink"]);
+            $enSubtitle = "/subtitles/".preg_replace("/[^a-zA-Z0-9\']/", "", $name)."/".end($array).".vtt";
+            Storage::disk('public_uploads')->put($enSubtitle, $vttFile);
+        }
+
         
         $id =  DB::table('movies')->insertGetId(
             [
@@ -144,6 +154,7 @@ class Dashboard extends Controller
             "trailerLink" => $trailer,
             'englishLink' => $enmovie,
             'subtitleLink' => $subtitle,
+            'enSubtitleLink' => $enSubtitle,
             'imdb' => $imdb
             ]
         );
@@ -205,6 +216,7 @@ class Dashboard extends Controller
         $coverUrl = $request->input('cover');
         $imdb = $request->input('imdb');
         $subtitle = $request->input("subtitle");
+        $enSubtitle = $request->input("enSubtitle");
 
         if($coverUrl != null ){
             $contents = file_get_contents($coverUrl);
@@ -218,6 +230,14 @@ class Dashboard extends Controller
             $vttFile = file_get_contents(json_decode($return, true)["data"]["dlLink"]);
             $subtitle = "/subtitles/".preg_replace("/[^a-zA-Z0-9\']/", "", $name)."/".end($array).".vtt";
             Storage::disk('public_uploads')->put($subtitle, $vttFile);
+        }
+        if($enSubtitle != null && str_contains($enSubtitle, "https://uptobox.com/")){
+            $array = preg_split('/\//',$enSubtitle);
+            $url = "https://uptobox.com/api/link?token=690844a0fb2459a1433697be102e16617ojhx&file_code=".end($array);
+            $return = file_get_contents($url);
+            $vttFile = file_get_contents(json_decode($return, true)["data"]["dlLink"]);
+            $enSubtitle = "/subtitles/".preg_replace("/[^a-zA-Z0-9\']/", "", $name)."/".end($array).".vtt";
+            Storage::disk('public_uploads')->put($enSubtitle, $vttFile);
         }
         if($poster != null ){
             $posterContents = file_get_contents($poster);
@@ -243,6 +263,7 @@ class Dashboard extends Controller
             'tagName' => $tag,
             'trailerLink' => $trailer,
             'subtitleLink' => $subtitle,
+            'enSubtitleLink' => $enSubtitle,
             'imdb' => $imdb,
             ]
         );

@@ -34,7 +34,7 @@
         </div>
         <label for="image">Cover Image: </label> <br>
         <div>
-          <img id="blah" width="150" src="https://via.placeholder.com/150" alt="Cover" />
+          <img id="blah" width="150" src="{{$data->image}}" alt="Cover" />
         </div><br>
 
 

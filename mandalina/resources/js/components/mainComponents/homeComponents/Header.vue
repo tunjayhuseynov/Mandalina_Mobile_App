@@ -35,8 +35,8 @@
       </div>
     </div>
     <div class="trailer">
-      <video id="vd" preload="none" muted>
-        <source src="/assets/sampleTrailer.mp4" type="video/mp4" />
+      <video id="vd" preload="metadata" muted>
+        <source :src="getTrailer" type="video/mp4" />
       </video>
       <img class="poster" :src="getData.poster" alt srcset />
       <div v-show="isPlaying" class="soundOnOf" @click="soundOnOf">
@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import fun from "./Functions";
+import fun from "../../Functions";
 export default {
   created() {},
   data: function () {
@@ -116,6 +116,9 @@ export default {
     },
   },
   computed: {
+    getTrailer(){
+      return this.getData.trailerLink ? '/getMovie/'+ this.getData.trailerLink+"#t=5" : '/assets/sampleTrailer.mp4'
+    },
     getData() {
       return this.$route.name == "Movies" || this.$route.name == undefined
         ? this.$store.state.movieSuggested

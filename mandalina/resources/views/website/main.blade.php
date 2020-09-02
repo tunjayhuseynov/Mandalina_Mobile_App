@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="PinnMe">
+    <meta name="application-name" content="FilmDiziMob">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-    <title>Document</title>
+    <title>FilmDiziMob.Com - Yeni Nesil Film Sitesi</title>
     <link rel="stylesheet" href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -26,13 +28,15 @@
 </head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
 
-<body>
+<body style="overflow-x: hidden">
     <div id="app">
         <div>
              <router-view />
         </div>
     </div>
-    <script src="{{URL::asset('/js/app.js')}}"></script>
+    <script src="{{URL::asset('/js/manifest.js')}}"></script>
+<script src="{{URL::asset('/js/vendor.js')}}"></script>
+<script src="{{URL::asset('/js/app.js')}}"></script>
     <script>
         let socket = io("https://nodejs.filmdizimob.com");
         socket.emit("user")

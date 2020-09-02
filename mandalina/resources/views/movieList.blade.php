@@ -35,9 +35,10 @@ function checkRemoteFile($url)
         <tr>
             <th>Name</th>
             <th style="width: 60px">Id</th>
-            <th style="width: 100px">Type</th>
+            <th>English Name</th>
+            <th style="width: 50px">Type</th>
             <th style="width: 40px">English</th>
-            <th style="width: 100px">Episodes</th>
+            <th style="width: 50px">Episodes #</th>
             <th style="width: 40px">Cover</th>
             <th style="width: 40px">Poster</th>
             <th style="width: 200px">Addition Date</th>
@@ -50,7 +51,8 @@ function checkRemoteFile($url)
         <tr>
             <td>{{$item['name']}}</td>
             <td>{{$item['id']}}</td>
-            <td>{{$item['movieType']==1?"Movie":"Series"}}</td>
+            <td>{{$item['tagName']}}</td>
+            <td>{{$item['movieType']==1?"Movie":"Tv"}}</td>
             <td>{!!$item['englishLink']!=null&&strlen($item['englishLink'])>3?"&#9989;":"&#10060;"!!}</td>
             <td>{{$item['movieType']==2?count($item['episodes'])." Episodes":""}}</td>
          <td>{!!$item['image']!=null&&file_exists(public_path().$item['image'])?"&#9989;":"&#10060;"!!}</td>
@@ -88,7 +90,7 @@ $(document).ready(function() {
             },
      
         ],
-        order: [[4,"desc"]],
+        order: [[1,"asc"]],
     });
 } );
 </script>

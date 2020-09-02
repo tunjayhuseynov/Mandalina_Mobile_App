@@ -15,7 +15,11 @@ class ApiValidation
      */
     public function handle($request, Closure $next)
     {
+        
         if($request->header("auth") == "5591980supertun"){
+            return $next($request);
+        }else{
+            header('Access-Control-Allow-Origin', 'https://filmdizimob.com');
             return $next($request);
         }
 

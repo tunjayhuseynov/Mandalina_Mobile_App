@@ -6,7 +6,6 @@ var api = axios.create({
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'auth': "5591980supertun"
     }
 });
 
@@ -33,7 +32,7 @@ export default {
     getCategory(type, genre, start, end){
         return api.get(`/${type}/${genre}/${start}/${end}`)
     },
-    downloadVtt(link){
-        return axios.get(link)
+    getAllCategories(){
+        return api.get('/genres')
     }
 }

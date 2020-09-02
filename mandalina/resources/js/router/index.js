@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Player from '../components/Player'
-import Home from '../components/Home'
-import Movies from '../components/Movies'
-import Series from '../components/Series'
-import Search from '../components/Search'
-import AboutMovie from '../components/AboutMovie'
-import Category from '../components/Category'
+import Player from '../components/mainComponents/Player'
+import Home from '../components/rootComponents/Home'
+import Movies from '../components/sideComponents/Movies'
+import Series from '../components/sideComponents/Series'
+import Search from '../components/mainComponents/homeComponents/Search'
+import AboutMovie from '../components/mainComponents/AboutMovie'
+import Category from '../components/mainComponents/Category'
 
 Vue.use(Router)
 
