@@ -80,6 +80,7 @@
           <div id="counter" style="align-self: center">
             Live Visitors: 0 
           </div>
+          <div class="btn btn-primary" style="margin-left: 50px; font-size: 12px" onclick="ozledik()">Özledik Bildirimi</div>
         <!-- Topbar Navbar -->
         <ul class="navbar-nav ml-auto">
 
@@ -185,5 +186,13 @@
       lv.style.color = "black";
     }, 1000);
   })
+
+
+  let ozledik = async ()=>{
+    if(confirm("Do you really want to send a notification?")){
+      let call = await fetch("/AdminPanelPinnme/ozledikNotification")
+      console.log(call)
+    }
+  }
 </script>
 @endsection

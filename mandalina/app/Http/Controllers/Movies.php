@@ -151,7 +151,19 @@ class Movies extends Controller
     }
     public function SeriesById(Request $request)
     {
-        return response()->json(DB::table('episodes')->find($request->route("id")), 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'], JSON_UNESCAPED_UNICODE);
+        $episode = DB::table('episodes')->find($request->route("id"));
+        $allEpisodes = DB::table('episodes')->where([["movieID", $episode->movieID],["isDeleted", 0]])
+        ->orderBy("season", "ASC")
+        ->orderBy("number", "ASC")
+        ->get();
+
+        $otherEpisodes = $allEpisodes->splice($allEpisodes->search($episode)+1);
+
+        $episode->nextEpisode = $otherEpisodes->first() ?? null;
+        $episode->showName = DB::table('movies')->find($episode->movieID)->name;
+
+
+        return response()->json($episode, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'], JSON_UNESCAPED_UNICODE);
     }
 
     public function fetchgenres(Request $request)
@@ -164,14 +176,20 @@ class Movies extends Controller
     public function search(Request $request)
     {
 
-       $db = DB::table('movies')->whereRaw('LOWER(`name`) LIKE ? AND movies.isDeleted = 0', '%'.strtolower($request->route("movie")).'%' )->take(15)->get();
+       $db = DB::table('movies')->whereRaw('LOWER(`name`) LIKE ? AND movies.isDeleted = 0', strtolower($request->route("movie")).'%' )->get();
 
-       $tagname = DB::table('movies')->whereRaw('LOWER(`tagName`) LIKE ? AND movies.isDeleted = 0', '%'.strtolower($request->route("movie")).'%' )->take(15)->get();
+       $tagname = DB::table('movies')->whereRaw('LOWER(`tagName`) LIKE ? AND movies.isDeleted = 0', strtolower($request->route("movie")).'%' )->get();
        
+       
+       //$dbW = DB::table('movies')->whereRaw('LOWER(`name`) LIKE ? AND movies.isDeleted = 0', '%'.strtolower($request->route("movie")).'%' )->get();
+
+       //$tagnameW = DB::table('movies')->whereRaw('LOWER(`tagName`) LIKE ? AND movies.isDeleted = 0', '%'.strtolower($request->route("movie")).'%' )->get();
+       
+
        $actors = DB::table('movies')
        ->join('moviecasts', 'movies.id', '=', 'moviecasts.movieID')
        ->select('movies.*')
-       ->whereRaw('LOWER(`moviecasts`.name) LIKE ?', '%'.strtolower($request->route("movie")).'%' )
+       ->whereRaw('LOWER(`moviecasts`.name) LIKE ?', strtolower($request->route("movie")).'%' )
        ->get();
 
        $db = $db->merge($tagname)->merge($actors);

@@ -33,6 +33,7 @@
         <div class="item" v-for="(item, index) in json.items" :key="index">
           <router-link :to="`/about/${item.id}/${getParName(item.name)}`">
             <v-lazy-image
+              class="covers"
               height="350"
               width="235"
               src-placeholder="/assets/loader.gif"
@@ -42,7 +43,23 @@
           </router-link>
           <div class="imdb">
             <span style="font-family: fantasy; font-weight: 400">IMDb:</span>
-             {{item.imdb}}
+            {{item.imdb}}
+          </div>
+          <div class="flags">
+            <img
+              v-if="item.movieLink"
+              src="/assets/trIcon.png"
+              height="32"
+              alt="Türkçe"
+              title="Türkçe"
+            />
+            <img
+              v-if="item.englishLink"
+              src="/assets/usIcon.png"
+              height="32"
+              alt="Türkçe Altyazı"
+              title="Türkçe Altyazı"
+            />
           </div>
         </div>
         <div class="rightSpace"></div>
@@ -161,6 +178,7 @@ export default {
   background-color: rgba(17, 17, 17, 1);
   opacity: 0.7;
 } */
+
 .prev {
   position: absolute;
   left: 2%;
@@ -204,7 +222,7 @@ export default {
   position: absolute;
   left: 9px;
   bottom: 10px;
-  padding: 0 5px;
+  padding: 0 8px;
   height: 25px;
   border-bottom-right-radius: 15px;
   background-color: #e2b616;
@@ -213,6 +231,11 @@ export default {
   border-right: 2px solid #111;
   font-weight: bold;
   font-family: sans-serif;
+}
+.flags {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
 }
 .carouselContainer {
   pointer-events: none;
@@ -232,5 +255,12 @@ export default {
   position: relative;
   width: 100%;
   padding: 15px 0 0 0;
+}
+
+@media only screen and (max-width: 425px) {
+  .covers{
+    width: 150px;
+    height: 250px;
+  }
 }
 </style>

@@ -2,8 +2,9 @@
   <div v-if="getMovie!=null">
     <div class="container-fluid" style="padding-bottom: 20px">
       <div class="row">
-        <!-- <div class="col-md-12">
-          <span style="cursor: pointer" id="searchBack">
+        <!-- Start of Back-->
+        <div class="col-md-12 over">
+          <span style="cursor: pointer" id="searchBack" >
             <svg
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"
@@ -16,6 +17,7 @@
               viewBox="0 0 46.02 46.02"
               style="enable-background:new 0 0 46.02 46.02;transform: rotate(180deg);height:100%"
               xml:space="preserve"
+              @click="goBack()"
             >
               <path
                 d="M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645
@@ -24,7 +26,8 @@
               />
             </svg>
           </span>
-        </div>-->
+        </div>
+        <!-- End of Back-->
         <div class="col-md-12" style="margin-bottom: 15px">
           <div class="poster">
             <div class="watchModal dynTr" @click="showModal()">
@@ -154,24 +157,28 @@
       @mouseenter="activeCarousel()"
       id="playModal"
       tabindex="-1"
-      role="dialog" 
+      role="dialog"
       aria-labelledby="playModalLabel"
       aria-hidden="true"
     >
       <div class="modal-dialog" role="document" style="max-width: 90%; margin: 0 auto">
         <div class="modal-content">
           <div class="modal-body" style="background-color: #111; border-radius: 20px">
-            <div class="row" style="height: 40vh">
-              <div class="col-md" v-if="getMovie.movieType != 2 && getMovie.movieLink">
-                <router-link :to="`/izle/td/${getMovie.id}/${getParName(getMovie.name)}`">
+            <div class="row">
+              <div class="col-md col-sm col" v-if="getMovie.movieType != 2 && getMovie.movieLink">
+                <router-link
+                  :to="`/izle/turkce-dublaj/${getMovie.id}/${getParName(getMovie.name)}`"
+                >
                   <playerbtn
                     imageSrc="https://cdn.webshopapp.com/shops/94414/files/54949672/turkey-flag-icon-free-download.jpg"
                     title="Türkçe Dublaj"
                   ></playerbtn>
                 </router-link>
               </div>
-              <div class="col-md" v-if="getMovie.movieType != 2 && getMovie.englishLink">
-                <router-link :to="`/izle/ta/${getMovie.id}/${getParName(getMovie.name)}`">
+              <div class="col-md col-sm col" v-if="getMovie.movieType != 2 && getMovie.englishLink">
+                <router-link
+                  :to="`/izle/turkce-altyazi/${getMovie.id}/${getParName(getMovie.name)}`"
+                >
                   <playerbtn
                     imageSrc="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/1200px-Flag_of_the_United_States.svg.png"
                     title="Türkçe Altyazı"
@@ -214,7 +221,9 @@
                       :key="index"
                       :data-content="index+1"
                     >
-                      <router-link :to="`/dizi/${item.id}/${getParName(getMovie.name)}-${getParName(item.name)}`">
+                      <router-link
+                        :to="`/izle/dizi/${item.id}/${getParName(getMovie.name)}-${getParName(item.name)}`"
+                      >
                         <v-lazy-image
                           class="episodePoster"
                           height="150"
@@ -362,6 +371,9 @@ export default {
     getParName(val) {
       return fun.convertTurkish2English(val);
     },
+    goBack(){
+      this.$router.push(this.movie.movieType == 1? {name: "Movies"}: {name: "Series"})
+    }
   },
   computed: {
     getMovie() {
@@ -372,8 +384,10 @@ export default {
       }
       return this.movie;
     },
-    getTrailer(){
-      return this.movie.trailerLink ? '/getMovie/'+ this.getMovie.trailerLink+"#t=5" : '/assets/sampleTrailer.mp4'
+    getTrailer() {
+      return this.movie.trailerLink
+        ? "/getMovie/" + this.getMovie.trailerLink + "#t=5"
+        : "/assets/sampleTrailer.mp4";
     },
     getCurrentSeason() {
       return this.currentSeason;
@@ -387,8 +401,8 @@ export default {
       );
     },
   },
-  beforeRouteLeave(to, from, next) {
-    $("#playModal").modal("hide");
+  async beforeRouteLeave(to, from, next) {
+    $("#playModal").modal("dispose");
     next();
   },
   components: {
@@ -495,7 +509,7 @@ export default {
 .modal-content {
   background-color: transparent;
   margin: auto !important;
-  height: fit-content !important;
+  height: 350px !important;
 }
 .playBtn {
   transition: all 0.5s;
@@ -538,7 +552,7 @@ export default {
 #vd {
   width: 100%;
   height: 100%;
-  object-fit: fill;
+  object-fit: cover;
 }
 .image {
   width: 100%;
@@ -672,5 +686,30 @@ export default {
 }
 label {
   margin-bottom: 1rem;
+}
+
+#searchBack{
+  display: none;
+  position: absolute;
+  top: 80px;
+  z-index: 101!important;
+}
+
+@media only screen and (max-width: 767px) {
+  #searchBack{
+    display: inline;
+  }
+}
+
+@media only screen and (max-width: 767px) and (min-width: 425px) {  
+  .modal-content{
+    height: 200px!important;
+  }
+}
+
+@media only screen and  (max-width: 424px) {  
+  .modal-content{
+    height: 185px!important;
+  }
 }
 </style>

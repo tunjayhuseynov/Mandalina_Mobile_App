@@ -2138,6 +2138,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2256,6 +2265,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     getParName: function getParName(val) {
       return _Functions__WEBPACK_IMPORTED_MODULE_2__["default"].convertTurkish2English(val);
+    },
+    goBack: function goBack() {
+      this.$router.push(this.movie.movieType == 1 ? {
+        name: "Movies"
+      } : {
+        name: "Series"
+      });
     }
   },
   computed: {
@@ -2269,7 +2285,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return this.movie;
     },
     getTrailer: function getTrailer() {
-      return this.movie.trailerLink ? '/getMovie/' + this.getMovie.trailerLink + "#t=5" : '/assets/sampleTrailer.mp4';
+      return this.movie.trailerLink ? "/getMovie/" + this.getMovie.trailerLink + "#t=5" : "/assets/sampleTrailer.mp4";
     },
     getCurrentSeason: function getCurrentSeason() {
       return this.currentSeason;
@@ -2285,10 +2301,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     }
   },
-  beforeRouteLeave: function beforeRouteLeave(to, from, next) {
-    $("#playModal").modal("hide");
-    next();
-  },
+  beforeRouteLeave: function () {
+    var _beforeRouteLeave = _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(to, from, next) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              $("#playModal").modal("dispose");
+              next();
+
+            case 2:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
+
+    function beforeRouteLeave(_x, _x2, _x3) {
+      return _beforeRouteLeave.apply(this, arguments);
+    }
+
+    return beforeRouteLeave;
+  }(),
   components: {
     VLazyImage: v_lazy_image__WEBPACK_IMPORTED_MODULE_3___default.a
   }
@@ -2317,6 +2354,28 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2499,16 +2558,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Functions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Functions */ "./resources/js/components/Functions.js");
 
 
+var _methods;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -2555,19 +2612,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              $("body").css({
-                "overflow-y": "hidden",
-                "padding-right": "0"
-              });
-
               if (document.querySelector(".modal-backdrop") != null) {
                 document.querySelector(".modal-backdrop").remove();
               }
 
-              _context.next = 4;
+              _context.next = 3;
               return this.fetchtMovie();
 
-            case 4:
+            case 3:
             case "end":
               return _context.stop();
           }
@@ -2581,31 +2633,63 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     return created;
   }(),
+  updated: function updated() {
+    var _this = this;
+
+    if (this.movie == null) return;
+    this.video = videojs("my_video_1", {
+      aspectRatio: "16:9",
+      playbackRates: [0.5, 1, 1.5, 2],
+      responsive: true
+    });
+    this.video.on("pause", function () {
+      if (!$(".vjs-scrubbing")[0]) {
+        $(".backgroundBlack, .vjs-big-play-button").fadeIn(500);
+        $("#backButton").stop();
+      }
+    });
+    this.video.on("play", function () {
+      $(".vjs-big-play-button, .backgroundBlack").fadeOut(500);
+    });
+    this.video.on("volumechange", function () {
+      if (_this.leaveFun) clearTimeout(_this.leaveFun);
+      document.querySelector(".vjs-volume-panel").classList.add("vjs-hover");
+      _this.leaveFun = setTimeout(function () {
+        document.querySelector(".vjs-volume-panel").classList.remove("vjs-hover");
+      }, 2000);
+    });
+    this.videoPlayerArrow();
+    if (this.checkIfSerie() && this.movie.nextEpisode != null) this.createNextEpisodeBtn();
+  },
   data: function data() {
     return {
-      id: window.location.hash.split("movie=")[1],
-      interval: null,
-      setup: '{ "aspectRatio":"16:9", "playbackRates": [0.5, 1, 1.5, 2],"responsive": true }',
-      target: null,
-      obj: null,
+      video: null,
       movie: null,
-      timeCut: 5
+      timeCut: 5,
+      leaveFun: null,
+      index: 0
     };
   },
-  methods: {
+  methods: (_methods = {
     fetchtMovie: function () {
       var _fetchtMovie = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var _this = this;
+        var _this2 = this;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _Api__WEBPACK_IMPORTED_MODULE_1__["default"].getMovie(this.$route.params.id).then(function (response) {
-                  _this.movie = response.data;
-                });
+                if (this.checkIfSerie()) {
+                  _Api__WEBPACK_IMPORTED_MODULE_1__["default"].getSerie(this.$route.params.id).then(function (response) {
+                    _this2.movie = response.data;
+                  });
+                } else {
+                  _Api__WEBPACK_IMPORTED_MODULE_1__["default"].getMovie(this.$route.params.id).then(function (response) {
+                    _this2.movie = response.data;
+                  });
+                }
 
               case 1:
               case "end":
@@ -2625,10 +2709,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return _Functions__WEBPACK_IMPORTED_MODULE_2__["default"].convertTurkish2English(val);
     },
     getKind: function getKind() {
-      if (this.$route.params.type == "td") {
+      if (this.$route.params.type == "turkce-dublaj") {
         return "/getMovie/" + this.getMovie.movieLink.split("/").pop();
-      } else if (this.$route.params.type == "ta") {
+      } else if (this.$route.params.type == "turkce-altyazi") {
         return "/getMovie/" + this.getMovie.englishLink.split("/").pop();
+      } else if (this.$route.params.type == "dizi") {
+        return "/getMovie/" + this.getMovie.url.split("/").pop();
       }
     },
     checkEnglishSubtitle: function checkEnglishSubtitle() {
@@ -2639,14 +2725,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var t = this;
       var video = document.getElementsByTagName("video")[0];
       window.addEventListener("keydown", function (evt) {
-        console.log(evt);
-
         if (evt.keyCode === 37) {
           video.currentTime = Math.max(0, video.currentTime - t.timeCut);
         } else if (evt.keyCode === 39) {
           video.currentTime = Math.min(video.duration, video.currentTime + t.timeCut);
         } else if (evt.keyCode === 13 || evt.keyCode === 32) {
           video.paused ? video.play() : video.pause();
+        } else if (evt.keyCode === 38) {
+          video.volume = Math.min(1, video.volume += 0.1);
+        } else if (evt.keyCode === 40) {
+          video.volume = Math.max(0, video.volume -= 0.1);
         }
       });
     },
@@ -2666,32 +2754,81 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       $results.click(function () {
         $(this).select();
       });
-      var plugin = document.createElement("script");
-      plugin.setAttribute("src", "https://vjs.zencdn.net/7.6.6/video.js");
-      plugin.async = true;
-      document.head.appendChild(plugin);
-      $("video").ready(function () {
-        $("video").on("pause", function () {
-          if ($(".vjs-scrubbing")[0]) {} else {
-            $(".backgroundBlack, .vjs-big-play-button").fadeIn(500);
-            $("#backButton").stop();
-          }
-        }).on("play", function () {
-          $(".vjs-big-play-button, .backgroundBlack").fadeOut(500);
-        });
-        t.videoPlayerArrow();
-      });
       return true;
+    },
+    createNextEpisodeBtn: function createNextEpisodeBtn() {
+      var t = this;
+      var Button = videojs.getComponent("Button");
+      var MyButton = videojs.extend(Button, {
+        constructor: function constructor() {
+          Button.apply(this, arguments);
+        },
+        handleClick: function handleClick() {
+          t.$router.replace({
+            name: "Player",
+            params: {
+              type: "dizi",
+              id: t.movie.nextEpisode.id,
+              movieName: "".concat(t.getParName(t.movie.showName), "-").concat(t.getParName(t.movie.nextEpisode.name))
+            }
+          });
+        }
+      });
+      videojs.registerComponent("NextBtn", MyButton);
+      var controlBar = this.video.getChild("controlBar");
+      var addedBtn = controlBar.addChild("NextBtn", {}, controlBar.children().length - 3);
+      var spanBtn = addedBtn.el_.querySelectorAll("span")[0].classList.add("vjs-icon-next-item");
     }
-  },
+  }, _defineProperty(_methods, "getParName", function getParName(val) {
+    return _Functions__WEBPACK_IMPORTED_MODULE_2__["default"].convertTurkish2English(val);
+  }), _defineProperty(_methods, "checkIfSerie", function checkIfSerie() {
+    return this.$route.params.type == "dizi";
+  }), _methods),
   computed: {
     getMovie: function getMovie() {
       return this.movie;
     }
   },
-  beforeDestroy: function beforeDestroy() {
-    document.body.style = "overflow-y: none";
-    document.body.classList.remove("modal-open");
+  beforeRouteLeave: function beforeRouteLeave(to, from, next) {
+    this.video.dispose();
+    next();
+  },
+  destroyed: function destroyed() {
+    this.video.dispose();
+  },
+  watch: {
+    "$route.path": {
+      handler: function () {
+        var _handler = _asyncToGenerator(
+        /*#__PURE__*/
+        _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(val, oldVal) {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+            while (1) {
+              switch (_context3.prev = _context3.next) {
+                case 0:
+                  this.video.dispose();
+                  this.movie = null;
+                  _context3.next = 4;
+                  return this.fetchtMovie();
+
+                case 4:
+                  this.index++;
+
+                case 5:
+                case "end":
+                  return _context3.stop();
+              }
+            }
+          }, _callee3, this);
+        }));
+
+        function handler(_x, _x2) {
+          return _handler.apply(this, arguments);
+        }
+
+        return handler;
+      }()
+    }
   }
 });
 
@@ -2737,6 +2874,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var v_lazy_image__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! v-lazy-image */ "./node_modules/v-lazy-image/dist/v-lazy-image.js");
 /* harmony import */ var v_lazy_image__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(v_lazy_image__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Functions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Functions */ "./resources/js/components/Functions.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3349,6 +3503,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3414,9 +3588,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var DEFAULT_TRANSITION = "fade";
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    var template = "\n    <div class=\"moby-inner\">\n      <div class=\"moby-close\"><span class=\"moby-close-icon\"></span></div>\n        <div class=\"moby-wrap\">\n          <div>\n            <div class=\"moby-menu\">\n            </div>\n          </div>\n      </div>\n    </div>\n        ";
+    var mobyMenu = new Moby({
+      menu: $("#main-nav"),
+      mobyTrigger: $("#moby-button"),
+      menuClass: "left-side",
+      template: template
+    });
+  },
   data: function data() {
     return {
       transitionName: DEFAULT_TRANSITION
@@ -3676,7 +3876,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n.containerBox[data-v-cb524a30] {\r\n  position: relative;\r\n  width: 9rem;\r\n  margin: 1rem 3rem;\r\n  border: 1px solid white;\r\n  background-color: #111;\n}\n.seasonText[data-v-cb524a30] {\r\n  padding: 5px 10px;\r\n  color: white;\r\n  font-weight: 500;\n}\n#seasonList[data-v-cb524a30] {\r\n  visibility: hidden;\r\n  opacity: 0;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\r\n  position: absolute;\r\n  z-index: -10;\r\n  padding: 0;\r\n  width: 9rem;\r\n  left: -1px;\r\n  margin-top: 1px;\r\n  background-color: #111111d9;\n}\n.containerBox:hover #seasonList[data-v-cb524a30] {\r\n  visibility: visible;\r\n  z-index: 6;\r\n  opacity: 1;\n}\n#seasonList > li[data-v-cb524a30] {\r\n  color: white;\r\n  padding: 10px 10px;\r\n  cursor: pointer;\n}\n#seasonList > li[data-v-cb524a30]:hover {\r\n  background-color: #111111a3;\r\n  text-decoration: underline;\n}\n.epDes[data-v-cb524a30] {\r\n  margin-top: 10px;\r\n  text-align: left;\r\n  color: white;\r\n  font-size: 0.8rem;\n}\n.item[data-v-cb524a30]::after {\r\n  content: attr(data-content);\r\n  display: block;\r\n  position: absolute;\r\n  margin-left: 5px;\r\n  font-size: 1.5rem;\r\n  top: 115px;\r\n  color: rgb(231, 231, 231);\n}\n.item[data-v-cb524a30] {\r\n  height: 100%;\r\n  position: relative;\r\n  padding: 0 20px 0 0;\r\n  flex-basis: 0;\n}\n.carouselContainer[data-v-cb524a30] {\r\n  display: -webkit-box;\r\n  display: flex;\r\n  overflow: hidden;\r\n  /*gap: 20px;*/\r\n  margin: 0 3rem;\r\n  position: relative;\r\n  scroll-behavior: smooth;\n}\n.next[data-v-cb524a30] {\r\n  cursor: pointer;\r\n  position: absolute;\r\n  right: 5px;\r\n  top: calc(50%);\r\n  -webkit-transform: translateY(-50%);\r\n          transform: translateY(-50%);\n}\n.prev[data-v-cb524a30] {\r\n  cursor: pointer;\r\n  position: absolute;\r\n  left: 5px;\r\n  top: calc(50%);\r\n  -webkit-transform: translateY(-50%);\r\n          transform: translateY(-50%);\n}\n.modal-dialog[data-v-cb524a30] {\r\n  height: 100vh !important;\r\n  display: -webkit-box;\r\n  display: flex;\n}\n.modal-content[data-v-cb524a30] {\r\n  background-color: transparent;\r\n  margin: auto !important;\r\n  height: -webkit-fit-content !important;\r\n  height: -moz-fit-content !important;\r\n  height: fit-content !important;\n}\n.playBtn[data-v-cb524a30] {\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\n}\n.playBtn[data-v-cb524a30]:hover {\r\n  fill: #ddd !important;\n}\n.infoTitle[data-v-cb524a30] {\r\n  color: #828282;\n}\n.title[data-v-cb524a30] {\r\n  position: absolute;\r\n  bottom: 2%;\r\n  left: 2%;\r\n  z-index: 2;\n}\n.txtInfo[data-v-cb524a30] {\r\n  color: #ddd;\r\n  font-size: 1.2rem;\r\n  font-weight: 400;\r\n  margin-bottom: 10px;\n}\n.TextTitle[data-v-cb524a30] {\r\n  font-size: 2.5rem;\r\n  font-weight: bold;\r\n  color: #ddd;\n}\n.poster[data-v-cb524a30] {\r\n  position: relative;\r\n  height: 85vh;\r\n  margin: 0 -15px;\n}\n.watchModal[data-v-cb524a30] {\r\n  cursor: pointer;\r\n  position: absolute;\r\n  top: 50%;\r\n  left: 50%;\r\n  -webkit-transform: translateX(-50%) translateY(-50%);\r\n          transform: translateX(-50%) translateY(-50%);\n}\n#vd[data-v-cb524a30] {\r\n  width: 100%;\r\n  height: 100%;\r\n  -o-object-fit: fill;\r\n     object-fit: fill;\n}\n.image[data-v-cb524a30] {\r\n  width: 100%;\r\n  height: 100%;\r\n  -o-object-fit: cover;\r\n     object-fit: cover;\r\n  -o-object-position: top;\r\n     object-position: top;\r\n  position: absolute;\r\n  top: 0;\r\n  left: 0;\r\n  z-index: -1;\n}\n.dynTr[data-v-cb524a30] {\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\n}\n.goUnvisible[data-v-cb524a30] {\r\n  opacity: 0;\r\n  visibility: hidden;\n}\n.blackFade[data-v-cb524a30] {\r\n  position: absolute;\r\n  bottom: 0;\r\n  z-index: 1;\r\n  width: 100%;\r\n  height: 20%;\r\n  background-image: -webkit-gradient(\r\n    linear,\r\n    left top, left bottom,\r\n    from(transparent),\r\n    color-stop(rgba(37, 37, 37, 0.61)),\r\n    to(#111)\r\n  );\r\n  background-image: linear-gradient(\r\n    180deg,\r\n    transparent,\r\n    rgba(37, 37, 37, 0.61),\r\n    #111\r\n  );\n}\n.wrapper[data-v-cb524a30] {\r\n  display: inline-block;\r\n  width: 100%;\r\n  position: relative;\n}\n.playpause[data-v-cb524a30] {\r\n  cursor: pointer;\r\n  background-image: url(http://www.pngmart.com/files/3/Play-Button-Transparent-Background.png);\r\n  background-repeat: no-repeat;\r\n  width: 50%;\r\n  height: 50%;\r\n  position: absolute;\r\n  left: 0%;\r\n  right: 0%;\r\n  top: 0%;\r\n  bottom: 0%;\r\n  margin: auto;\r\n  background-size: contain;\r\n  background-position: center;\n}\r\n\r\n/*Toggle Button*/\n.onoffswitch[data-v-cb524a30] {\r\n  margin-left: 15px;\r\n  display: inline-block;\r\n  vertical-align: middle;\r\n  position: relative;\r\n  width: 113px;\r\n  -webkit-user-select: none;\r\n  -moz-user-select: none;\r\n  -ms-user-select: none;\n}\n.onoffswitch-checkbox[data-v-cb524a30] {\r\n  position: absolute;\r\n  opacity: 0;\r\n  pointer-events: none;\n}\n.onoffswitch-label[data-v-cb524a30] {\r\n  display: block;\r\n  overflow: hidden;\r\n  cursor: pointer;\r\n  /*border: 2px solid #999999;*/\r\n  border-radius: 20px;\n}\n.onoffswitch-inner[data-v-cb524a30] {\r\n  display: block;\r\n  width: 200%;\r\n  margin-left: -100%;\r\n  -webkit-transition: margin 0.3s ease-in 0s;\r\n  transition: margin 0.3s ease-in 0s;\n}\n.onoffswitch-inner[data-v-cb524a30]:before,\r\n.onoffswitch-inner[data-v-cb524a30]:after {\r\n  display: block;\r\n  float: left;\r\n  width: 50%;\r\n  height: 30px;\r\n  padding: 0;\r\n  line-height: 30px;\r\n  font-size: 14px;\r\n  color: white;\r\n  font-family: Trebuchet, Arial, sans-serif;\r\n  font-weight: bold;\r\n  box-sizing: border-box;\n}\n.onoffswitch-inner[data-v-cb524a30]:before {\r\n  content: \"Poster\";\r\n  padding-left: 10px;\r\n  background-color: #111;\r\n  color: #ffffff;\n}\n.onoffswitch-inner[data-v-cb524a30]:after {\r\n  content: \"Fragman\";\r\n  padding-right: 10px;\r\n  background-color: #eeeeee;\r\n  color: #999999;\r\n  text-align: right;\n}\n.onoffswitch-switch[data-v-cb524a30] {\r\n  display: block;\r\n  width: 18px;\r\n  margin: 6px;\r\n  height: 18px;\r\n  background: #ffffff;\r\n  position: absolute;\r\n  top: 0;\r\n  bottom: 0;\r\n  right: 79px;\r\n  border: 2px solid #999999;\r\n  border-radius: 20px;\r\n  -webkit-transition: all 0.3s ease-in 0s;\r\n  transition: all 0.3s ease-in 0s;\n}\n.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner[data-v-cb524a30] {\r\n  margin-left: 0;\n}\n.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch[data-v-cb524a30] {\r\n  right: 0px;\n}\nlabel[data-v-cb524a30] {\r\n  margin-bottom: 1rem;\n}\r\n", ""]);
+exports.push([module.i, "\n.containerBox[data-v-cb524a30] {\r\n  position: relative;\r\n  width: 9rem;\r\n  margin: 1rem 3rem;\r\n  border: 1px solid white;\r\n  background-color: #111;\n}\n.seasonText[data-v-cb524a30] {\r\n  padding: 5px 10px;\r\n  color: white;\r\n  font-weight: 500;\n}\n#seasonList[data-v-cb524a30] {\r\n  visibility: hidden;\r\n  opacity: 0;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\r\n  position: absolute;\r\n  z-index: -10;\r\n  padding: 0;\r\n  width: 9rem;\r\n  left: -1px;\r\n  margin-top: 1px;\r\n  background-color: #111111d9;\n}\n.containerBox:hover #seasonList[data-v-cb524a30] {\r\n  visibility: visible;\r\n  z-index: 6;\r\n  opacity: 1;\n}\n#seasonList > li[data-v-cb524a30] {\r\n  color: white;\r\n  padding: 10px 10px;\r\n  cursor: pointer;\n}\n#seasonList > li[data-v-cb524a30]:hover {\r\n  background-color: #111111a3;\r\n  text-decoration: underline;\n}\n.epDes[data-v-cb524a30] {\r\n  margin-top: 10px;\r\n  text-align: left;\r\n  color: white;\r\n  font-size: 0.8rem;\n}\n.item[data-v-cb524a30]::after {\r\n  content: attr(data-content);\r\n  display: block;\r\n  position: absolute;\r\n  margin-left: 5px;\r\n  font-size: 1.5rem;\r\n  top: 115px;\r\n  color: rgb(231, 231, 231);\n}\n.item[data-v-cb524a30] {\r\n  height: 100%;\r\n  position: relative;\r\n  padding: 0 20px 0 0;\r\n  flex-basis: 0;\n}\n.carouselContainer[data-v-cb524a30] {\r\n  display: -webkit-box;\r\n  display: flex;\r\n  overflow: hidden;\r\n  /*gap: 20px;*/\r\n  margin: 0 3rem;\r\n  position: relative;\r\n  scroll-behavior: smooth;\n}\n.next[data-v-cb524a30] {\r\n  cursor: pointer;\r\n  position: absolute;\r\n  right: 5px;\r\n  top: calc(50%);\r\n  -webkit-transform: translateY(-50%);\r\n          transform: translateY(-50%);\n}\n.prev[data-v-cb524a30] {\r\n  cursor: pointer;\r\n  position: absolute;\r\n  left: 5px;\r\n  top: calc(50%);\r\n  -webkit-transform: translateY(-50%);\r\n          transform: translateY(-50%);\n}\n.modal-dialog[data-v-cb524a30] {\r\n  height: 100vh !important;\r\n  display: -webkit-box;\r\n  display: flex;\n}\n.modal-content[data-v-cb524a30] {\r\n  background-color: transparent;\r\n  margin: auto !important;\r\n  height: 350px !important;\n}\n.playBtn[data-v-cb524a30] {\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\n}\n.playBtn[data-v-cb524a30]:hover {\r\n  fill: #ddd !important;\n}\n.infoTitle[data-v-cb524a30] {\r\n  color: #828282;\n}\n.title[data-v-cb524a30] {\r\n  position: absolute;\r\n  bottom: 2%;\r\n  left: 2%;\r\n  z-index: 2;\n}\n.txtInfo[data-v-cb524a30] {\r\n  color: #ddd;\r\n  font-size: 1.2rem;\r\n  font-weight: 400;\r\n  margin-bottom: 10px;\n}\n.TextTitle[data-v-cb524a30] {\r\n  font-size: 2.5rem;\r\n  font-weight: bold;\r\n  color: #ddd;\n}\n.poster[data-v-cb524a30] {\r\n  position: relative;\r\n  height: 85vh;\r\n  margin: 0 -15px;\n}\n.watchModal[data-v-cb524a30] {\r\n  cursor: pointer;\r\n  position: absolute;\r\n  top: 50%;\r\n  left: 50%;\r\n  -webkit-transform: translateX(-50%) translateY(-50%);\r\n          transform: translateX(-50%) translateY(-50%);\n}\n#vd[data-v-cb524a30] {\r\n  width: 100%;\r\n  height: 100%;\r\n  -o-object-fit: cover;\r\n     object-fit: cover;\n}\n.image[data-v-cb524a30] {\r\n  width: 100%;\r\n  height: 100%;\r\n  -o-object-fit: cover;\r\n     object-fit: cover;\r\n  -o-object-position: top;\r\n     object-position: top;\r\n  position: absolute;\r\n  top: 0;\r\n  left: 0;\r\n  z-index: -1;\n}\n.dynTr[data-v-cb524a30] {\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\n}\n.goUnvisible[data-v-cb524a30] {\r\n  opacity: 0;\r\n  visibility: hidden;\n}\n.blackFade[data-v-cb524a30] {\r\n  position: absolute;\r\n  bottom: 0;\r\n  z-index: 1;\r\n  width: 100%;\r\n  height: 20%;\r\n  background-image: -webkit-gradient(\r\n    linear,\r\n    left top, left bottom,\r\n    from(transparent),\r\n    color-stop(rgba(37, 37, 37, 0.61)),\r\n    to(#111)\r\n  );\r\n  background-image: linear-gradient(\r\n    180deg,\r\n    transparent,\r\n    rgba(37, 37, 37, 0.61),\r\n    #111\r\n  );\n}\n.wrapper[data-v-cb524a30] {\r\n  display: inline-block;\r\n  width: 100%;\r\n  position: relative;\n}\n.playpause[data-v-cb524a30] {\r\n  cursor: pointer;\r\n  background-image: url(http://www.pngmart.com/files/3/Play-Button-Transparent-Background.png);\r\n  background-repeat: no-repeat;\r\n  width: 50%;\r\n  height: 50%;\r\n  position: absolute;\r\n  left: 0%;\r\n  right: 0%;\r\n  top: 0%;\r\n  bottom: 0%;\r\n  margin: auto;\r\n  background-size: contain;\r\n  background-position: center;\n}\r\n\r\n/*Toggle Button*/\n.onoffswitch[data-v-cb524a30] {\r\n  margin-left: 15px;\r\n  display: inline-block;\r\n  vertical-align: middle;\r\n  position: relative;\r\n  width: 113px;\r\n  -webkit-user-select: none;\r\n  -moz-user-select: none;\r\n  -ms-user-select: none;\n}\n.onoffswitch-checkbox[data-v-cb524a30] {\r\n  position: absolute;\r\n  opacity: 0;\r\n  pointer-events: none;\n}\n.onoffswitch-label[data-v-cb524a30] {\r\n  display: block;\r\n  overflow: hidden;\r\n  cursor: pointer;\r\n  /*border: 2px solid #999999;*/\r\n  border-radius: 20px;\n}\n.onoffswitch-inner[data-v-cb524a30] {\r\n  display: block;\r\n  width: 200%;\r\n  margin-left: -100%;\r\n  -webkit-transition: margin 0.3s ease-in 0s;\r\n  transition: margin 0.3s ease-in 0s;\n}\n.onoffswitch-inner[data-v-cb524a30]:before,\r\n.onoffswitch-inner[data-v-cb524a30]:after {\r\n  display: block;\r\n  float: left;\r\n  width: 50%;\r\n  height: 30px;\r\n  padding: 0;\r\n  line-height: 30px;\r\n  font-size: 14px;\r\n  color: white;\r\n  font-family: Trebuchet, Arial, sans-serif;\r\n  font-weight: bold;\r\n  box-sizing: border-box;\n}\n.onoffswitch-inner[data-v-cb524a30]:before {\r\n  content: \"Poster\";\r\n  padding-left: 10px;\r\n  background-color: #111;\r\n  color: #ffffff;\n}\n.onoffswitch-inner[data-v-cb524a30]:after {\r\n  content: \"Fragman\";\r\n  padding-right: 10px;\r\n  background-color: #eeeeee;\r\n  color: #999999;\r\n  text-align: right;\n}\n.onoffswitch-switch[data-v-cb524a30] {\r\n  display: block;\r\n  width: 18px;\r\n  margin: 6px;\r\n  height: 18px;\r\n  background: #ffffff;\r\n  position: absolute;\r\n  top: 0;\r\n  bottom: 0;\r\n  right: 79px;\r\n  border: 2px solid #999999;\r\n  border-radius: 20px;\r\n  -webkit-transition: all 0.3s ease-in 0s;\r\n  transition: all 0.3s ease-in 0s;\n}\n.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner[data-v-cb524a30] {\r\n  margin-left: 0;\n}\n.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch[data-v-cb524a30] {\r\n  right: 0px;\n}\nlabel[data-v-cb524a30] {\r\n  margin-bottom: 1rem;\n}\n#searchBack[data-v-cb524a30]{\r\n  display: none;\r\n  position: absolute;\r\n  top: 80px;\r\n  z-index: 101!important;\n}\n@media only screen and (max-width: 767px) {\n#searchBack[data-v-cb524a30]{\r\n    display: inline;\n}\n}\n@media only screen and (max-width: 767px) and (min-width: 425px) {\n.modal-content[data-v-cb524a30]{\r\n    height: 200px!important;\n}\n}\n@media only screen and  (max-width: 424px) {\n.modal-content[data-v-cb524a30]{\r\n    height: 185px!important;\n}\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -3694,17 +3894,17 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n.img-wrapper[data-v-d27083fa] {\r\n  display: inline-block;\r\n  overflow: hidden;\r\n  width: 200px;\r\n  height: 130px;\n}\n.loader[data-v-d27083fa] {\r\n  -webkit-transform: translateX(-50px) translateY(-85px);\r\n          transform: translateX(-50px) translateY(-85px);\n}\n.image[data-v-d27083fa] {\r\n  cursor: pointer;\r\n  margin: 15px 0;\r\n  -webkit-transition: all ease 0.5s;\r\n  transition: all ease 0.5s;\n}\n.image[data-v-d27083fa]:hover {\r\n  -webkit-transform: scale(1.1);\r\n          transform: scale(1.1);\n}\r\n", ""]);
+exports.push([module.i, "\n.img-wrapper[data-v-d27083fa] {\r\n  display: inline-block;\r\n  overflow: hidden;\r\n  width: 200px;\r\n  height: 130px;\n}\n.loader[data-v-d27083fa] {\r\n  -webkit-transform: translateX(-50px) translateY(-85px);\r\n          transform: translateX(-50px) translateY(-85px);\n}\n.image[data-v-d27083fa] {\r\n  cursor: pointer;\r\n  margin: 15px 0;\r\n  -webkit-transition: all ease 0.5s;\r\n  transition: all ease 0.5s;\n}\na[data-v-d27083fa]{\r\n  -webkit-transition: all ease 0.5s;\r\n  transition: all ease 0.5s;\n}\na[data-v-d27083fa]:hover {\r\n  -webkit-transform: scale(1.1);\r\n          transform: scale(1.1);\n}\n.imdb[data-v-d27083fa] {\r\n  position: absolute;\r\n  left: -1px;\r\n  bottom: 13px;\r\n  padding: 0 8px;\r\n  height: 25px;\r\n  border-bottom-right-radius: 15px;\r\n  background-color: #e2b616;\r\n  color: #111;\r\n  border-bottom: 2px solid #111;\r\n  border-right: 2px solid #111;\r\n  font-weight: bold;\r\n  font-family: sans-serif;\n}\n.flags[data-v-d27083fa] {\r\n  position: absolute;\r\n  bottom: 13px;\r\n  right: 8px;\n}\n.routeA[data-v-d27083fa] {\r\n  position: relative;\r\n  display: inline-block;\n}\n.headDiv[data-v-d27083fa]{\r\n  padding-top: 75px;\n}\n@media only screen and (max-width: 1023px) and (min-width: 768px) {\n.image[data-v-d27083fa]{\r\n    width: 170px;\r\n    height: 270px;\n}\n}\n@media only screen and (max-width: 768px) {\n.headDiv[data-v-d27083fa]{\r\n    padding-top: 110px;\n}\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/mainComponents/Player.vue?vue&type=style&index=0&lang=css&":
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/mainComponents/Player.vue?vue&type=style&index=0&lang=css& ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/mainComponents/Player.vue?vue&type=style&index=0&id=a9532cb4&scoped=true&lang=css&":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/mainComponents/Player.vue?vue&type=style&index=0&id=a9532cb4&scoped=true&lang=css& ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3714,7 +3914,7 @@ exports = ___CSS_LOADER_API_IMPORT___(false);
 exports.push([module.i, "@import url(https://vjs.zencdn.net/7.6.6/video-js.css);"]);
 exports.push([module.i, "@import url(/assets/css/player.css);"]);
 // Module
-exports.push([module.i, "\n.vjs-texttrack-settings{\r\n  display: none!important;\n}\r\n", ""]);
+exports.push([module.i, "\n.vjs-texttrack-settings[data-v-a9532cb4] {\r\n  display: none !important;\n}\nvideo[data-v-a9532cb4] {\r\n  height: 100vh !important;\n}\n.my_video_1-dimensions.vjs-fluid[data-v-a9532cb4] {\r\n  padding-top: 0 !important;\n}\n@media only screen and (max-width: 768px) {\n.video-js .vjs-control-bar:hover .vjs-progress-control[data-v-a9532cb4]{\r\n  opacity: 1!important;\n}\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -3732,7 +3932,7 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n.rightSpace[data-v-5bec65a5] {\r\n  padding: 35px;\n}\n.backgroundBlack[data-v-5bec65a5] {\r\n  width: 100%;\r\n  height: 15rem;\r\n  top: -5rem;\r\n  z-index: -1;\r\n\r\n  background-color: rgba(17, 17, 17, 0.25);\n}\n#nextIcon[data-v-5bec65a5] {\r\n  z-index: 10;\n}\r\n/* .next::before {\r\n  content: \"\";\r\n  position: absolute;\r\n  top: -5rem;\r\n  left: 0;\r\n  width: 5rem;\r\n  z-index: -1;\r\n  height: 15rem;\r\n  background-color: rgba(17, 17, 17, 1);\r\n  opacity: 0.7;\r\n} */\n.prev[data-v-5bec65a5] {\r\n  position: absolute;\r\n  left: 2%;\r\n  cursor: pointer;\r\n  top: 50%;\r\n  -webkit-transform: translateY(-50%);\r\n          transform: translateY(-50%);\r\n  color: white;\n}\n.next[data-v-5bec65a5] {\r\n  position: absolute;\r\n  right: 2%;\r\n  top: 50%;\r\n  z-index: 5;\r\n  -webkit-transform: translateY(-50%);\r\n          transform: translateY(-50%);\r\n  cursor: pointer;\r\n  color: white;\n}\n.title[data-v-5bec65a5] {\r\n  color: white;\r\n  padding: 0 0 0 30px;\r\n  font-weight: 600;\r\n  font-size: 1.4rem;\r\n  cursor: pointer;\r\n  display: inline;\n}\n.item[data-v-5bec65a5] {\r\n  display: inline-block;\r\n  padding: 10px;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\r\n  margin: 0;\r\n  pointer-events: auto;\r\n  cursor: pointer;\r\n  position: relative;\n}\n.item[data-v-5bec65a5]:hover {\r\n  -webkit-transform: scale(1.2);\r\n          transform: scale(1.2);\r\n  margin: 0 60px 0 20px;\n}\n.imdb[data-v-5bec65a5] {\r\n  position: absolute;\r\n  left: 9px;\r\n  bottom: 10px;\r\n  padding: 0 5px;\r\n  height: 25px;\r\n  border-bottom-right-radius: 15px;\r\n  background-color: #e2b616;\r\n  color: #111;\r\n  border-bottom: 2px solid #111;\r\n  border-right: 2px solid #111;\r\n  font-weight: bold;\r\n  font-family: sans-serif;\n}\n.carouselContainer[data-v-5bec65a5] {\r\n  pointer-events: none;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\r\n  position: relative;\r\n  width: 100%;\r\n  overflow-x: hidden;\r\n  scroll-behavior: smooth;\r\n  display: -webkit-box;\r\n  display: flex;\r\n  padding: 30px 40px 40px 20px;\n}\n.carouselContainer:hover .item[data-v-5bec65a5]:not(:hover) {\r\n  -webkit-transform: translate3d(-20px, 0, 0);\r\n          transform: translate3d(-20px, 0, 0);\n}\n.carouselSection[data-v-5bec65a5] {\r\n  position: relative;\r\n  width: 100%;\r\n  padding: 15px 0 0 0;\n}\r\n", ""]);
+exports.push([module.i, "\n.rightSpace[data-v-5bec65a5] {\r\n  padding: 35px;\n}\n.backgroundBlack[data-v-5bec65a5] {\r\n  width: 100%;\r\n  height: 15rem;\r\n  top: -5rem;\r\n  z-index: -1;\r\n\r\n  background-color: rgba(17, 17, 17, 0.25);\n}\n#nextIcon[data-v-5bec65a5] {\r\n  z-index: 10;\n}\r\n/* .next::before {\r\n  content: \"\";\r\n  position: absolute;\r\n  top: -5rem;\r\n  left: 0;\r\n  width: 5rem;\r\n  z-index: -1;\r\n  height: 15rem;\r\n  background-color: rgba(17, 17, 17, 1);\r\n  opacity: 0.7;\r\n} */\n.prev[data-v-5bec65a5] {\r\n  position: absolute;\r\n  left: 2%;\r\n  cursor: pointer;\r\n  top: 50%;\r\n  -webkit-transform: translateY(-50%);\r\n          transform: translateY(-50%);\r\n  color: white;\n}\n.next[data-v-5bec65a5] {\r\n  position: absolute;\r\n  right: 2%;\r\n  top: 50%;\r\n  z-index: 5;\r\n  -webkit-transform: translateY(-50%);\r\n          transform: translateY(-50%);\r\n  cursor: pointer;\r\n  color: white;\n}\n.title[data-v-5bec65a5] {\r\n  color: white;\r\n  padding: 0 0 0 30px;\r\n  font-weight: 600;\r\n  font-size: 1.4rem;\r\n  cursor: pointer;\r\n  display: inline;\n}\n.item[data-v-5bec65a5] {\r\n  display: inline-block;\r\n  padding: 10px;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\r\n  margin: 0;\r\n  pointer-events: auto;\r\n  cursor: pointer;\r\n  position: relative;\n}\n.item[data-v-5bec65a5]:hover {\r\n  -webkit-transform: scale(1.2);\r\n          transform: scale(1.2);\r\n  margin: 0 60px 0 20px;\n}\n.imdb[data-v-5bec65a5] {\r\n  position: absolute;\r\n  left: 9px;\r\n  bottom: 10px;\r\n  padding: 0 8px;\r\n  height: 25px;\r\n  border-bottom-right-radius: 15px;\r\n  background-color: #e2b616;\r\n  color: #111;\r\n  border-bottom: 2px solid #111;\r\n  border-right: 2px solid #111;\r\n  font-weight: bold;\r\n  font-family: sans-serif;\n}\n.flags[data-v-5bec65a5] {\r\n  position: absolute;\r\n  bottom: 10px;\r\n  right: 20px;\n}\n.carouselContainer[data-v-5bec65a5] {\r\n  pointer-events: none;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\r\n  position: relative;\r\n  width: 100%;\r\n  overflow-x: hidden;\r\n  scroll-behavior: smooth;\r\n  display: -webkit-box;\r\n  display: flex;\r\n  padding: 30px 40px 40px 20px;\n}\n.carouselContainer:hover .item[data-v-5bec65a5]:not(:hover) {\r\n  -webkit-transform: translate3d(-20px, 0, 0);\r\n          transform: translate3d(-20px, 0, 0);\n}\n.carouselSection[data-v-5bec65a5] {\r\n  position: relative;\r\n  width: 100%;\r\n  padding: 15px 0 0 0;\n}\n@media only screen and (max-width: 425px) {\n.covers[data-v-5bec65a5]{\r\n    width: 150px;\r\n    height: 250px;\n}\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -3750,7 +3950,7 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n.selected {\r\n  background-color: white;\n}\n.dots {\r\n  margin: 0 5px;\r\n  border-radius: 50px;\r\n  border: 1px solid white;\r\n  width: 10px;\r\n  height: 10px;\r\n  display: inline-block;\r\n  cursor: pointer;\n}\n.dotContainer {\r\n  -webkit-box-pack: center;\r\n          justify-content: center;\r\n  text-align: center;\n}\n.customContainer {\r\n  margin-top: 1.5rem;\r\n  height: 75px;\n}\n.customCarousel {\r\n  -webkit-transition: left 0.5s;\r\n  transition: left 0.5s; \r\n  display: -webkit-box; \r\n  display: flex;\r\n  overflow: hidden;\r\n  margin: 0 85px;\n}\n.customItem {\r\n  margin-right: 10px;\r\n  color: white;\r\n  flex-shrink: 0;\r\n  height: 50px;\r\n  width: 150px;\r\n  text-align: center;\r\n  padding: 10px 20px;\r\n  border-radius: 25px;\r\n  border: 2px solid #333333;\r\n  background-color: #111;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\r\n  cursor: pointer;\r\n  font-weight: 500;\n}\n.customItem:hover {\r\n    text-decoration: none;\r\n  color: #111;\r\n  background-color: white;\n}\r\n", ""]);
+exports.push([module.i, "\n.selected {\r\n  background-color: white;\n}\n.dots {\r\n  margin: 0 5px;\r\n  border-radius: 50px;\r\n  border: 1px solid white;\r\n  width: 10px;\r\n  height: 10px;\r\n  display: inline-block;\r\n  cursor: pointer;\n}\n.dotContainer {\r\n  -webkit-box-pack: center;\r\n          justify-content: center;\r\n  text-align: center;\n}\n.customContainer {\r\n  margin-top: 1.5rem;\r\n  height: 75px;\n}\n.customCarousel {\r\n  -webkit-transition: left 0.5s;\r\n  transition: left 0.5s; \r\n  display: -webkit-box; \r\n  display: flex;\r\n  overflow: hidden;\r\n  margin: 0 85px;\n}\n.customItem {\r\n  margin-right: 10px;\r\n  color: white;\r\n  flex-shrink: 0;\r\n  height: 50px;\r\n  width: 150px;\r\n  text-align: center;\r\n  padding: 10px 20px;\r\n  border-radius: 25px;\r\n  border: 2px solid #333333;\r\n  background-color: #111;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\r\n  cursor: pointer;\r\n  font-weight: 500;\n}\n.customItem:hover {\r\n    text-decoration: none;\r\n  color: #111;\r\n  background-color: white;\n}\n@media only screen and (max-width: 768px) {\n.customItem{\r\n    width: 80px;\r\n    font-size: 0.8rem;\r\n    padding: 13px 0;\n}\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -3786,7 +3986,7 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n.routeFont[data-v-5884cf95] {\r\n  font-size: 1rem;\r\n  font-weight: 500;\r\n  color: #ddd;\n}\n.routeFont[data-v-5884cf95]:hover {\r\n  color: #a7a7a7;\r\n  text-decoration: none;\n}\nul[data-v-5884cf95] {\r\n  margin: 0;\r\n  padding: 0;\n}\nul li[data-v-5884cf95] {\r\n  display: inline;\r\n  font-size: 1rem;\r\n  color: #ddd;\r\n  margin-right: 2rem;\r\n  cursor: pointer;\r\n  font-weight: 500;\r\n  -webkit-transition: all 0.2s;\r\n  transition: all 0.2s;\n}\nul li[data-v-5884cf95]:hover {\r\n  color: #a7a7a7;\n}\nimg[data-v-5884cf95] {\r\n  width: 75%;\n}\n.customDiv1[data-v-5884cf95] {\r\n  text-align: center;\n}\n.navBar[data-v-5884cf95] {\r\n  position: fixed;\r\n  width: 100%;\r\n  height: 75px;\r\n  background-color: transparent;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\r\n  z-index: 100;\n}\n.searchBox[data-v-5884cf95] {\r\n  width: 0%;\r\n  padding: 0;\r\n  margin: 0;\r\n  border: 0;\r\n  background-color: #111;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\r\n  float: right;\r\n  height: 35px;\r\n  color: white;\n}\n.hideTransparent[data-v-5884cf95] {\r\n  background-color: #111;\n}\n.searchBox[data-v-5884cf95]:focus {\r\n  width: 18rem;\r\n  padding: 0 0 0 5px;\r\n  border: 2px solid white;\r\n  background-color: black;\n}\n.searchBox[data-v-5884cf95]:hover {\r\n  width: 18rem;\r\n  padding: 0 0 0 5px;\r\n  border: 2px solid white;\r\n  background-color: black;\n}\n.loopIcon:hover + .searchBox[data-v-5884cf95] {\r\n  width: 18rem;\r\n  padding: 0 0 0 5px;\r\n  border: 2px solid white;\r\n  background-color: black;\n}\n.searchInput[data-v-5884cf95] {\r\n  float: right;\r\n  position: relative;\n}\n.loopIcon[data-v-5884cf95] {\r\n  cursor: pointer;\r\n  position: absolute;\r\n  right: 8px;\r\n  top: 8px;\n}\r\n", ""]);
+exports.push([module.i, "\n.routeFont[data-v-5884cf95] {\r\n  font-size: 1rem;\r\n  font-weight: 500;\r\n  color: #ddd;\n}\n.routeFont[data-v-5884cf95]:hover {\r\n  color: #a7a7a7;\r\n  text-decoration: none;\n}\nul[data-v-5884cf95] {\r\n  margin: 0;\r\n  padding: 0;\n}\nul li[data-v-5884cf95] {\r\n  display: inline;\r\n  font-size: 1rem;\r\n  color: #ddd;\r\n  margin-right: 2rem;\r\n  cursor: pointer;\r\n  font-weight: 500;\r\n  -webkit-transition: all 0.2s;\r\n  transition: all 0.2s;\n}\nul li[data-v-5884cf95]:hover {\r\n  color: #a7a7a7;\n}\nimg[data-v-5884cf95] {\r\n  width: 80%;\n}\n.customDiv1[data-v-5884cf95] {\r\n  text-align: center;\n}\n.navBar[data-v-5884cf95] {\r\n  position: fixed;\r\n  width: 100%;\r\n  height: 75px;\r\n  background-color: transparent;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\r\n  z-index: 100;\n}\n.searchBox[data-v-5884cf95] {\r\n  width: 0%;\r\n  padding: 0;\r\n  margin: 0;\r\n  border: 0;\r\n  background-color: #111;\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\r\n  float: right;\r\n  height: 35px;\r\n  color: white;\n}\n.hideTransparent[data-v-5884cf95] {\r\n  background-color: #111;\n}\n.searchBox[data-v-5884cf95]:focus {\r\n  width: 18rem;\r\n  padding: 0 0 0 5px;\r\n  border: 2px solid white;\r\n  background-color: black;\n}\n.searchBox[data-v-5884cf95]:hover {\r\n  width: 18rem;\r\n  padding: 0 0 0 5px;\r\n  border: 2px solid white;\r\n  background-color: black;\n}\n.loopIcon:hover + .searchBox[data-v-5884cf95] {\r\n  width: 18rem;\r\n  padding: 0 0 0 5px;\r\n  border: 2px solid white;\r\n  background-color: black;\n}\n.searchInput[data-v-5884cf95] {\r\n  float: right;\r\n  position: relative;\n}\n.loopIcon[data-v-5884cf95] {\r\n  cursor: pointer;\r\n  position: absolute;\r\n  right: 8px;\r\n  top: 8px;\n}\n@media only screen and (max-width: 767px) {\n.navRes[data-v-5884cf95]{\r\n    display: none;\n}\n.navBar[data-v-5884cf95]{\r\n    position: absolute;\r\n    top: 0;\n}\n.hideTransparent[data-v-5884cf95]{\r\n    background-color: transparent;\n}\n.loopIcon:hover + .searchBox[data-v-5884cf95]{\r\n    width: 10rem;\n}\n.searchBox[data-v-5884cf95]:focus{\r\n    width: 10rem;\n}\n.searchBox[data-v-5884cf95]:hover{\r\n    width: 10rem;\n}\n}\n@media only screen and (min-width: 425px) and (max-width: 768px) {\nimg[data-v-5884cf95]{\r\n    width: 40%;\n}\n}\n@media only screen and (min-width: 768px) and (max-width: 1024px) {\nimg[data-v-5884cf95]{\r\n    width: 100%;\n}\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -3804,7 +4004,7 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n.image[data-v-3acd8d2d] {\r\n  cursor: pointer;\r\n  margin: 15px 0;\r\n  -webkit-transition: all ease 0.5s;\r\n  transition: all ease 0.5s;\n}\n.image[data-v-3acd8d2d]:hover {\r\n  -webkit-transform: scale(1.1);\r\n          transform: scale(1.1);\n}\n.v-lazy-image[data-v-3acd8d2d] {\r\n  opacity: 0;\r\n  -webkit-transition:  all ease 0.5s,opacity 1.5s;\r\n  transition:  all ease 0.5s,opacity 1.5s;\n}\n.v-lazy-image-loaded[data-v-3acd8d2d] {\r\n  opacity: 1;\n}\r\n", ""]);
+exports.push([module.i, "\n.image[data-v-3acd8d2d] {\r\n  cursor: pointer;\r\n  margin: 15px 0;\r\n  -webkit-transition: all ease 0.5s;\r\n  transition: all ease 0.5s;\n}\na[data-v-3acd8d2d]{\r\n  -webkit-transition: all ease 0.5s;\r\n  transition: all ease 0.5s;\n}\na[data-v-3acd8d2d]:hover {\r\n  -webkit-transform: scale(1.1);\r\n          transform: scale(1.1);\n}\n.v-lazy-image[data-v-3acd8d2d] {\r\n  opacity: 0;\r\n  -webkit-transition: all ease 0.5s, opacity 1.5s;\r\n  transition: all ease 0.5s, opacity 1.5s;\n}\n.v-lazy-image-loaded[data-v-3acd8d2d] {\r\n  opacity: 1;\n}\n.imdb[data-v-3acd8d2d] {\r\n  position: absolute;\r\n  left: -1px;\r\n  bottom: 13px;\r\n  padding: 0 8px;\r\n  height: 25px;\r\n  border-bottom-right-radius: 15px;\r\n  background-color: #e2b616;\r\n  color: #111;\r\n  border-bottom: 2px solid #111;\r\n  border-right: 2px solid #111;\r\n  font-weight: bold;\r\n  font-family: sans-serif;\n}\n.flags[data-v-3acd8d2d]{\r\n  position: absolute;\r\n  bottom: 13px;\r\n  right: 8px;\n}\n.routeA[data-v-3acd8d2d]{\r\n  position: relative; display: inline-block\n}\n.anim[data-v-3acd8d2d]{\r\n  -webkit-animation-duration: 1.5s;\r\n          animation-duration: 1.5s;\r\n  -webkit-animation-name: fadeIn-data-v-3acd8d2d;\r\n          animation-name: fadeIn-data-v-3acd8d2d;\n}\n@-webkit-keyframes fadeIn-data-v-3acd8d2d {\nfrom {\r\n    opacity: 0;\n}\nto {\r\n    opacity: 1;\n}\n}\n@keyframes fadeIn-data-v-3acd8d2d {\nfrom {\r\n    opacity: 0;\n}\nto {\r\n    opacity: 1;\n}\n}\n.headDiv[data-v-3acd8d2d]{\r\n  padding-top: 75px;\n}\n@media only screen and (max-width: 1023px) and (min-width: 768px) {\n.image[data-v-3acd8d2d]{\r\n    width: 170px;\r\n    height: 270px;\n}\n}\n@media only screen and (max-width: 768px) {\n.headDiv[data-v-3acd8d2d]{\r\n    padding-top: 110px;\n}\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -3822,7 +4022,7 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n.fade-enter-active,\r\n.fade-leave-active {\r\n  -webkit-transition-duration: 0.2s;\r\n          transition-duration: 0.2s;\r\n  -webkit-transition-property: opacity;\r\n  transition-property: opacity;\r\n  -webkit-transition-timing-function: ease;\r\n          transition-timing-function: ease;\n}\n.fade-enter,\r\n.fade-leave-active {\r\n  opacity: 0;\n}\n.slide-left-enter-active,\r\n.slide-left-leave-active,\r\n.slide-right-enter-active,\r\n.slide-right-leave-active {\r\n  -webkit-transition-duration: 0.2s;\r\n          transition-duration: 0.2s;\r\n  -webkit-transition-property: height, opacity, -webkit-transform;\r\n  transition-property: height, opacity, -webkit-transform;\r\n  transition-property: height, opacity, transform;\r\n  transition-property: height, opacity, transform, -webkit-transform;\r\n  -webkit-transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);\r\n          transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);\r\n  overflow: hidden;\n}\n.slide-left-enter,\r\n.slide-right-leave-active {\r\n  opacity: 0;\r\n  -webkit-transform: translate(1em, 0);\r\n          transform: translate(1em, 0);\n}\n.slide-left-leave-active,\r\n.slide-right-enter {\r\n  opacity: 0;\r\n  -webkit-transform: translate(-1em, 0);\r\n          transform: translate(-1em, 0);\n}\r\n", ""]);
+exports.push([module.i, "\n.fade-enter-active,\r\n.fade-leave-active {\r\n  -webkit-transition-duration: 0.2s;\r\n          transition-duration: 0.2s;\r\n  -webkit-transition-property: opacity;\r\n  transition-property: opacity;\r\n  -webkit-transition-timing-function: ease;\r\n          transition-timing-function: ease;\n}\n.fade-enter,\r\n.fade-leave-active {\r\n  opacity: 0;\n}\n.slide-left-enter-active,\r\n.slide-left-leave-active,\r\n.slide-right-enter-active,\r\n.slide-right-leave-active {\r\n  -webkit-transition-duration: 0.2s;\r\n          transition-duration: 0.2s;\r\n  -webkit-transition-property: height, opacity, -webkit-transform;\r\n  transition-property: height, opacity, -webkit-transform;\r\n  transition-property: height, opacity, transform;\r\n  transition-property: height, opacity, transform, -webkit-transform;\r\n  -webkit-transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);\r\n          transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);\r\n  overflow: hidden;\n}\n.slide-left-enter,\r\n.slide-right-leave-active {\r\n  opacity: 0;\r\n  -webkit-transform: translate(1em, 0);\r\n          transform: translate(1em, 0);\n}\n.slide-left-leave-active,\r\n.slide-right-enter {\r\n  opacity: 0;\r\n  -webkit-transform: translate(-1em, 0);\r\n          transform: translate(-1em, 0);\n}\n#moby-button {\r\n  display: none;\n}\n#moby-button::after {\r\n  content: \"\";\r\n  position: absolute;\r\n  left: -13px;\r\n  top: -13px;\r\n  z-index: -1;\r\n  background-color: rgb(221, 221, 221);\r\n  border-left: 50px solid rgb(221, 221, 221);\r\n  border-bottom: 50px solid rgb(221, 221, 221);\r\n  border-radius: 100%;\n}\n.moby,\r\n.moby .moby-close {\r\n  background: #111 !important;\n}\n#main-nav{\r\n  display: none;\n}\n@media only screen and (max-width: 767px) {\n#moby-button {\r\n    z-index: 11;\r\n    display: block;\r\n    position: fixed;\r\n    bottom: 20px;\r\n    right: 20px;\n}\n.routeFont{\r\n  color: white!important;\r\n  font-size: 1.5rem!important;\r\n  padding: 10px 90px 30px 30px!important;\n}\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -3840,7 +4040,7 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n.con[data-v-2d4e24c7]:hover {\r\n  background-color: #ddd;\r\n  cursor: pointer;\n}\n.con:hover > .textBelow[data-v-2d4e24c7] {\r\n  color: #1b1b1b;\n}\n.con:hover > .mainImage > img[data-v-2d4e24c7] {\r\n  -webkit-transform: scale(1.1);\r\n          transform: scale(1.1);\n}\nimg[data-v-2d4e24c7]{\r\n      -webkit-transition: all 0.5s;\r\n      transition: all 0.5s;\n}\n.mainImage[data-v-2d4e24c7] {\r\n  width: 100%;\r\n  top: 35%;\r\n  -webkit-transform: translateY(-50%);\r\n          transform: translateY(-50%);\r\n  position: absolute;\r\n  text-align: center;\n}\n.con[data-v-2d4e24c7] {\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\r\n  position: relative;\r\n  height: 100%;\r\n  background-color: #1b1b1b;\r\n  border-radius: 20px;\n}\n.textBelow[data-v-2d4e24c7] {\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\r\n  width: 100%;\r\n  bottom: 5%;\r\n  -webkit-transform: translateY(-50%);\r\n          transform: translateY(-50%);\r\n  position: absolute;\r\n  text-align: center;\r\n  font-size: 2rem;\r\n  font-weight: bold;\r\n  color: #ddd;\n}\r\n", ""]);
+exports.push([module.i, "\n.con[data-v-2d4e24c7]:hover {\r\n  background-color: #ddd;\r\n  cursor: pointer;\n}\n.con:hover > .textBelow[data-v-2d4e24c7] {\r\n  color: #1b1b1b;\n}\n.con:hover > .mainImage > img[data-v-2d4e24c7] {\r\n  -webkit-transform: scale(1.1);\r\n          transform: scale(1.1);\n}\nimg[data-v-2d4e24c7] {\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\n}\n.mainImage[data-v-2d4e24c7] {\r\n  width: 100%;\r\n  top: 35%;\r\n  -webkit-transform: translateY(-50%);\r\n          transform: translateY(-50%);\r\n  position: absolute;\r\n  text-align: center;\n}\n.con[data-v-2d4e24c7] {\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\r\n  position: relative;\r\n  height: 315px;\r\n  background-color: #1b1b1b;\r\n  border-radius: 20px;\n}\n.textBelow[data-v-2d4e24c7] {\r\n  -webkit-transition: all 0.5s;\r\n  transition: all 0.5s;\r\n  width: 100%;\r\n  bottom: 5%;\r\n  -webkit-transform: translateY(-50%);\r\n          transform: translateY(-50%);\r\n  position: absolute;\r\n  text-align: center;\r\n  font-size: 2rem;\r\n  font-weight: bold;\r\n  color: #ddd;\n}\n@media only screen and (max-width: 767px) and (min-width: 425px) {\n.mainImage>img[data-v-2d4e24c7] {\r\n    width: 125px;\r\n    height: 75px;\n}\n.con[data-v-2d4e24c7]{\r\n    height: 200px;\n}\n.textBelow[data-v-2d4e24c7]{\r\n    font-size: 1rem;\n}\n}\n@media only screen and (max-width: 424px) {\n.mainImage>img[data-v-2d4e24c7] {\r\n    width: 100px;\r\n    height: 60px;\n}\n.con[data-v-2d4e24c7]{\r\n    height: 150px;\n}\n.textBelow[data-v-2d4e24c7]{\r\n    font-size: 0.9rem;\n}\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -5140,15 +5340,15 @@ module.exports = content.locals || {};
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/mainComponents/Player.vue?vue&type=style&index=0&lang=css&":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/mainComponents/Player.vue?vue&type=style&index=0&lang=css& ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/mainComponents/Player.vue?vue&type=style&index=0&id=a9532cb4&scoped=true&lang=css&":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/mainComponents/Player.vue?vue&type=style&index=0&id=a9532cb4&scoped=true&lang=css& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 var api = __webpack_require__(/*! ../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-            var content = __webpack_require__(/*! !../../../../node_modules/css-loader/dist/cjs.js??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./Player.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/mainComponents/Player.vue?vue&type=style&index=0&lang=css&");
+            var content = __webpack_require__(/*! !../../../../node_modules/css-loader/dist/cjs.js??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./Player.vue?vue&type=style&index=0&id=a9532cb4&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/mainComponents/Player.vue?vue&type=style&index=0&id=a9532cb4&scoped=true&lang=css&");
 
             content = content.__esModule ? content.default : content;
 
@@ -5871,6 +6071,53 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12 over" }, [
+                _c(
+                  "span",
+                  {
+                    staticStyle: { cursor: "pointer" },
+                    attrs: { id: "searchBack" }
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        staticStyle: {
+                          "enable-background": "new 0 0 46.02 46.02",
+                          transform: "rotate(180deg)",
+                          height: "100%"
+                        },
+                        attrs: {
+                          version: "1.1",
+                          xmlns: "http://www.w3.org/2000/svg",
+                          "xmlns:xlink": "http://www.w3.org/1999/xlink",
+                          x: "0px",
+                          y: "0px",
+                          width: "1.4rem",
+                          height: "1.4rem",
+                          fill: "white",
+                          viewBox: "0 0 46.02 46.02",
+                          "xml:space": "preserve"
+                        },
+                        on: {
+                          click: function($event) {
+                            return _vm.goBack()
+                          }
+                        }
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            d:
+                              "M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645\n\t\t\tC8.46,7.37,8.54,3.76,10.816,1.582c2.277-2.178,5.886-2.097,8.063,0.179l16.505,17.253c2.104,2.2,2.108,5.665,0.013,7.872\n\t\t\tL18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
+                          }
+                        })
+                      ]
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
               _c(
                 "div",
                 {
@@ -6176,287 +6423,278 @@ var render = function() {
                       }
                     },
                     [
-                      _c(
-                        "div",
-                        { staticClass: "row", staticStyle: { height: "40vh" } },
-                        [
-                          _vm.getMovie.movieType != 2 && _vm.getMovie.movieLink
-                            ? _c(
-                                "div",
-                                { staticClass: "col-md" },
-                                [
-                                  _c(
-                                    "router-link",
-                                    {
+                      _c("div", { staticClass: "row" }, [
+                        _vm.getMovie.movieType != 2 && _vm.getMovie.movieLink
+                          ? _c(
+                              "div",
+                              { staticClass: "col-md col-sm col" },
+                              [
+                                _c(
+                                  "router-link",
+                                  {
+                                    attrs: {
+                                      to:
+                                        "/izle/turkce-dublaj/" +
+                                        _vm.getMovie.id +
+                                        "/" +
+                                        _vm.getParName(_vm.getMovie.name)
+                                    }
+                                  },
+                                  [
+                                    _c("playerbtn", {
                                       attrs: {
-                                        to:
-                                          "/izle/td/" +
-                                          _vm.getMovie.id +
-                                          "/" +
-                                          _vm.getParName(_vm.getMovie.name)
+                                        imageSrc:
+                                          "https://cdn.webshopapp.com/shops/94414/files/54949672/turkey-flag-icon-free-download.jpg",
+                                        title: "Türkçe Dublaj"
                                       }
-                                    },
-                                    [
-                                      _c("playerbtn", {
-                                        attrs: {
-                                          imageSrc:
-                                            "https://cdn.webshopapp.com/shops/94414/files/54949672/turkey-flag-icon-free-download.jpg",
-                                          title: "Türkçe Dublaj"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.getMovie.movieType != 2 &&
-                          _vm.getMovie.englishLink
-                            ? _c(
-                                "div",
-                                { staticClass: "col-md" },
-                                [
-                                  _c(
-                                    "router-link",
-                                    {
+                                    })
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.getMovie.movieType != 2 && _vm.getMovie.englishLink
+                          ? _c(
+                              "div",
+                              { staticClass: "col-md col-sm col" },
+                              [
+                                _c(
+                                  "router-link",
+                                  {
+                                    attrs: {
+                                      to:
+                                        "/izle/turkce-altyazi/" +
+                                        _vm.getMovie.id +
+                                        "/" +
+                                        _vm.getParName(_vm.getMovie.name)
+                                    }
+                                  },
+                                  [
+                                    _c("playerbtn", {
                                       attrs: {
-                                        to:
-                                          "/izle/ta/" +
-                                          _vm.getMovie.id +
-                                          "/" +
-                                          _vm.getParName(_vm.getMovie.name)
+                                        imageSrc:
+                                          "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/1200px-Flag_of_the_United_States.svg.png",
+                                        title: "Türkçe Altyazı"
                                       }
-                                    },
-                                    [
-                                      _c("playerbtn", {
-                                        attrs: {
-                                          imageSrc:
-                                            "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/1200px-Flag_of_the_United_States.svg.png",
-                                          title: "Türkçe Altyazı"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.getMovie.movieType == 2
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass: "col-md",
-                                  staticStyle: { "align-self": "center" }
-                                },
-                                [
-                                  _c("div", { staticClass: "seasonBox" }, [
-                                    _c("div", { staticClass: "containerBox" }, [
-                                      _c("div", { staticClass: "seasonText" }, [
-                                        _c(
-                                          "span",
-                                          { attrs: { id: "seasonNumber" } },
-                                          [_vm._v(_vm._s(_vm.getCurrentSeason))]
-                                        ),
-                                        _vm._v(
-                                          ". Sezon\n                      "
-                                        ),
-                                        _c(
-                                          "svg",
-                                          {
-                                            staticClass:
-                                              "bi bi-caret-down-fill",
-                                            staticStyle: { float: "right" },
-                                            attrs: {
-                                              width: "1em",
-                                              height: "1.5em",
-                                              viewBox: "0 0 16 16",
-                                              fill: "currentColor",
-                                              xmlns:
-                                                "http://www.w3.org/2000/svg"
-                                            }
-                                          },
-                                          [
-                                            _c("path", {
-                                              attrs: {
-                                                d:
-                                                  "M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
-                                              }
-                                            })
-                                          ]
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _vm.getMovie.movieType == 2
-                                        ? _c(
-                                            "ul",
-                                            { attrs: { id: "seasonList" } },
-                                            _vm._l(_vm.getAllSeason, function(
-                                              item,
-                                              index
-                                            ) {
-                                              return _c(
-                                                "li",
-                                                {
-                                                  key: index,
-                                                  on: {
-                                                    click: function($event) {
-                                                      return _vm.changeSeason(
-                                                        index + 1
-                                                      )
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    _vm._s(index + 1) + ".Sezon"
-                                                  )
-                                                ]
-                                              )
-                                            }),
-                                            0
-                                          )
-                                        : _vm._e()
-                                    ])
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "carouselBox" }, [
-                                    _c(
-                                      "div",
-                                      { staticClass: "carouselContainer" },
-                                      _vm._l(_vm.getSeasonEpisodes, function(
-                                        item,
-                                        index
-                                      ) {
-                                        return _c(
-                                          "div",
-                                          {
-                                            key: index,
-                                            staticClass: "item",
-                                            attrs: { "data-content": index + 1 }
-                                          },
-                                          [
-                                            _c(
-                                              "router-link",
-                                              {
-                                                attrs: {
-                                                  to:
-                                                    "/dizi/" +
-                                                    item.id +
-                                                    "/" +
-                                                    _vm.getParName(
-                                                      _vm.getMovie.name
-                                                    ) +
-                                                    "-" +
-                                                    _vm.getParName(item.name)
-                                                }
-                                              },
-                                              [
-                                                _c("v-lazy-image", {
-                                                  staticClass: "episodePoster",
-                                                  attrs: {
-                                                    height: "150",
-                                                    width: "250",
-                                                    "src-placeholder":
-                                                      "/assets/loader.gif",
-                                                    src: item.image
-                                                  }
-                                                }),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  { staticClass: "epDes" },
-                                                  [_vm._v(_vm._s(item.summary))]
-                                                )
-                                              ],
-                                              1
-                                            )
-                                          ],
-                                          1
-                                        )
-                                      }),
-                                      0
-                                    ),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "prev" }, [
+                                    })
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.getMovie.movieType == 2
+                          ? _c(
+                              "div",
+                              {
+                                staticClass: "col-md",
+                                staticStyle: { "align-self": "center" }
+                              },
+                              [
+                                _c("div", { staticClass: "seasonBox" }, [
+                                  _c("div", { staticClass: "containerBox" }, [
+                                    _c("div", { staticClass: "seasonText" }, [
+                                      _c(
+                                        "span",
+                                        { attrs: { id: "seasonNumber" } },
+                                        [_vm._v(_vm._s(_vm.getCurrentSeason))]
+                                      ),
+                                      _vm._v(". Sezon\n                      "),
                                       _c(
                                         "svg",
                                         {
-                                          staticStyle: {
-                                            "enable-background":
-                                              "new 0 0 46.02 46.02",
-                                            transform: "rotate(180deg)"
-                                          },
+                                          staticClass: "bi bi-caret-down-fill",
+                                          staticStyle: { float: "right" },
                                           attrs: {
-                                            version: "1.1",
-                                            id: "nextIcon",
-                                            xmlns: "http://www.w3.org/2000/svg",
-                                            "xmlns:xlink":
-                                              "http://www.w3.org/1999/xlink",
-                                            x: "0px",
-                                            y: "0px",
-                                            width: "2.5rem",
-                                            height: "2.5rem",
-                                            fill: "white",
-                                            viewBox: "0 0 46.02 46.02",
-                                            "xml:space": "preserve"
-                                          },
-                                          on: { click: _vm.prev }
+                                            width: "1em",
+                                            height: "1.5em",
+                                            viewBox: "0 0 16 16",
+                                            fill: "currentColor",
+                                            xmlns: "http://www.w3.org/2000/svg"
+                                          }
                                         },
                                         [
                                           _c("path", {
                                             attrs: {
                                               d:
-                                                "M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645\n\t\t\tC8.46,7.37,8.54,3.76,10.816,1.582c2.277-2.178,5.886-2.097,8.063,0.179l16.505,17.253c2.104,2.2,2.108,5.665,0.013,7.872\n\t\t\tL18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
+                                                "M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
                                             }
                                           })
                                         ]
                                       )
                                     ]),
                                     _vm._v(" "),
-                                    _c("div", { staticClass: "next" }, [
-                                      _c(
-                                        "svg",
+                                    _vm.getMovie.movieType == 2
+                                      ? _c(
+                                          "ul",
+                                          { attrs: { id: "seasonList" } },
+                                          _vm._l(_vm.getAllSeason, function(
+                                            item,
+                                            index
+                                          ) {
+                                            return _c(
+                                              "li",
+                                              {
+                                                key: index,
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.changeSeason(
+                                                      index + 1
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(index + 1) + ".Sezon"
+                                                )
+                                              ]
+                                            )
+                                          }),
+                                          0
+                                        )
+                                      : _vm._e()
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "carouselBox" }, [
+                                  _c(
+                                    "div",
+                                    { staticClass: "carouselContainer" },
+                                    _vm._l(_vm.getSeasonEpisodes, function(
+                                      item,
+                                      index
+                                    ) {
+                                      return _c(
+                                        "div",
                                         {
-                                          staticStyle: {
-                                            "enable-background":
-                                              "new 0 0 46.02 46.02"
-                                          },
-                                          attrs: {
-                                            version: "1.1",
-                                            id: "nextIcon",
-                                            xmlns: "http://www.w3.org/2000/svg",
-                                            "xmlns:xlink":
-                                              "http://www.w3.org/1999/xlink",
-                                            x: "0px",
-                                            y: "0px",
-                                            width: "2.5rem",
-                                            height: "2.5rem",
-                                            fill: "white",
-                                            viewBox: "0 0 46.02 46.02",
-                                            "xml:space": "preserve"
-                                          },
-                                          on: { click: _vm.next }
+                                          key: index,
+                                          staticClass: "item",
+                                          attrs: { "data-content": index + 1 }
                                         },
                                         [
-                                          _c("path", {
-                                            attrs: {
-                                              d:
-                                                "M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645\n\t\t\tC8.46,7.37,8.54,3.76,10.816,1.582c2.277-2.178,5.886-2.097,8.063,0.179l16.505,17.253c2.104,2.2,2.108,5.665,0.013,7.872\n\t\t\tL18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
-                                            }
-                                          })
-                                        ]
+                                          _c(
+                                            "router-link",
+                                            {
+                                              attrs: {
+                                                to:
+                                                  "/izle/dizi/" +
+                                                  item.id +
+                                                  "/" +
+                                                  _vm.getParName(
+                                                    _vm.getMovie.name
+                                                  ) +
+                                                  "-" +
+                                                  _vm.getParName(item.name)
+                                              }
+                                            },
+                                            [
+                                              _c("v-lazy-image", {
+                                                staticClass: "episodePoster",
+                                                attrs: {
+                                                  height: "150",
+                                                  width: "250",
+                                                  "src-placeholder":
+                                                    "/assets/loader.gif",
+                                                  src: item.image
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "epDes" },
+                                                [_vm._v(_vm._s(item.summary))]
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
                                       )
-                                    ])
+                                    }),
+                                    0
+                                  ),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "prev" }, [
+                                    _c(
+                                      "svg",
+                                      {
+                                        staticStyle: {
+                                          "enable-background":
+                                            "new 0 0 46.02 46.02",
+                                          transform: "rotate(180deg)"
+                                        },
+                                        attrs: {
+                                          version: "1.1",
+                                          id: "nextIcon",
+                                          xmlns: "http://www.w3.org/2000/svg",
+                                          "xmlns:xlink":
+                                            "http://www.w3.org/1999/xlink",
+                                          x: "0px",
+                                          y: "0px",
+                                          width: "2.5rem",
+                                          height: "2.5rem",
+                                          fill: "white",
+                                          viewBox: "0 0 46.02 46.02",
+                                          "xml:space": "preserve"
+                                        },
+                                        on: { click: _vm.prev }
+                                      },
+                                      [
+                                        _c("path", {
+                                          attrs: {
+                                            d:
+                                              "M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645\n\t\t\tC8.46,7.37,8.54,3.76,10.816,1.582c2.277-2.178,5.886-2.097,8.063,0.179l16.505,17.253c2.104,2.2,2.108,5.665,0.013,7.872\n\t\t\tL18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "next" }, [
+                                    _c(
+                                      "svg",
+                                      {
+                                        staticStyle: {
+                                          "enable-background":
+                                            "new 0 0 46.02 46.02"
+                                        },
+                                        attrs: {
+                                          version: "1.1",
+                                          id: "nextIcon",
+                                          xmlns: "http://www.w3.org/2000/svg",
+                                          "xmlns:xlink":
+                                            "http://www.w3.org/1999/xlink",
+                                          x: "0px",
+                                          y: "0px",
+                                          width: "2.5rem",
+                                          height: "2.5rem",
+                                          fill: "white",
+                                          viewBox: "0 0 46.02 46.02",
+                                          "xml:space": "preserve"
+                                        },
+                                        on: { click: _vm.next }
+                                      },
+                                      [
+                                        _c("path", {
+                                          attrs: {
+                                            d:
+                                              "M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645\n\t\t\tC8.46,7.37,8.54,3.76,10.816,1.582c2.277-2.178,5.886-2.097,8.063,0.179l16.505,17.253c2.104,2.2,2.108,5.665,0.013,7.872\n\t\t\tL18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
+                                          }
+                                        })
+                                      ]
+                                    )
                                   ])
-                                ]
-                              )
-                            : _vm._e()
-                        ]
-                      )
+                                ])
+                              ]
+                            )
+                          : _vm._e()
+                      ])
                     ]
                   )
                 ])
@@ -6506,138 +6744,174 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _vm.getList.length > 0
-      ? _c(
-          "div",
-          {
-            staticClass: "container-fluid",
-            staticStyle: { "padding-top": "75px" }
-          },
-          [
-            _c(
-              "div",
-              { staticClass: "row" },
-              [
-                _c("div", { staticClass: "col-md-12" }, [
-                  _c(
-                    "h2",
-                    {
-                      staticStyle: {
-                        color: "white",
-                        height: "100%",
-                        "margin-left": "3%"
-                      }
-                    },
-                    [
-                      _c(
-                        "span",
-                        {
-                          staticStyle: { cursor: "pointer" },
-                          attrs: { id: "searchBack" },
-                          on: { click: _vm.backAction }
-                        },
-                        [
-                          _c(
-                            "svg",
-                            {
-                              staticStyle: {
-                                "enable-background": "new 0 0 46.02 46.02",
-                                transform: "rotate(180deg)",
-                                height: "100%",
-                                "margin-bottom": "3px"
-                              },
-                              attrs: {
-                                version: "1.1",
-                                xmlns: "http://www.w3.org/2000/svg",
-                                "xmlns:xlink": "http://www.w3.org/1999/xlink",
-                                x: "0px",
-                                y: "0px",
-                                width: "1.4rem",
-                                height: "1.4rem",
-                                fill: "white",
-                                viewBox: "0 0 46.02 46.02",
-                                "xml:space": "preserve"
-                              }
-                            },
-                            [
-                              _c("path", {
-                                attrs: {
-                                  d:
-                                    "M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645\n\t\t\tC8.46,7.37,8.54,3.76,10.816,1.582c2.277-2.178,5.886-2.097,8.063,0.179l16.505,17.253c2.104,2.2,2.108,5.665,0.013,7.872\n\t\t\tL18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
-                                }
-                              })
-                            ]
-                          )
-                        ]
-                      ),
-                      _vm._v(
-                        "\n            " +
-                          _vm._s(this.$route.params.category) +
-                          "\n          "
-                      )
-                    ]
-                  )
-                ]),
-                _vm._v(" "),
-                _vm._l(_vm.getList, function(item, index) {
-                  return _c(
-                    "div",
-                    {
-                      key: index,
-                      staticClass: "col-md-3",
-                      staticStyle: { "text-align": "center" }
-                    },
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          attrs: {
-                            to:
-                              "/about/" +
-                              item.id +
-                              "/" +
-                              _vm.getParName(item.name)
-                          }
-                        },
-                        [
-                          _c("v-lazy-image", {
-                            staticClass: "image",
-                            attrs: {
-                              height: "350",
-                              width: "235",
-                              "src-placeholder": "/assets/loader.gif",
-                              src: item.image,
-                              alt: item.name
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                }),
-                _vm._v(" "),
+      ? _c("div", { staticClass: "container-fluid headDiv" }, [
+          _c(
+            "div",
+            { staticClass: "row" },
+            [
+              _c("div", { staticClass: "col-md-12" }, [
                 _c(
+                  "h2",
+                  {
+                    staticStyle: {
+                      color: "white",
+                      height: "100%",
+                      "margin-left": "3%"
+                    }
+                  },
+                  [
+                    _c(
+                      "span",
+                      {
+                        staticStyle: { cursor: "pointer" },
+                        attrs: { id: "searchBack" },
+                        on: { click: _vm.backAction }
+                      },
+                      [
+                        _c(
+                          "svg",
+                          {
+                            staticStyle: {
+                              "enable-background": "new 0 0 46.02 46.02",
+                              transform: "rotate(180deg)",
+                              height: "100%",
+                              "margin-bottom": "3px"
+                            },
+                            attrs: {
+                              version: "1.1",
+                              xmlns: "http://www.w3.org/2000/svg",
+                              "xmlns:xlink": "http://www.w3.org/1999/xlink",
+                              x: "0px",
+                              y: "0px",
+                              width: "1.4rem",
+                              height: "1.4rem",
+                              fill: "white",
+                              viewBox: "0 0 46.02 46.02",
+                              "xml:space": "preserve"
+                            }
+                          },
+                          [
+                            _c("path", {
+                              attrs: {
+                                d:
+                                  "M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645\n\t\t\tC8.46,7.37,8.54,3.76,10.816,1.582c2.277-2.178,5.886-2.097,8.063,0.179l16.505,17.253c2.104,2.2,2.108,5.665,0.013,7.872\n\t\t\tL18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
+                              }
+                            })
+                          ]
+                        )
+                      ]
+                    ),
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(this.$route.params.category) +
+                        "\n          "
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.getList, function(item, index) {
+                return _c(
                   "div",
                   {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: !_vm.over,
-                        expression: "!over"
-                      }
-                    ],
-                    staticClass: "col-md-12",
+                    key: index,
+                    staticClass: "col-md-3",
                     staticStyle: { "text-align": "center" }
                   },
-                  [_vm._m(0)]
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "routeA",
+                        attrs: {
+                          to:
+                            "/about/" +
+                            item.id +
+                            "/" +
+                            _vm.getParName(item.name)
+                        }
+                      },
+                      [
+                        _c("v-lazy-image", {
+                          staticClass: "image",
+                          attrs: {
+                            height: "350",
+                            width: "235",
+                            "src-placeholder": "/assets/loader.gif",
+                            src: item.image,
+                            alt: item.name
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "imdb anim" }, [
+                          _c(
+                            "span",
+                            {
+                              staticStyle: {
+                                "font-family": "fantasy",
+                                "font-weight": "400"
+                              }
+                            },
+                            [_vm._v("IMDb:")]
+                          ),
+                          _vm._v(
+                            "\n              " +
+                              _vm._s(item.imdb) +
+                              "\n            "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "flags anim" }, [
+                          item.movieLink
+                            ? _c("img", {
+                                attrs: {
+                                  src: "/assets/trIcon.png",
+                                  height: "32",
+                                  alt: "Türkçe",
+                                  title: "Türkçe"
+                                }
+                              })
+                            : _vm._e(),
+                          _vm._v(" "),
+                          item.englishLink
+                            ? _c("img", {
+                                attrs: {
+                                  src: "/assets/usIcon.png",
+                                  height: "32",
+                                  alt: "Türkçe Altyazı",
+                                  title: "Türkçe Altyazı"
+                                }
+                              })
+                            : _vm._e()
+                        ])
+                      ],
+                      1
+                    )
+                  ],
+                  1
                 )
-              ],
-              2
-            )
-          ]
-        )
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !_vm.over,
+                      expression: "!over"
+                    }
+                  ],
+                  staticClass: "col-md-12",
+                  staticStyle: { "text-align": "center" }
+                },
+                [_vm._m(0)]
+              )
+            ],
+            2
+          )
+        ])
       : _vm.getChecker
       ? _c(
           "div",
@@ -6670,10 +6944,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/mainComponents/Player.vue?vue&type=template&id=a9532cb4&":
-/*!************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/mainComponents/Player.vue?vue&type=template&id=a9532cb4& ***!
-  \************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/mainComponents/Player.vue?vue&type=template&id=a9532cb4&scoped=true&":
+/*!************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/mainComponents/Player.vue?vue&type=template&id=a9532cb4&scoped=true& ***!
+  \************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -6686,87 +6960,101 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _vm.getMovie != null
-    ? _c("div", { staticStyle: { height: "100vh" } }, [
-        _c("div", { staticClass: "backgroundBlack" }),
-        _vm._v(" "),
-        _c(
-          "video",
-          {
-            staticClass: "video-js vjs-default-skin",
-            attrs: {
-              id: "my_video_1",
-              "data-setup": _vm.setup,
-              controls: "",
-              preload: "metadata"
-            }
-          },
-          [
-            _c("source", { attrs: { src: _vm.getKind(), type: "video/mp4" } }),
-            _vm._v(" "),
-            _c("source", { attrs: { src: _vm.getKind(), type: "video/webm" } }),
-            _vm._v(" "),
-            this.$route.params.type == "ta"
-              ? _c("track", {
-                  attrs: {
-                    id: "trackId",
-                    kind: "subtitles",
-                    src: _vm.getMovie.subtitleLink,
-                    srclang: "tr",
-                    label: "Türkce",
-                    default: ""
-                  }
-                })
-              : _vm._e(),
-            _vm._v(" "),
-            this.$route.params.type == "ta" && this.getMovie.enSubtitleLink
-              ? _c("track", {
-                  attrs: {
-                    id: "trackIden",
-                    kind: "subtitles",
-                    src: _vm.getMovie.enSubtitleLink,
-                    srclang: "en",
-                    label: "Ingilizce"
-                  }
-                })
-              : _vm._e()
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.playerProgrammingDesign(),
-                expression: "playerProgrammingDesign()"
-              }
-            ],
-            attrs: { id: "backButton" }
-          },
-          [
-            _c(
-              "a",
-              {
-                on: {
-                  click: function($event) {
-                    _vm.$router.push({
-                      name: "MovieInfo",
-                      params: {
-                        id: "" + _vm.$route.params.id,
-                        moviename:
-                          "" + _vm.getParName(_vm.$route.params.movieName)
-                      }
-                    })
-                  }
+    ? _c(
+        "div",
+        { key: _vm.index, staticStyle: { height: "100vh", width: "100vw" } },
+        [
+          _c("div", { staticClass: "backgroundBlack" }),
+          _vm._v(" "),
+          _c(
+            "video",
+            {
+              staticClass: "video-js vjs-default-skin",
+              attrs: { id: "my_video_1", controls: "", preload: "metadata" }
+            },
+            [
+              _c("source", {
+                attrs: { src: _vm.getKind(), type: "video/mp4" }
+              }),
+              _vm._v(" "),
+              _c("source", {
+                attrs: { src: _vm.getKind(), type: "video/webm" }
+              }),
+              _vm._v(" "),
+              this.$route.params.type == "turkce-altyazi" &&
+              this.getMovie.subtitleLink
+                ? _c("track", {
+                    attrs: {
+                      id: "trackId",
+                      kind: "subtitles",
+                      src: _vm.getMovie.subtitleLink,
+                      srclang: "tr",
+                      label: "Türkce",
+                      default: ""
+                    }
+                  })
+                : _vm._e(),
+              _vm._v(" "),
+              this.$route.params.type == "turkce-altyazi" &&
+              this.getMovie.enSubtitleLink
+                ? _c("track", {
+                    attrs: {
+                      id: "trackIden",
+                      kind: "subtitles",
+                      src: _vm.getMovie.enSubtitleLink,
+                      srclang: "en",
+                      label: "Ingilizce"
+                    }
+                  })
+                : _vm._e()
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.playerProgrammingDesign(),
+                  expression: "playerProgrammingDesign()"
                 }
-              },
-              [_c("i", { staticClass: "fas fa-arrow-left" })]
-            )
-          ]
-        )
-      ])
+              ],
+              attrs: { id: "backButton" }
+            },
+            [
+              _c(
+                "a",
+                {
+                  on: {
+                    click: function($event) {
+                      _vm.$router.push({
+                        name: "MovieInfo",
+                        params: {
+                          id:
+                            "" +
+                            (_vm.checkIfSerie()
+                              ? _vm.getMovie.movieID
+                              : _vm.$route.params.id),
+                          moviename:
+                            "" +
+                            _vm.getParName(
+                              _vm.checkIfSerie()
+                                ? _vm.getMovie.showName
+                                : _vm.$route.params.movieName
+                            )
+                        }
+                      })
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fas fa-arrow-left" })]
+              )
+            ]
+          )
+        ]
+      )
     : _vm._e()
 }
 var staticRenderFns = []
@@ -6898,6 +7186,7 @@ var render = function() {
                   },
                   [
                     _c("v-lazy-image", {
+                      staticClass: "covers",
                       attrs: {
                         height: "350",
                         width: "235",
@@ -6921,7 +7210,31 @@ var render = function() {
                     },
                     [_vm._v("IMDb:")]
                   ),
-                  _vm._v("\n             " + _vm._s(item.imdb) + "\n          ")
+                  _vm._v("\n            " + _vm._s(item.imdb) + "\n          ")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "flags" }, [
+                  item.movieLink
+                    ? _c("img", {
+                        attrs: {
+                          src: "/assets/trIcon.png",
+                          height: "32",
+                          alt: "Türkçe",
+                          title: "Türkçe"
+                        }
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  item.englishLink
+                    ? _c("img", {
+                        attrs: {
+                          src: "/assets/usIcon.png",
+                          height: "32",
+                          alt: "Türkçe Altyazı",
+                          title: "Türkçe Altyazı"
+                        }
+                      })
+                    : _vm._e()
                 ])
               ],
               1
@@ -7335,7 +7648,7 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-8 col-md-7" }, [
+      _c("div", { staticClass: "col-8 col-md-7 navRes" }, [
         _c("div", { staticClass: "customDiv" }, [
           _c("ul", [
             _c(
@@ -7367,7 +7680,7 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-4 col-md-3" }, [
+      _c("div", { staticClass: "col-12 col-md-3 " }, [
         _c("div", { staticClass: "customDiv" }, [
           _c("div", { staticClass: "searchInput" }, [
             _c(
@@ -7479,117 +7792,152 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c(
-      "div",
-      {
-        staticClass: "container-fluid",
-        staticStyle: { "padding-top": "75px" }
-      },
-      [
-        _c(
-          "div",
-          { staticClass: "row" },
-          [
-            _c("div", { staticClass: "col-md-12" }, [
-              _c(
-                "h2",
-                {
-                  staticStyle: {
-                    color: "white",
-                    height: "100%",
-                    "margin-left": "3%"
-                  }
-                },
-                [
-                  _c(
-                    "span",
-                    {
-                      staticStyle: { cursor: "pointer" },
-                      attrs: { id: "searchBack" },
-                      on: { click: _vm.backAction }
-                    },
-                    [
+    _c("div", { staticClass: "container-fluid headDiv" }, [
+      _c(
+        "div",
+        { staticClass: "row" },
+        [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c(
+              "h2",
+              {
+                staticStyle: {
+                  color: "white",
+                  height: "100%",
+                  "margin-left": "3%"
+                }
+              },
+              [
+                _c(
+                  "span",
+                  {
+                    staticStyle: { cursor: "pointer", "z-index": "111" },
+                    attrs: { id: "searchBack" },
+                    on: { click: _vm.backAction }
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        staticStyle: {
+                          "enable-background": "new 0 0 46.02 46.02",
+                          transform: "rotate(180deg)",
+                          height: "100%"
+                        },
+                        attrs: {
+                          version: "1.1",
+                          xmlns: "http://www.w3.org/2000/svg",
+                          "xmlns:xlink": "http://www.w3.org/1999/xlink",
+                          x: "0px",
+                          y: "0px",
+                          width: "1.4rem",
+                          height: "1.4rem",
+                          fill: "white",
+                          viewBox: "0 0 46.02 46.02",
+                          "xml:space": "preserve"
+                        }
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            d:
+                              "M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645\n\t\t\tC8.46,7.37,8.54,3.76,10.816,1.582c2.277-2.178,5.886-2.097,8.063,0.179l16.505,17.253c2.104,2.2,2.108,5.665,0.013,7.872\n\t\t\tL18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
+                          }
+                        })
+                      ]
+                    )
+                  ]
+                ),
+                _vm._v(
+                  "\n            Arama: " +
+                    _vm._s(_vm.getQuery) +
+                    "\n          "
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _vm._l(_vm.getResult, function(item, index) {
+            return _c(
+              "div",
+              {
+                key: index,
+                staticClass: "col-md-3",
+                staticStyle: { "text-align": "center" }
+              },
+              [
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "routeA",
+                    attrs: {
+                      to: "/about/" + item.id + "/" + _vm.getParName(item.name)
+                    }
+                  },
+                  [
+                    _c("v-lazy-image", {
+                      staticClass: "image",
+                      attrs: {
+                        height: "350",
+                        width: "235",
+                        "src-placeholder": "/assets/loader.gif",
+                        src: item.image || "placeHolder.jpg",
+                        alt: item.name
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "imdb anim" }, [
                       _c(
-                        "svg",
+                        "span",
                         {
                           staticStyle: {
-                            "enable-background": "new 0 0 46.02 46.02",
-                            transform: "rotate(180deg)",
-                            height: "100%"
-                          },
-                          attrs: {
-                            version: "1.1",
-                            xmlns: "http://www.w3.org/2000/svg",
-                            "xmlns:xlink": "http://www.w3.org/1999/xlink",
-                            x: "0px",
-                            y: "0px",
-                            width: "1.4rem",
-                            height: "1.4rem",
-                            fill: "white",
-                            viewBox: "0 0 46.02 46.02",
-                            "xml:space": "preserve"
+                            "font-family": "fantasy",
+                            "font-weight": "400"
                           }
                         },
-                        [
-                          _c("path", {
+                        [_vm._v("IMDb:")]
+                      ),
+                      _vm._v(
+                        "\n              " +
+                          _vm._s(item.imdb) +
+                          "\n            "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "flags anim" }, [
+                      item.movieLink
+                        ? _c("img", {
                             attrs: {
-                              d:
-                                "M14.757,46.02c-1.412,0-2.825-0.521-3.929-1.569c-2.282-2.17-2.373-5.78-0.204-8.063l12.758-13.418L10.637,9.645\n\t\t\tC8.46,7.37,8.54,3.76,10.816,1.582c2.277-2.178,5.886-2.097,8.063,0.179l16.505,17.253c2.104,2.2,2.108,5.665,0.013,7.872\n\t\t\tL18.893,44.247C17.77,45.424,16.267,46.02,14.757,46.02z"
+                              src: "/assets/trIcon.png",
+                              height: "32",
+                              alt: "Türkçe",
+                              title: "Türkçe"
                             }
                           })
-                        ]
-                      )
-                    ]
-                  ),
-                  _vm._v(
-                    "\n            Arama: " +
-                      _vm._s(_vm.getQuery) +
-                      "\n          "
-                  )
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _vm._l(_vm.getResult, function(item, index) {
-              return _c(
-                "div",
-                {
-                  key: index,
-                  staticClass: "col-md-3",
-                  staticStyle: { "text-align": "center" }
-                },
-                [
-                  _c(
-                    "router-link",
-                    {
-                      attrs: {
-                        to:
-                          "/about/" + item.id + "/" + _vm.getParName(item.name)
-                      }
-                    },
-                    [
-                      _c("v-lazy-image", {
-                        staticClass: "image",
-                        attrs: {
-                          height: "350",
-                          width: "235",
-                          "src-placeholder": "/assets/loader.gif",
-                          src: item.image || "placeHolder.jpg",
-                          alt: item.name
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            })
-          ],
-          2
-        )
-      ]
-    )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      item.englishLink
+                        ? _c("img", {
+                            attrs: {
+                              src: "/assets/usIcon.png",
+                              height: "32",
+                              alt: "Türkçe Altyazı",
+                              title: "Türkçe Altyazı"
+                            }
+                          })
+                        : _vm._e()
+                    ])
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          })
+        ],
+        2
+      )
+    ])
   ])
 }
 var staticRenderFns = []
@@ -7617,6 +7965,8 @@ var render = function() {
   return _c(
     "div",
     [
+      _vm._m(0),
+      _vm._v(" "),
       _c("loading", {
         directives: [
           {
@@ -7640,12 +7990,61 @@ var render = function() {
         { attrs: { name: _vm.transitionName, mode: "out-in" } },
         [_c("router-view")],
         1
-      )
+      ),
+      _vm._v(" "),
+      _c("nav", { attrs: { id: "main-nav" } }, [
+        _c("ul", [
+          _c(
+            "li",
+            [
+              _c(
+                "router-link",
+                { staticClass: "routeFont", attrs: { to: "/movie" } },
+                [_vm._v("Filmler")]
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "li",
+            [
+              _c(
+                "router-link",
+                { staticClass: "routeFont", attrs: { to: "/tvshows" } },
+                [_vm._v("Diziler")]
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "li",
+            [
+              _c(
+                "router-link",
+                { staticClass: "routeFont", attrs: { to: "/tvshows" } },
+                [_vm._v("Iletişim")]
+              )
+            ],
+            1
+          )
+        ])
+      ])
     ],
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { attrs: { id: "moby-button" } }, [
+      _c("i", { staticClass: "material-icons" }, [_vm._v("menu")])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -12289,25 +12688,92 @@ module.exports = g;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router */ "./resources/js/router/index.js");
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./router */ "./resources/js/router/index.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
+
+function urlB64ToUint8Array(base64String) {
+  var padding = '='.repeat((4 - base64String.length % 4) % 4);
+  var base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+  var rawData = window.atob(base64);
+  var outputArray = new Uint8Array(rawData.length);
+
+  for (var i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+
+  return outputArray;
+}
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('/sw.js').then(function () {
+      return navigator.serviceWorker.ready;
+    }).then(
+    /*#__PURE__*/
+    function () {
+      var _ref = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(registration) {
+        var applicationServerPublicKey, applicationServerKey, sub, contentEncoding, reciver;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                applicationServerPublicKey = "BCPvEAXQZEv1ONndaYOg6_SKfn_b3xgfSHQyN-iinf2Fa6c6g7iRyTi69_EdpTydZoudEzVYq2-vZHRXuC1KZGA";
+                applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
+                _context.next = 4;
+                return registration.pushManager.subscribe({
+                  userVisibleOnly: true,
+                  applicationServerKey: applicationServerKey
+                });
+
+              case 4:
+                sub = _context.sent;
+                contentEncoding = (PushManager.supportedContentEncodings || ['aesgcm'])[0];
+                reciver = {
+                  endpoint: sub.endpoint,
+                  keys: {
+                    p256dh: sub.toJSON().keys.p256dh,
+                    auth: sub.toJSON().keys.auth
+                  },
+                  contentEncoding: contentEncoding
+                };
+                fetch("/subscribeToPush", {
+                  body: JSON.stringify(reciver),
+                  method: "POST",
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  }
+                });
+
+              case 8:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      return function (_x) {
+        return _ref.apply(this, arguments);
+      };
+    }());
+  });
+}
+
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-window.Vuex = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-// const files = require.context('./', true, /\.vue$/i)
+window.Vuex = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js"); // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('player', __webpack_require__(/*! ./components/mainComponents/Player.vue */ "./resources/js/components/mainComponents/Player.vue")["default"]);
@@ -12325,12 +12791,6 @@ Vue.component('series', __webpack_require__(/*! ./components/sideComponents/Seri
 Vue.component('aboutmovie', __webpack_require__(/*! ./components/mainComponents/AboutMovie.vue */ "./resources/js/components/mainComponents/AboutMovie.vue")["default"]);
 Vue.component('category', __webpack_require__(/*! ./components/mainComponents/Category.vue */ "./resources/js/components/mainComponents/Category.vue")["default"]);
 Vue.component('playerbtn', __webpack_require__(/*! ./components/subcomponents/Playerbtn.vue */ "./resources/js/components/subcomponents/Playerbtn.vue")["default"]);
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
 var store = new Vuex.Store({
   state: {
     homeMovies: null,
@@ -12353,7 +12813,7 @@ var store = new Vuex.Store({
       metaKey.setAttribute("name", "keywords");
       metaKey.setAttribute("content", keywords || this.metaKey);
     },
-    metaTitle: "FilmDiziMob.Com - Yeni Nesil Film Sitesi",
+    metaTitle: "Filmdizimob.com - Yeni Nesil Film Sitesi",
     metaDescription: "",
     metaKey: ""
   },
@@ -12390,7 +12850,7 @@ var store = new Vuex.Store({
 var app = new Vue({
   el: '#app',
   store: store,
-  router: _router__WEBPACK_IMPORTED_MODULE_0__["default"]
+  router: _router__WEBPACK_IMPORTED_MODULE_1__["default"]
 });
 
 /***/ }),
@@ -12475,6 +12935,9 @@ var api = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
   },
   getMovie: function getMovie(val) {
     return api.get("/movie/".concat(val));
+  },
+  getSerie: function getSerie(val) {
+    return api.get("/serie/".concat(val));
   },
   getCategory: function getCategory(type, genre, start, end) {
     return api.get("/".concat(type, "/").concat(genre, "/").concat(start, "/").concat(end));
@@ -12805,9 +13268,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Player_vue_vue_type_template_id_a9532cb4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Player.vue?vue&type=template&id=a9532cb4& */ "./resources/js/components/mainComponents/Player.vue?vue&type=template&id=a9532cb4&");
+/* harmony import */ var _Player_vue_vue_type_template_id_a9532cb4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Player.vue?vue&type=template&id=a9532cb4&scoped=true& */ "./resources/js/components/mainComponents/Player.vue?vue&type=template&id=a9532cb4&scoped=true&");
 /* harmony import */ var _Player_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Player.vue?vue&type=script&lang=js& */ "./resources/js/components/mainComponents/Player.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _Player_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Player.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/mainComponents/Player.vue?vue&type=style&index=0&lang=css&");
+/* empty/unused harmony star reexport *//* harmony import */ var _Player_vue_vue_type_style_index_0_id_a9532cb4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Player.vue?vue&type=style&index=0&id=a9532cb4&scoped=true&lang=css& */ "./resources/js/components/mainComponents/Player.vue?vue&type=style&index=0&id=a9532cb4&scoped=true&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -12819,11 +13282,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _Player_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Player_vue_vue_type_template_id_a9532cb4___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _Player_vue_vue_type_template_id_a9532cb4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _Player_vue_vue_type_template_id_a9532cb4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Player_vue_vue_type_template_id_a9532cb4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  null,
+  "a9532cb4",
   null
   
 )
@@ -12849,35 +13312,35 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/mainComponents/Player.vue?vue&type=style&index=0&lang=css&":
-/*!********************************************************************************************!*\
-  !*** ./resources/js/components/mainComponents/Player.vue?vue&type=style&index=0&lang=css& ***!
-  \********************************************************************************************/
+/***/ "./resources/js/components/mainComponents/Player.vue?vue&type=style&index=0&id=a9532cb4&scoped=true&lang=css&":
+/*!********************************************************************************************************************!*\
+  !*** ./resources/js/components/mainComponents/Player.vue?vue&type=style&index=0&id=a9532cb4&scoped=true&lang=css& ***!
+  \********************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Player_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./Player.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/mainComponents/Player.vue?vue&type=style&index=0&lang=css&");
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Player_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Player_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Player_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Player_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Player_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Player_vue_vue_type_style_index_0_id_a9532cb4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./Player.vue?vue&type=style&index=0&id=a9532cb4&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/mainComponents/Player.vue?vue&type=style&index=0&id=a9532cb4&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Player_vue_vue_type_style_index_0_id_a9532cb4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Player_vue_vue_type_style_index_0_id_a9532cb4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Player_vue_vue_type_style_index_0_id_a9532cb4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Player_vue_vue_type_style_index_0_id_a9532cb4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Player_vue_vue_type_style_index_0_id_a9532cb4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
-/***/ "./resources/js/components/mainComponents/Player.vue?vue&type=template&id=a9532cb4&":
-/*!******************************************************************************************!*\
-  !*** ./resources/js/components/mainComponents/Player.vue?vue&type=template&id=a9532cb4& ***!
-  \******************************************************************************************/
+/***/ "./resources/js/components/mainComponents/Player.vue?vue&type=template&id=a9532cb4&scoped=true&":
+/*!******************************************************************************************************!*\
+  !*** ./resources/js/components/mainComponents/Player.vue?vue&type=template&id=a9532cb4&scoped=true& ***!
+  \******************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Player_vue_vue_type_template_id_a9532cb4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Player.vue?vue&type=template&id=a9532cb4& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/mainComponents/Player.vue?vue&type=template&id=a9532cb4&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Player_vue_vue_type_template_id_a9532cb4___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Player_vue_vue_type_template_id_a9532cb4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Player.vue?vue&type=template&id=a9532cb4&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/mainComponents/Player.vue?vue&type=template&id=a9532cb4&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Player_vue_vue_type_template_id_a9532cb4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Player_vue_vue_type_template_id_a9532cb4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Player_vue_vue_type_template_id_a9532cb4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

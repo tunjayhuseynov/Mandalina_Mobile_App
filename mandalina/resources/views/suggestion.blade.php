@@ -10,12 +10,18 @@
 <form action="{{url('AdminPanelPinnme/postSuggestion')}}" method="POST">
     @csrf
     <label>Suggested Movie: </label> <br>
-    <select name="selection">
-        @foreach ($movies[1] as $movie)
-        <option {{ ($movie->id == $movies[0]->movieID)? "selected" : '' }} value="{{$movie->id}}">{{$movie->name}}
+    <select name="selectionMovie">
+        @foreach ($movies as $movie)
+        <option {{ ($movie->id == $selectedMovie->movieID)? "selected" : '' }} value="{{$movie->id}}">{{$movie->name}}
         </option>
         @endforeach
-
+    </select><br><br>
+    <label>Suggested Tv: </label> <br>
+    <select name="selectionTv">
+        @foreach ($tvs as $tv)
+        <option {{ ($tv->id == $selectedTv->movieID)? "selected" : '' }} value="{{$tv->id}}">{{$tv->name}}
+        </option>
+        @endforeach
     </select>
 
     <br> <br>

@@ -7,11 +7,12 @@ use Illuminate\Support\Facades\DB;
 use App\Providers\DataManupilation;
 use Storage;
 use Illuminate\Support\Facades\Redirect;
+use App\Http\Controllers\pwa;
 
 class Dashboard extends Controller
 {
     public function index(Request $request)
-    {
+    {   
         return view('dashboard');
     }
 
@@ -110,6 +111,8 @@ class Dashboard extends Controller
         $poster = $request->input("poster");
         $imdb = $request->input('imdb');
         
+        $isTurkish = $request->input("isTurkish");
+        $isEnglish = $request->input("isEnglish");
 
         $contents = file_get_contents($coverUrl);
         $covername = substr($coverUrl, strrpos($coverUrl, '/') + 1);
@@ -155,7 +158,9 @@ class Dashboard extends Controller
             'englishLink' => $enmovie,
             'subtitleLink' => $subtitle,
             'enSubtitleLink' => $enSubtitle,
-            'imdb' => $imdb
+            'imdb' => $imdb,
+            'isEnglish' => isset($isEnglish),
+            'isTurkish' => isset($isTurkish)
             ]
         );
         
@@ -218,6 +223,9 @@ class Dashboard extends Controller
         $subtitle = $request->input("subtitle");
         $enSubtitle = $request->input("enSubtitle");
 
+        $isTurkish = $request->input("isTurkish");
+        $isEnglish = $request->input("isEnglish");
+
         if($coverUrl != null ){
             $contents = file_get_contents($coverUrl);
             $covername = substr($coverUrl, strrpos($coverUrl, '/') + 1);    
@@ -265,6 +273,8 @@ class Dashboard extends Controller
             'subtitleLink' => $subtitle,
             'enSubtitleLink' => $enSubtitle,
             'imdb' => $imdb,
+            'isEnglish' => isset($isEnglish),
+            'isTurkish' => isset($isTurkish)
             ]
         );
         
@@ -294,15 +304,22 @@ class Dashboard extends Controller
     
     public function Suggestion(Request $request)
     {
-        $selected = DB::table('suggestedmovies')->find(1);
-        $arr = array($selected, DB::table('movies')->where([["isDeleted", 0], ["movieType",1]])->get());
-        return view('suggestion')->with("movies", $arr);
+        $selectedMovie = DB::table('suggestedmovies')->find(1);
+        $selectedTv = DB::table('suggestedmovies')->find(2);
+        $movies =  DB::table('movies')->where([["isDeleted", 0], ["movieType",1]])->orderBy('name')->get();
+        $tvs =  DB::table('movies')->where([["isDeleted", 0], ["movieType",2]])->orderBy('name')->get();
+
+        return view('suggestion', compact(['selectedMovie', 'selectedTv', 'movies', 'tvs']));
     }
 
     public function changeSuggestion(Request $request)
     {
-        $id = $request->input("selection");
-        DB::table('suggestedmovies')->where("id", 1)->update(["movieID"=> $id]);
+        $idMovie = $request->input("selectionMovie");
+        $idTv = $request->input("selectionTv");
+
+        DB::table('suggestedmovies')->where("id", 1)->update(["movieID"=> $idMovie]);
+        DB::table('suggestedmovies')->where("id", 2)->update(["movieID"=> $idTv]);
+
         return redirect()->back()->with("message", "Update Saved!");
     }
 
@@ -323,6 +340,12 @@ class Dashboard extends Controller
             return Redirect::to($this->getLink($link));
         }
         return "Restricted. API system is coming. You can access it by becoming our member in the future!";
+    }
+
+    public function sendOzledik(Request $request)
+    {
+        pwa::sendNotification();
+        return "Done";
     }
 
 }

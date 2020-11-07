@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="getList.length>0" class="container-fluid" style="padding-top: 75px">
+    <div v-if="getList.length>0" class="container-fluid headDiv">
       <div class="row">
         <div class="col-md-12">
           <h2 style="color: white; height:100%; margin-left: 3%">
@@ -35,7 +35,7 @@
           v-for="(item, index) in getList"
           :key="index"
         >
-          <router-link :to="`/about/${item.id}/${getParName(item.name)}`">
+          <router-link class="routeA" :to="`/about/${item.id}/${getParName(item.name)}`">
             <v-lazy-image
               class="image"
               height="350"
@@ -44,6 +44,26 @@
               :src="item.image"
               :alt="item.name"
             />
+            <div class="imdb anim">
+              <span style="font-family: fantasy; font-weight: 400">IMDb:</span>
+              {{item.imdb}}
+            </div>
+            <div class="flags anim">
+              <img
+                v-if="item.movieLink"
+                src="/assets/trIcon.png"
+                height="32"
+                alt="Türkçe"
+                title="Türkçe"
+              />
+              <img
+                v-if="item.englishLink"
+                src="/assets/usIcon.png"
+                height="32"
+                alt="Türkçe Altyazı"
+                title="Türkçe Altyazı"
+              />
+            </div>
           </router-link>
         </div>
         <div v-show="!over" class="col-md-12" style="text-align: center">
@@ -53,14 +73,16 @@
         </div>
       </div>
     </div>
-    <div v-else-if="getChecker" style="padding-top: 75px; margin-left: 3%"><h1 style="color: white">Maalesef Bu Kategoride Henuz İlaveler Edilmedi</h1></div>
+    <div v-else-if="getChecker" style="padding-top: 75px; margin-left: 3%">
+      <h1 style="color: white">Maalesef Bu Kategoride Henuz İlaveler Edilmedi</h1>
+    </div>
   </div>
 </template>
 
 <script>
 import api from "../Api";
 import VLazyImage from "v-lazy-image";
-import fun from "../Functions"
+import fun from "../Functions";
 export default {
   data() {
     return {
@@ -68,7 +90,7 @@ export default {
       movieIndex: 0,
       amountFetchingMovies: 20,
       over: false,
-      emptyGenre: false
+      emptyGenre: false,
     };
   },
   async created() {
@@ -81,9 +103,9 @@ export default {
     getList() {
       return this.dataList;
     },
-    getChecker(){
-      return this.emptyGenre
-    }
+    getChecker() {
+      return this.emptyGenre;
+    },
   },
   methods: {
     async getMovies() {
@@ -95,7 +117,7 @@ export default {
           this.amountFetchingMovies
         )
         .then((response) => {
-          if(response.data.length==0) this.emptyGenre = true
+          if (response.data.length == 0) this.emptyGenre = true;
           response.data.forEach((element) => {
             this.dataList.push(element);
           });
@@ -103,7 +125,7 @@ export default {
             response.data.length > 0 &&
             response.data[0].movieAmountByGenre == this.dataList.length
           )
-          this.over = true;
+            this.over = true;
           this.movieIndex += this.amountFetchingMovies;
         });
     },
@@ -148,7 +170,52 @@ export default {
   margin: 15px 0;
   transition: all ease 0.5s;
 }
-.image:hover {
+
+a{
+  transition: all ease 0.5s;
+}
+a:hover {
   transform: scale(1.1);
+}
+
+.imdb {
+  position: absolute;
+  left: -1px;
+  bottom: 13px;
+  padding: 0 8px;
+  height: 25px;
+  border-bottom-right-radius: 15px;
+  background-color: #e2b616;
+  color: #111;
+  border-bottom: 2px solid #111;
+  border-right: 2px solid #111;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+.flags {
+  position: absolute;
+  bottom: 13px;
+  right: 8px;
+}
+.routeA {
+  position: relative;
+  display: inline-block;
+}
+
+.headDiv{
+  padding-top: 75px;
+}
+
+@media only screen and (max-width: 1023px) and (min-width: 768px) {
+  .image{
+    width: 170px;
+    height: 270px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .headDiv{
+    padding-top: 110px;
+  }
 }
 </style>

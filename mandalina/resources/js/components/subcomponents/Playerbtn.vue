@@ -23,8 +23,8 @@ export default {
 .con:hover > .mainImage > img {
   transform: scale(1.1);
 }
-img{
-      transition: all 0.5s;
+img {
+  transition: all 0.5s;
 }
 .mainImage {
   width: 100%;
@@ -36,7 +36,7 @@ img{
 .con {
   transition: all 0.5s;
   position: relative;
-  height: 100%;
+  height: 315px;
   background-color: #1b1b1b;
   border-radius: 20px;
 }
@@ -50,5 +50,30 @@ img{
   font-size: 2rem;
   font-weight: bold;
   color: #ddd;
+}
+
+@media only screen and (max-width: 767px) and (min-width: 425px) {
+  .mainImage>img {
+    width: 125px;
+    height: 75px;
+  }
+  .con{
+    height: 200px;
+  }
+  .textBelow{
+    font-size: 1rem;
+  }
+}
+@media only screen and (max-width: 424px) {
+  .mainImage>img {
+    width: 100px;
+    height: 60px;
+  }
+  .con{
+    height: 150px;
+  }
+  .textBelow{
+    font-size: 0.9rem;
+  }
 }
 </style>

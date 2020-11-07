@@ -11,7 +11,7 @@
           </router-link>
         </div>
       </div>
-      <div class="col-8 col-md-7">
+      <div class="col-8 col-md-7 navRes">
         <div class="customDiv">
           <ul>
             <li>
@@ -24,7 +24,7 @@
           </ul>
         </div>
       </div>
-      <div class="col-4 col-md-3">
+      <div class="col-12 col-md-3 ">
         <div class="customDiv">
           <div class="searchInput">
             <svg
@@ -141,7 +141,7 @@ ul li:hover {
   color: #a7a7a7;
 }
 img {
-  width: 75%;
+  width: 80%;
 }
 .customDiv1 {
   text-align: center;
@@ -203,5 +203,39 @@ img {
   position: absolute;
   right: 8px;
   top: 8px;
+}
+
+@media only screen and (max-width: 767px) {
+  .navRes{
+    display: none;
+  }
+  .navBar{
+    position: absolute;
+    top: 0;
+  }
+  .hideTransparent{
+    background-color: transparent;
+  }
+  .loopIcon:hover + .searchBox{
+    width: 10rem;
+  }
+  .searchBox:focus{
+    width: 10rem;
+  }
+  .searchBox:hover{
+    width: 10rem;
+  }
+}
+
+@media only screen and (min-width: 425px) and (max-width: 768px) {
+  img{
+    width: 40%;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  img{
+    width: 100%;
+  }
 }
 </style>

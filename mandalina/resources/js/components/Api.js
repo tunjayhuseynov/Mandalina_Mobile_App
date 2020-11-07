@@ -29,6 +29,9 @@ export default {
     getMovie(val){
         return api.get(`/movie/${val}`)
     },
+    getSerie(val){
+        return api.get(`/serie/${val}`)
+    },
     getCategory(type, genre, start, end){
         return api.get(`/${type}/${genre}/${start}/${end}`)
     },

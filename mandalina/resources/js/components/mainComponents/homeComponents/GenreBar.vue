@@ -172,4 +172,12 @@ export default {
   color: #111;
   background-color: white;
 }
+
+@media only screen and (max-width: 768px) {
+  .customItem{
+    width: 80px;
+    font-size: 0.8rem;
+    padding: 13px 0;
+  }
+}
 </style>

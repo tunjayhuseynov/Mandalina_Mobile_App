@@ -53,7 +53,7 @@
         </div><br>
         <div class="movieType d-none">
           <label for="length">Movie Duration: </label>
-          <input class="form-control" type="text" name="duration" required placeholder="Only number (as minutes)"><br>
+          <input class="form-control" type="text" name="duration" placeholder="Only number (as minutes)"><br>
           <label>Turkish Link: </label>
           <input class="form-control" type="text" name="movie" placeholder="Only ID from Link"> <br>
           <label>English Link: </label>
@@ -62,6 +62,12 @@
           <input class="form-control" type="text" name="subtitle" placeholder="Full Link"> <br>
           <label>English Subtitle Link: </label>
           <input class="form-control" type="text" name="enSubtitle" placeholder="Full Link"> <br>
+        </div>
+        <div class="tvType d-none">
+          <input class="form-check-input" type="checkbox" name="isTurkish">
+          <label class="form-check-label" for="isTurkish">Turkish? </label><br>
+          <input class="form-check-input" type="checkbox" name="isEnglish">
+          <label class="form-check-label" for="isEnglish">English? </label><br>
         </div>
       </div>
 
@@ -141,11 +147,16 @@
       if(this.value == 2){
         type = 2
         $(".movieType").addClass("d-none")
-        $(".movieType input").each(function(index){ $(this).prop('required',false) })
+        //$(".movieType input").each(function(index){ $(this).prop('required',false) })
+
+        $(".tvType").removeClass("d-none")
+        
       }else{
         type = 1
         $(".movieType").removeClass("d-none")
-        $(".movieType input").each(function(index){ $(this).prop('required',true) })
+        //$(".movieType input").each(function(index){ $(this).prop('required',true) })
+
+        $(".tvType").addClass("d-none")
       }
     })
 

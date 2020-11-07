@@ -1,5 +1,9 @@
 <template>
   <div>
+        <!-- Do NOT use an anchor tag for the mobile menu button -->
+    <span id="moby-button">
+      <i class="material-icons">menu</i>
+    </span>
     <loading
       v-show="getMovies == null || getSeries == null || getSuggestedMovie == null || getSuggestedSerie == null"
     ></loading>
@@ -7,7 +11,20 @@
     <transition :name="transitionName" mode="out-in">
       <router-view></router-view>
     </transition>
-    <!--<mainpart></mainpart>-->
+
+
+
+    <nav id="main-nav">
+      <ul>
+        <li>
+          <router-link class="routeFont" to="/movie">Filmler</router-link>
+        </li>
+        <li>
+          <router-link class="routeFont" to="/tvshows">Diziler</router-link>
+        </li>
+        <li><router-link class="routeFont" to="/tvshows">Iletişim</router-link></li>
+      </ul>
+    </nav>
   </div>
 </template>
 
@@ -15,6 +32,25 @@
 import api from "../Api";
 const DEFAULT_TRANSITION = "fade";
 export default {
+  mounted() {
+        let template = `
+    <div class="moby-inner">
+      <div class="moby-close"><span class="moby-close-icon"></span></div>
+        <div class="moby-wrap">
+          <div>
+            <div class="moby-menu">
+            </div>
+          </div>
+      </div>
+    </div>
+        `;
+    var mobyMenu = new Moby({
+      menu: $("#main-nav"),
+      mobyTrigger: $("#moby-button"),
+      menuClass: "left-side",
+      template: template
+    });
+  },
   data() {
     return {
       transitionName: DEFAULT_TRANSITION,
@@ -119,5 +155,46 @@ export default {
 .slide-right-enter {
   opacity: 0;
   transform: translate(-1em, 0);
+}
+
+#moby-button {
+  display: none;
+}
+#moby-button::after {
+  content: "";
+  position: absolute;
+  left: -13px;
+  top: -13px;
+  z-index: -1;
+  background-color: rgb(221, 221, 221);
+  border-left: 50px solid rgb(221, 221, 221);
+  border-bottom: 50px solid rgb(221, 221, 221);
+  border-radius: 100%;
+}
+
+.moby,
+.moby .moby-close {
+  background: #111 !important;
+}
+
+#main-nav{
+  display: none;
+}
+
+
+
+@media only screen and (max-width: 767px) {
+  #moby-button {
+    z-index: 11;
+    display: block;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+  }
+  .routeFont{
+  color: white!important;
+  font-size: 1.5rem!important;
+  padding: 10px 90px 30px 30px!important;
+}
 }
 </style>

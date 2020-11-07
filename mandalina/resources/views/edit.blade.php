@@ -92,7 +92,7 @@ array_push($cast, $item->name);
                     <div class="movieType d-none">
                         @endif
                         <label for="length">Movie Duration: </label>
-                        <input class="form-control" type="text" name="duration" value="{{$data[2]['length']}}" required
+                        <input class="form-control" type="text" name="duration" value="{{$data[2]['length']}}"
                             placeholder="Only number (as minutes)"><br>
                         <label>Turkish Link: </label>
                         <input class="form-control" value="{{$data[2]['movieLink']}}" type="text" name="movie"
@@ -104,6 +104,17 @@ array_push($cast, $item->name);
                         <label>English Subtitle Link: </label>
                     <input class="form-control" type="text" value="{{$data[2]['enSubtitleLink']}}" name="enSubtitle" placeholder="Full Link"> <br>
                     </div>
+
+                    @if($data[2]['movieType'] == DataManupilation::Serie)
+                    <div class="tvType">
+                        @else
+                        <div class="tvType d-none">
+                            @endif
+                        <input class="form-check-input" {{$data[2]['isTurkish']?'checked':''}} type="checkbox" name="isTurkish">
+                        <label class="form-check-label" for="isTurkish">Turkish? </label><br>
+                        <input class="form-check-input" {{$data[2]['isEnglish']?'checked':''}} type="checkbox" name="isEnglish">
+                        <label class="form-check-label" for="isEnglish">English? </label><br>
+                      </div>
                 </div>
 
 
@@ -194,15 +205,17 @@ $(document).ready(function() {
         if (this.value == 2) {
             type = 2;
             $(".movieType").addClass("d-none")
-            $(".movieType input").each(function(index) {
+            $(".tvType").removeClass("d-none")
+            /*$(".movieType input").each(function(index) {
                 $(this).prop('required', false)
-            })
+            })*/
         } else {
             type = 1
             $(".movieType").removeClass("d-none")
-            $(".movieType input").each(function(index) {
+            $(".tvType").addClass("d-none")
+            /*$(".movieType input").each(function(index) {
                 $(this).prop('required', true)
-            })
+            })*/
         }
     })
 

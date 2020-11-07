@@ -5,6 +5,9 @@ Route::get('/', function (Request $request) {
     return View("website/main");
 });
 
+Route::post('/subscribeToPush', 'pwa@subscribe');
+//Route::get('/sendPush', 'pwa@sendNotification');
+
 Route::get('/herewegoagain/login', 'Log@index');
 Route::post('/herewegoagain/process', 'Log@process');
 Route::get('/herewegoagain/out', 'Log@out');
@@ -23,12 +26,16 @@ Route::group(['prefix' => 'AdminPanelPinnme','middleware' => ['checkAdmin']], fu
     Route::get('/delete/{id}', 'Dashboard@Delete');
     Route::get('/episodes', 'Dashboard@episodes');
     Route::get('/fetchepisodes/{id}', 'Dashboard@FetchEpisodes');
+
     Route::get('/addEpisode/{id}', 'EpisodeCrud@add');
     Route::post('/postEpisode/{id}', 'EpisodeCrud@postAdd');
     Route::post('/editEpisode/{id}', 'EpisodeCrud@postEdit');
     Route::get('/episodeview/{id}', 'EpisodeCrud@view');
     Route::get('/episodeDelete/{id}', 'EpisodeCrud@delete');
     Route::get('/episodeEdit/{id}', 'EpisodeCrud@edit');
+
+    Route::get('/ozledikNotification', 'Dashboard@sendOzledik');
+
 });
 
 Route::get('/getMovie/{link}', "Dashboard@movieBox");
